@@ -8,4 +8,4 @@ title: About Me
 
 
 
-Hi I am Shivam Patel.
+Hi, I am Shivam Patel.
