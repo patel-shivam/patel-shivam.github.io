@@ -19,7 +19,7 @@ Hi there, I am Shivam, a humble junior in the Electrical Engineering Department 
 I love playing with numbers and working on tough probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design.   
 
 Some relatively non-academic things about me - 
-* I am also an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Guide.
+* I am also an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Field Guide.
 * I also play tabla and harmonium occasionally.   
 * Once a chessmaster and a tournament swimmer.  
 * Quite a philosopher myself. Speak 4 languages. 
