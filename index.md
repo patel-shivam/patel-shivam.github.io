@@ -25,4 +25,4 @@ Quite a philosopher myself. Speak 4 languages.
 You can find me at _388, Hostel 3, Students' Residential Road, IIT Bombay, 400076_. 
 
 
-Please read my [CV](CV.pdf) or look at my [projects](/projects) to know about my work and achievements.
+Please read my [CV](docs/200070077-resume.pdf) or look at my [projects](/projects) to know about my work and achievements.
