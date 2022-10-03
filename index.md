@@ -31,7 +31,7 @@ Some relatively non-academic things about me -
 * Ran 3 marathons
 
 ##### News
-> * October 2020  Got accepted at IIT Bombay 
+> * October 2020 - Got accepted into IIT Bombay 
 
 You can find me at _388, Hostel 3, Students' Residential Road, IIT Bombay, 400076_. 
 
