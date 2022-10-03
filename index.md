@@ -14,7 +14,7 @@ Indian Institute of Technology Bombay (Mumbai, India) -->
 
 ![my photo](aboutmepic.jpg){:height="250px" width="250px"}
 
-Hi there, I am Shivam, a humble junior in the Electrical Engineering Department at IIT Bombay. I am also pursuing a minors in Artificial Intelligence.
+Hi there, I am Shivam, a humble junior in the [Electrical Engineering Department](https://www.ee.iitb.ac.in/web) at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minors in Artificial Intelligence.
 
 I love playing with numbers and working on tough probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design.   
 
@@ -25,6 +25,8 @@ Some relatively non-academic things about me -
 * Quite a philosopher myself. Speak 4 languages. 
 * Ran 3 marathons
 
+##### News
+> * October 2020  Got accepted at IIT Bombay 
 
 You can find me at _388, Hostel 3, Students' Residential Road, IIT Bombay, 400076_. 
 
