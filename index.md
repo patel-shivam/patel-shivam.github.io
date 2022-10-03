@@ -16,10 +16,14 @@ Indian Institute of Technology Bombay (Mumbai, India) -->
 
 Hi there, I am Shivam, a humble junior in the Electrical Engineering Department at IIT Bombay. I am also pursuing a minors in Artificial Intelligence.
 
-I love playing with numbers and working on tough probability puzzles. This interest manifests itself into a love for Statistics, Machine Learning and algorithm design.   
+I love playing with numbers and working on tough probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design.   
 
-I am also an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Guide. I also play tabla and harmonium occasionally. Once a chessmaster and a tournament swimmer.  
-Quite a philosopher myself. Speak 4 languages. 
+Some relatively non-academic things about me - 
+* I am also an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Guide.
+* I also play tabla and harmonium occasionally.   
+* Once a chessmaster and a tournament swimmer.  
+* Quite a philosopher myself. Speak 4 languages. 
+* Ran 3 marathons
 
 
 You can find me at _388, Hostel 3, Students' Residential Road, IIT Bombay, 400076_. 
