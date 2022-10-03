@@ -12,6 +12,8 @@ title: About Me
 1. B.Tech. in Electrical Engineering (2020 - 2024)<br/>
 Indian Institute of Technology Bombay (Mumbai, India) -->
 
+![my photo](aboutmepic.jpg){:height="250px" width="250px"}
+
 Hi there, I am Shivam, a humble junior in the Electrical Engineering Department at IIT Bombay. I am also pursuing a minors in Artificial Intelligence.
 
 I love playing with numbers and working on tough probability puzzles. This interest manifests itself into a love for Statistics, Machine Learning and algorithm design.   
