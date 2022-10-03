@@ -24,7 +24,7 @@ Research Experience -
 <!-- 3. (https://www.jioinstitute.edu.in/research-overview)  -->
 
 Some relatively non-academic things about me - 
-* I am also an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Field Guide.
+* I am an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Field Guide.
 * I also play tabla and harmonium occasionally.   
 * Once a chessmaster and a tournament swimmer.  
 * Quite a philosopher myself. Speak 4 languages. 
