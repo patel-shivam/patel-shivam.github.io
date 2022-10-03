@@ -16,7 +16,12 @@ Indian Institute of Technology Bombay (Mumbai, India) -->
 
 Hi there, I am Shivam, a humble junior in the [Electrical Engineering Department](https://www.ee.iitb.ac.in/web) at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minors in Artificial Intelligence.
 
-I love playing with numbers and working on tough probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design.   
+I love playing with numbers and working on tough probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design. 
+
+Research Experience - 
+1. Stochastic Climate Modelling, [Prof. Sandeep Juneja](https://www.tcs.tifr.res.in/~sandeepj/), [TIFR](https://www.tifr.res.in/)
+2. Optimal Electronic Tilt Prediction, [Reliance Research Labs](https://www.ril.com/)
+<!-- 3. (https://www.jioinstitute.edu.in/research-overview)  -->
 
 Some relatively non-academic things about me - 
 * I am also an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Field Guide.
