@@ -1,0 +1,21 @@
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: home
+title: About Me
+---
+
+
+
+### **Education** ###
+1. B.Tech. in Electrical Engineering (2020 - 2024)<br/>
+Indian Institute of Technology Bombay (Mumbai, India)
+
+Hi there, I am Shivam, a humble junior in the Electrical Engineering Department at IIT Bombay. I love playing with numbers and working on tough probability puzzles. This interest manifests itself into a love for Statistics, Machine Learning and algorithm design.   
+
+You can find me at _388, Hostel 3, Students' Residential Road, IIT Bombay, 400076_. I am also an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Guide. I also play tabla and harmonium occasionally. 
+
+
+
+Please read my [CV](CV.pdf) or look at my [projects](/projects) to know about my work and achievements.
