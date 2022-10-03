@@ -4,4 +4,4 @@ title: Others
 permalink: /others
 ---
 
-You can my courses here.
+You can find here the courses that I have taken.
