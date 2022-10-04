@@ -8,7 +8,7 @@ Link to IITB RISC [project](pages/IITB_RISC.md)
 
 ## Course Projects
 1. **Autoencoder Architectures for Image Colorization and Noise Reduction**  
-   [_DS303, Introduction to Machine Learning](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds?id=22), [Prof. Biplab Banerjee](https://biplab-banerjee.github.io/)_  
+   [_DS303, Introduction to Machine Learning_](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds?id=22), [_Prof. Biplab Banerjee_](https://biplab-banerjee.github.io/)
    
  ![Autoencoder Noise Reduction](images/autoencoders.png){:width="700px"}  
  
