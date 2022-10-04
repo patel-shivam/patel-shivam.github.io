@@ -18,9 +18,10 @@ Hi there, I'm Shivam, a humble junior in the [Electrical Engineering Department]
 
 I love playing with numbers and working on tough probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design. 
 
-Research Experience - 
-1. Stochastic Climate Modelling for Indian Summer Monsoon, [Prof. Sandeep Juneja](https://www.tcs.tifr.res.in/~sandeepj/), [TIFR](https://www.tifr.res.in/)
-2. Optimizing Electronic Tilt for Reduced Latencies in Directional Antennas, [Reliance Research Labs](https://www.ril.com/)
+I have had the great chance of working under [Prof. Sandeep Juneja](https://www.tcs.tifr.res.in/~sandeepj/) at the [Tata Institute of Fundamental Research](https://www.tifr.res.in/). Our research was mainly focused around climate modelling using algorithms, and some high level stochastic climatological physics. I explored various algorithms that are(/can be) used for climate prediction at various time scales. 
+
+
+I also worked as an Artificial Intelligence intern in the research labs at [Reliance ltd](https://www.ril.com/). I worked in the telecomm wing of the conglomerate on 'Optimizing Electronic Tilt for Reduced Call Latencies in Directional Antennas'. 
 <!-- 3. (https://www.jioinstitute.edu.in/research-overview)  -->
 
 Some relatively non-academic things about me - 
