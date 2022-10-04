@@ -14,7 +14,7 @@ You can find my projects here.
 
 2. **Machine Learning for COVID-19 Data Analysis**  
   [_DS203, Programming for Data Science_](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds/2-uncategorised/20-ds-203), [_Prof. Amit Sethi_](https://www.ee.iitb.ac.in/~asethi/), [_Prof. Manjesh Hanawal_](https://www.ieor.iitb.ac.in/files/faculty/mhanawal/index.html)    
-  Pandemic trends and figures give us a great and impactful insight into the upcoming waves and possible future requirements in the healthcare industry. The advent of machine learning and its wide applications ameliorated the Covid-19 pandemic to a respectable extent. We try to address some of the basic questions and draw important conclusions from the official WHO data of Covid-19. In the other part, we try to build a model for predicting the requirement of ICU admission of any patient based on blood and body parameters.  
+  The advent of machine learning and its wide applications ameliorated the Covid-19 pandemic to a respectable extent. We try to address some of the basic questions and draw important conclusions from the official WHO data of Covid-19. In the other part, we try to build a model for predicting the requirement of ICU admission of any patient based on blood and body parameters.  
  
 
 3. **IITB-RISC Microprocessor Design**      
