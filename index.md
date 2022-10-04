@@ -4,6 +4,7 @@
 
 layout: home
 title: About Me
+order: 1
 ---
 
 
