@@ -8,7 +8,7 @@ Link to IITB RISC [project](pages/IITB_RISC.md)
 
 ## Course Projects
 1. **Autoencoder Architectures for Image Colorization and Noise Reduction**
- ![Autoencoder Noise Reduction](images/autoencoders.png)
+ ![Autoencoder Noise Reduction](images/autoencoders.png){:width="500px"}
  * Implemented autoencoder architectures for colorizing images and robust noise reduction in gaussian and salt-pepper noise images.
 
 2. **Machine Learning for COVID-19 Data Analysis**  
