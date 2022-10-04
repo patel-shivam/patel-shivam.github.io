@@ -19,8 +19,8 @@ Link to IITB RISC [project](pages/IITB_RISC.md)
   Pandemic trends and figures give us a great and impactful insight into the upcoming waves and possible future requirements in the healthcare industry. The advent of machine learning and its wide applications ameliorated the Covid-19 pandemic to a respectable extent. We try to address some of the basic questions and draw important conclusions from the official WHO data of Covid-19. In the other part, we try to build a model for predicting the requirement of ICU admission of any patient based on blood and body parameters.  
  
 
-3. **IITB-RISC Microprocessor Design**
-  _EE309, Microprocessors, Prof. Virendra Singh_
+3. **IITB-RISC Microprocessor Design**  
+  [_EE309, Microprocessors_](https://www.ee.iitb.ac.in/web/academics/courses/EE309), [_Prof. Virendra Singh_](https://www.ee.iitb.ac.in/~viren/)
  Microprocessors are an indispensible part of today's world. In this project, we built a Turing complete 17 instruction ISA in VHDL. We used an 8-register 16-bit RISC microprocessor design. Incorporated _Multicycle_ and _Pipeline_ based architectures in our design. 
 
 ## Other Projects 
