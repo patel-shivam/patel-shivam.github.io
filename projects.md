@@ -12,21 +12,16 @@ Link to IITB RISC [project](pages/IITB_RISC.md)
    
  ![Autoencoder Noise Reduction](images/autoencoders.png){:width="700px"}  
  
-  Implemented autoencoder architectures for colorizing images and robust noise reduction in gaussian and salt-pepper noise images.
+  In a simple Autoencoder, there are three subparts - an encoder, encoded vector and a decoder. These highly versatile frameworks learn important features of data when trained accordingly. These are vastly used for image colorisation and noise reduction. We have tried to explain some of the characteristics through working models, and contrast them with conventional counterparts. 
 
 2. **Machine Learning for COVID-19 Data Analysis**  
   _DS203, Programming for Data Science, [Prof. Amit Sethi](https://www.ee.iitb.ac.in/~asethi/), [Prof. Manjesh Hanawal](https://www.ieor.iitb.ac.in/files/faculty/mhanawal/index.html)_
- * Obtained an R2 score of 0.854 on total COVID-19 casualty prediction using regularized linear models
- * Performed Hypothesis Testing by utilising the χ2 Contingency Test to validate the influenceof medical parameters on the ICU admission of any patient, across all age groups and chronic illnesses
- * Implemented Multilayer Perceptron Neural Net to predict the need of ICU admission of any patient based on blood and body parameters, obtaining a prediction Accuracy of 90.65% , with an F1-Score of 0.905
+  Pandemic trends and figures give us a great and impactful insight into the upcoming waves and possible future requirements in the healthcare industry. The advent of machine learning and its wide applications ameliorated the Covid-19 pandemic to a respectable extent. We try to address some of the basic questions and draw important conclusions from the official WHO data of Covid-19. In the other part, we try to build a model for predicting the requirement of ICU admission of any patient based on blood and body parameters.  
+ 
 
 3. **IITB-RISC Microprocessor Design**
   _EE309, Microprocessors, Prof. Virendra Singh_
- * Designed an 8-register, 16-bit RISC microprocessor with a Turing complete 17 instruction ISA in VHDL
- * Developed the flowcharts and datapath structure for single and multicycle models from scratch
- * Simulated the designed microprocessor models on Cyclone-IVE FPGA, implemented on Quartus software
- * Utilised data forwarding and stalling techniques in six stage pipelined microprocessor to obtain a near perfect cycles per instruction ratio of unity, with clock rate adjusted to maximum time consuming step
-
+ Microprocessors are an indispensible part of today's world. In this project, we built a Turing complete 17 instruction ISA in VHDL. We used an 8-register 16-bit RISC microprocessor design. Incorporated _Multicycle_ and _Pipeline_ based architectures in our design. 
 
 ## Other Projects 
 1.**Visualising Deep Neural Networks**
