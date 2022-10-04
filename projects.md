@@ -4,9 +4,9 @@ title: Projects
 permalink: /projects
 ---
 You can find my projects here. 
-Link to IITB RISC [project](pages/IITB_RISC.md)
+<!-- Link to IITB RISC [project](pages/IITB_RISC.md) -->
 
-## Course Projects
+## **Course Projects**
 1. **Autoencoder Architectures for Image Colorization and Noise Reduction**  
    [_DS303, Introduction to Machine Learning_](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds?id=22), [_Prof. Biplab Banerjee_](https://biplab-banerjee.github.io/)  
  ![Autoencoder Noise Reduction](images/autoencoders.png){:width="700px"}    
@@ -21,7 +21,7 @@ Link to IITB RISC [project](pages/IITB_RISC.md)
   [_EE309, Microprocessors_](https://www.ee.iitb.ac.in/web/academics/courses/EE309), [_Prof. Virendra Singh_](https://www.ee.iitb.ac.in/~viren/)  
  Microprocessors are an indispensible part of today's world. In this project, we built a Turing complete 17 instruction ISA in VHDL. We used an 8-register 16-bit RISC microprocessor design. Incorporated _Multicycle_ and _Pipeline_ based architectures in our design. 
 
-## Other Projects 
+## **Other Projects**
 1.**Visualising Deep Neural Networks**
   _Winter in Data Science | Analytics Club_
  * Explored Attribution Approach for interpreting Deep Neural Networks, with a qualitative focus on image recognition neural architectures, by acquiring ground truth labels and studying the model activation maps
