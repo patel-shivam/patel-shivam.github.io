@@ -25,6 +25,10 @@ github_username:  patel-shivam
 
 # Build settings
 markdown: kramdown
+
+social_links:
+  linkedin: shivam-patel02
+
 theme: minima
 plugins:
   - jekyll-feed
