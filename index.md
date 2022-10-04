@@ -29,7 +29,7 @@ Some relatively non-academic things about me -
 * I also play tabla and harmonium occasionally.   
 * Once a chessmaster and a tournament swimmer.  
 * Quite a philosopher myself. Speak 4 languages. 
-* Ran 3 marathons
+* Ran 3 marathons.
 
 #### News
 > * October 2020 - Got accepted into IIT Bombay 
