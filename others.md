@@ -36,7 +36,7 @@ You can find here the courses that I have taken.
 ### Centre for Machine Intelligence and Data Science 
 -----------------------------------------
 
-* [DS203: Programming for Data Science](https://www.ee.iitb.ac.in/web/academics/courses/EE621](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds/2-uncategorised/20-ds-203) 
+* [DS203: Programming for Data Science](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds/2-uncategorised/20-ds-203) 
 * [DS303: Introduction to Machine Learning](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds?id=22)
 
 ### Humanities and Social Sciences
