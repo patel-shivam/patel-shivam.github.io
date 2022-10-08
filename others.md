@@ -42,7 +42,7 @@ You can find here the courses that I have taken.
 ### Humanities and Social Sciences
 -----------------------------------------
 
-* [HS402: Game Theory and Economic Analysis](https://www.hss.iitb.ac.in/en/game-theory-and-economic-analysis)
+* [HS402: Game Theory and Economic Analysis](https://www.hss.iitb.ac.in/en/game-theory-and-economic-analysis) †
 * [HS101: Economics](https://www.hss.iitb.ac.in/en/hs-101-economics)
 
 	  
