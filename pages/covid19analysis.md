@@ -19,4 +19,4 @@ predict whether a patient needs to be admitted to an ICU or
 not.
 
 ![Correlation Plot of International Cases](/images/ds203_images/international_cases_correlation.png)    
-![Frequency of Daily Cases](/images/ds203_images/violin_plot_Cases) 
+![Frequency of Daily Cases](/images/ds203_images/violin_plot_Cases.png) 
