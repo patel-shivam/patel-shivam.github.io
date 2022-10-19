@@ -25,6 +25,6 @@ network implementation, with limited number of trainable
 parameters. This architecture can prove vital for the above
 applications in cases of computational hardware limitations. We
 try to examine the effect of higher number of epochs during
-training, and at what point is the ’elbow point’ attained. We also
+training, and at what point is the 'elbow point' attained. We also
 try to examine and contrast the performance of Autoencoders
 and PCA for noise reduction.
