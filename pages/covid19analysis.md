@@ -6,9 +6,6 @@ layout: page
 [Link](https://github.com/patel-shivam/Covid-19-Analysis) to the project repository.   
 [Link](files/DS203_report.pdf) to the project report. 
 
-![Correlation Plot of International Cases](/images/ds203_images/international_cases_correlation.png){:width = "300px"}    ![Frequency of Daily Cases](/images/ds203_images/violin_plot_Cases.png){:width = "150px"}
-
-
 
 ### **Abstract**
 -------------------------------------------------------------------
@@ -26,3 +23,5 @@ have employed five classification algorithms here to accurately
 predict whether a patient needs to be admitted to an ICU or
 not.
 
+
+<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/international_cases_correlation.png" width="32%"> <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/violin_plot_Cases.png" width="50%"> 
