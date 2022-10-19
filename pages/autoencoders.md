@@ -28,4 +28,4 @@ try to examine and contrast the performance of Autoencoders
 and PCA for noise reduction.
 
 
-<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_planes.png" width="40%"> <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_ships.png" width="40%"> 
+<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_ships.png" width="41%">  <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_planes.png" width="40%"> 
