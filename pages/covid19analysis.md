@@ -1,5 +1,5 @@
 
-# **Machine Learning for COVID19 Data Analysis**
+## **Machine Learning for COVID19 Data Analysis**
 
 [Link](https://github.com/patel-shivam/Covid-19-Analysis) to the project repository.   
 [Link](files/DS203_report.pdf) to the project report. 
@@ -8,7 +8,7 @@
 
 
 
-## **Abstract**
+### **Abstract**
 -------------------------------------------------------------------
 
 The goal of this study is to investigate and compare
