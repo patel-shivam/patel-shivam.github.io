@@ -8,7 +8,7 @@
 
 We received a perfect grade for this project, one of only 3 out of 35+ projects in the class. 
 
-<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_pic.png" width="32%">
+<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_pic.png" width="50%">
 
  **Abstract**
 -------------------------------------------------------------------
@@ -28,4 +28,4 @@ try to examine and contrast the performance of Autoencoders
 and PCA for noise reduction.
 
 
-<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_planes.png" width="32%"> <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_ships.png" width="50%"> 
+<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_planes.png" width="40%"> <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_ships.png" width="40%"> 
