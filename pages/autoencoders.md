@@ -1,6 +1,4 @@
----
-layout: page
----
+
 
 # **Autoencoder Architectures for Image Colorization and Noise Reduction**
 
