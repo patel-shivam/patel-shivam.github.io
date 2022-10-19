@@ -10,7 +10,7 @@ You can find my projects here.
 ## **Course Projects**
 -----------------------------------------
 
-1. **Autoencoder Architectures for Image Colorization and Noise Reduction** [link](/pages/autoencoders.md)       
+1. **Autoencoder Architectures for Image Colorization and Noise Reduction**      
    [_DS303, Introduction to Machine Learning_](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds?id=22), [_Prof. Biplab Banerjee_](https://biplab-banerjee.github.io/)  
  ![Autoencoder Noise Reduction](images/autoencoders.png){:width="700px"}    
   In a simple Autoencoder, there are three subparts - an encoder, encoded vector and a decoder. These highly versatile frameworks learn important features of data when trained accordingly. These are vastly used for image colorisation and noise reduction. We have tried to explain some of the characteristics through working models, and contrast them with conventional counterparts. Read more [here](pages/autoencoders.md)
