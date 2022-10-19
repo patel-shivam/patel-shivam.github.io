@@ -6,7 +6,7 @@ layout: page
 
 [Link](https://github.com/patel-shivam/Autoencoders) to the project repository.   
 [Link](files/DS303_report.pdf) to the project report.   
-[Link](files/DS303_presentation.pdf) to the project report. 
+[Link](files/DS303_presentation.pdf) to the project presentation. 
 
 We had received a perfect grade for this project, one of only 3 out of 35+ projects in the class. 
 
