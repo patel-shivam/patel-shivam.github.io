@@ -8,6 +8,9 @@
 
 We received a perfect grade for this project, one of only 3 out of 35+ projects in the class. 
 
+<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/international_cases_correlation.png"  width="60%" height="30%">
+
+
 ![Correlation Plot of International Cases](/images/ds203_images/international_cases_correlation.png | width=150}   ![Frequency of Daily Cases](/images/ds203_images/violin_plot_Cases.png | width=150}
 
 
