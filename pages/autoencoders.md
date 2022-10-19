@@ -8,10 +8,6 @@
 
 We received a perfect grade for this project, one of only 3 out of 35+ projects in the class. 
 
-<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/international_cases_correlation.png" width="32%"> <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/violin_plot_Cases.png" width="50%"> 
-
-
-
 
  **Abstract**
 -------------------------------------------------------------------
@@ -29,3 +25,6 @@ try to examine the effect of higher number of epochs during
 training, and at what point is the 'elbow point' attained. We also
 try to examine and contrast the performance of Autoencoders
 and PCA for noise reduction.
+
+
+<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/international_cases_correlation.png" width="32%"> <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/violin_plot_Cases.png" width="50%"> 
