@@ -26,4 +26,4 @@ not.
 
 <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/international_cases_correlation.png" alt="drawing" width="200"/>
 
-
+<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/international_cases_correlation.png" alt="drawing" style="width:200px;"/>
