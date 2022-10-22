@@ -1,5 +1,6 @@
-
-
+---
+layout: page
+---
 <h2><b>Autoencoder Architectures for Image Colorization and Noise Reduction</b></h2>
 
 [Link](https://github.com/patel-shivam/Autoencoders) to the project repository.   
