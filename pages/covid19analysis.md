@@ -6,7 +6,7 @@ layout: page
 <h3><b>Machine Learning for COVID19 Data Analysis</b></h3>
 
 [Link](https://github.com/patel-shivam/Covid-19-Analysis) to the project repository.   
-[Link](files/DS203_report.pdf) to the project report. 
+[Link](/files/DS203_report.pdf) to the project report. 
 
 
 ### **Abstract**
