@@ -4,8 +4,8 @@ layout: page
 <h2><b>Autoencoder Architectures for Image Colorization and Noise Reduction</b></h2>
 
 [Link](https://github.com/patel-shivam/Autoencoders) to the project repository.   
-[Link](/files/DS303_report.pdf) to the project report.   
-[Link](/files/DS303_presentation.pdf) to the project presentation. 
+[Link](main/files/DS303_report.pdf) to the project report.   
+[Link](main/files/DS303_presentation.pdf) to the project presentation. 
 
 We received a perfect grade for this project, one of only 3 out of 35+ projects in the class.   
 ![Autoencoders](/images/ds303_images/autoencoder_pic.png){: width="450" }
