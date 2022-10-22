@@ -7,7 +7,7 @@
 [Link](files/DS303_presentation.pdf) to the project presentation. 
 
 We received a perfect grade for this project, one of only 3 out of 35+ projects in the class. 
-
+![steam-fish-1](/images/ds303_images/autoencoder_pic.png){: width="250" }
 <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds303_images/autoencoder_pic.png" width="50%">
 
  **Abstract**
