@@ -1,3 +1,7 @@
+---
+layout: page
+---
+
 
 <h3><b>Machine Learning for COVID19 Data Analysis</b></h3>
 
@@ -22,8 +26,6 @@ predict whether a patient needs to be admitted to an ICU or
 not.
 
 
-<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/international_cases_correlation.png" width="32%"> <img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/violin_plot_Cases.png" width="50%">   
+![International Cases Correlation](/images/ds203_images/international_cases_correlation.png){: width="200" }
+![Violin Plot](/images/ds203_images/violin_plot_Cases.png){: width="200" }
 
-<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/international_cases_correlation.png" alt="drawing" width="200"/>
-
-<img src="https://github.com/patel-shivam/patel-shivam.github.io/blob/main/images/ds203_images/international_cases_correlation.png" alt="drawing" style="width:200px;"/>
