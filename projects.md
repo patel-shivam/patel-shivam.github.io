@@ -17,7 +17,8 @@ You can find my projects here.
   Read more [here](pages/autoencoders.md).
 
 2. **Machine Learning for COVID-19 Data Analysis**   
-  [_DS203, Programming for Data Science_](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds/2-uncategorised/20-ds-203), [_Prof. Amit Sethi_](https://www.ee.iitb.ac.in/~asethi/), [_Prof. Manjesh Hanawal_](https://www.ieor.iitb.ac.in/files/faculty/mhanawal/index.html)      
+  [_DS203, Programming for Data Science_](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds/2-uncategorised/20-ds-203), [_Prof. Amit Sethi_](https://www.ee.iitb.ac.in/~asethi/), [_Prof. Manjesh Hanawal_](https://www.ieor.iitb.ac.in/files/faculty/mhanawal/index.html)        
+  ![Relative Cases](/images/ds203_images/ds203_relative.png){: width="400" }       
   The advent of machine learning and its wide applications ameliorated the Covid-19 pandemic to a respectable extent. We try to address some of the basic questions and draw important conclusions from the official WHO data of Covid-19. In the other part, we try to build a model for predicting the requirement of ICU admission of any patient based on blood and body parameters.   
   Read more [here](pages/covid19analysis.md).
  
@@ -33,5 +34,6 @@ You can find my projects here.
 
 1.**Visualising Deep Neural Networks**  
   [_Winter in Data Science | Analytics Club_](https://gymkhana.iitb.ac.in/~ugacademics/winter-analytics/)  
+  ![Relative Cases](/images/wids_project_images/grad_cam_dog_cat.png){: width="700" }   
  * Explored Attribution Approach for interpreting Deep Neural Networks, with a qualitative focus on image recognition neural architectures, by acquiring ground truth labels and studying the model activation maps
  * Studied the applications of Class Activation Maps, Occlusion Sensitivity Maps and Saliency Maps to visualise CNN functioning for intuitive understanding of various image classification and detection algorithms
