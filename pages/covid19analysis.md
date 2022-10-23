@@ -26,6 +26,6 @@ predict whether a patient needs to be admitted to an ICU or
 not.
 
 
-![International Cases Correlation](/images/ds203_images/international_cases_correlation.png){: width="150" }
+![International Cases Correlation](/images/ds203_images/international_cases_correlation.png){: width="300" }
 ![Violin Plot](/images/ds203_images/violin_plot_Cases.png){: width="450" }
 
