@@ -32,8 +32,8 @@ You can find my projects here.
 ## **Other Projects**
 -----------------------------------------
 
-1.**Visualising Deep Neural Networks**  
-  [_Winter in Data Science | Analytics Club_](https://gymkhana.iitb.ac.in/~ugacademics/winter-analytics/)  
-  ![Relative Cases](/images/wids_project_images/grad_cam_dog_cat.png){: width="700" }   
+1.**Visualising Deep Neural Networks**    
+  [_Winter in Data Science | Analytics Club_](https://gymkhana.iitb.ac.in/~ugacademics/winter-analytics/)    
+  ![Relative Cases](/images/wids_project_images/grad_cam_dog_cat.png){: width="700" }     
  * Explored Attribution Approach for interpreting Deep Neural Networks, with a qualitative focus on image recognition neural architectures, by acquiring ground truth labels and studying the model activation maps
  * Studied the applications of Class Activation Maps, Occlusion Sensitivity Maps and Saliency Maps to visualise CNN functioning for intuitive understanding of various image classification and detection algorithms
