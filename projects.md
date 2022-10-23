@@ -30,8 +30,7 @@ You can find my projects here.
  Read more [here](pages/IITB_RISC.md).
 
 ## **Other Projects**
------------------------------------------
-
+-----------------------------------------  
 1.**Visualising Deep Neural Networks**    
   [_Winter in Data Science | Analytics Club_](https://gymkhana.iitb.ac.in/~ugacademics/winter-analytics/)    
   ![Relative Cases](/images/wids_project_images/grad_cam_dog_cat.png){: width="700" }     
