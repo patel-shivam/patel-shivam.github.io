@@ -3,14 +3,14 @@ layout: page
 ---
 
 <h1><b>RISC (Multistate and Pipeline) Microprocessor Design</b></h1>
-<h2><b>(Reduced Instruction Set Architecture)</b></h2>
+<h2><b>Reduced Instruction Set Architecture</b></h2>
 -------------------------------------------------------------------       
 
 This the IITB RISC microprocessor design what we did as a course project for [EE309, Microprocessors](https://www.ee.iitb.ac.in/web/academics/courses/EE309). 
 
 
 
-<h2><b>MultiState Design</b></h2>
+**MultiState Design**
 -------------------------------------------------------------------     
 
 
@@ -19,7 +19,7 @@ This the IITB RISC microprocessor design what we did as a course project for [EE
 Designed a multistate implementation of IITB-RISC, a 16-bit computer based on the Little Computer Architecture. The IITB-RISC is an 8-register, 16-bit computer system. It has 8 general-purpose registers (R0 to R7). Register R7 is always stores Program Counter. This architecture uses condition code register which has two flags Carry flag (C) and Zero flag (Z). The IITB-RISC is simple, but general enough to solve complex problems. The architecture allows predicated instruction execution and multiple load and store execution. There are three machine-code instruction formats (R, I, and J type) and a total of 17 instructions.   
 ![RISC Multipath RTL](/images/risc_microprocessor/risc_rtl_view.png){: width="700" }
 
-<h2><b>Pipelined Design</b></h2>
+**Pipelined Design**
 -------------------------------------------------------------------   
 
 
