@@ -23,7 +23,9 @@ You can find my projects here.
  
 
 3. **IITB-RISC Microprocessor Design**      
-  [_EE309, Microprocessors_](https://www.ee.iitb.ac.in/web/academics/courses/EE309), [_Prof. Virendra Singh_](https://www.ee.iitb.ac.in/~viren/)  
+  [_EE309, Microprocessors_](https://www.ee.iitb.ac.in/web/academics/courses/EE309), [_Prof. Virendra Singh_](https://www.ee.iitb.ac.in/~viren/)    
+  ![RISC MultiState High Level](/images/risc_microprocessor/risc_high_level_design.png){: width="700" }    
+  
  Microprocessors are an indispensible part of today's world. In this project, we built a Turing complete 17 instruction ISA in VHDL. We used an 8-register 16-bit RISC microprocessor design. Incorporated _Multicycle_ and _Pipeline_ based architectures in our design.  
  Read more [here](pages/IITB_RISC.md).
 
