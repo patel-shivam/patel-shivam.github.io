@@ -2,10 +2,10 @@
 layout: page
 ---
 
-<h2><b>RISC (Multistate and Pipeline) Microprocessor Design</b></h2>
-<h3><b>(Reduced Instruction Set Architecture)</b></h3>
-
-This the IITB RISC microprocessor design what we did as a course project for EE309. 
+<h1><b>RISC (Multistate and Pipeline) Microprocessor Design</b></h1>
+<h2><b>(Reduced Instruction Set Architecture)</b></h2>
+-------------------------------------------------------------------    
+This the IITB RISC microprocessor design what we did as a course project for [EE309, Microprocessors](https://www.ee.iitb.ac.in/web/academics/courses/EE309). 
 
 
 
