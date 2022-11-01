@@ -6,7 +6,8 @@ layout: page
 <h2><b>Reduced Instruction Set Architecture</b></h2>
 -------------------------------------------------------------------       
 
-This the IITB RISC microprocessor design what we did as a course project for [EE309, Microprocessors](https://www.ee.iitb.ac.in/web/academics/courses/EE309). 
+This the IITB RISC microprocessor design what we did as a course project for [EE309, Microprocessors](https://www.ee.iitb.ac.in/web/academics/courses/EE309).   
+The project repository can be found [here](https://github.com/patel-shivam/RISC-Microprocessor-public).
 
 
 
