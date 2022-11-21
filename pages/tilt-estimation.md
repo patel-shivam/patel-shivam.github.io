@@ -5,7 +5,7 @@ layout: page
 <h3><b> Artificial Intelligence Intern, Reliance Industries Limited</b></h3>
 -------------------------------------------------------------------------------------------------------------------
 
-![Radiation Pattern of Towers](/images/tilt-estimation/tilt-estimation-tower-pattern.png){: width="320" }
+![Radiation Pattern of Towers](/images/tilt-estimation/tilt-estimation-tower-pattern.png){: width="600" }
 
 
 Dynamic cell towers resource allocation efficiently distributes bandwidth and hardware resources amongst users. Cell towers are made of antenna 
@@ -13,7 +13,7 @@ arrays, which allow to control and localize the effective beam of radiation in a
 cellular communication requirement of users through various spectrum band allocation systems. We focused on the 850, 1800 and 2300 MHz bands 
 for predicting optimal tilt of antennas.   
 
-![Radiation Pattern](/images/tilt-estimation/radiation-pattern.png){: width="320" }
+![Radiation Pattern](/images/tilt-estimation/radiation-pattern.png){: width="600" }
 
 An antenna is vertically tilted and azimuth adjusted towards the maximum peak of mean user demand. The vertical tilt of the antenna is composed of a mechanical tilt, and an electrical tilt adjustment mechanism. A simple trigonometric equation gives us 
 the ideal solution, which rarely works in the real scenarios. With multipath propagation, channel distortion and varying geographical 
@@ -26,9 +26,10 @@ demand, mean number of calls per day, peak hour demand, stationary and moving de
 Our successful implementation gave over 99% accuracy in tilt prediction, alongwith a negligible 0.07 degrees MAE. 
  
   
+![SHAP explainability](/images/tilt-estimation/tilt-estimation-waterfall.png){: width="600" }
   
   
-![Cell Tower](/images/tilt-estimation/cell-tower-img.jpg){: width="450" }
+![Cell Tower](/images/tilt-estimation/cell-tower-img.jpg){: width="300" }
 
 
-![SHAP explainability](/images/tilt-estimation/tilt-estimation-waterfall.png){: width="320" }
+
