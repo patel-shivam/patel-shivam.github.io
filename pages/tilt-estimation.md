@@ -3,7 +3,9 @@ layout: page
 ---
 <h2><b>Tilt Estimation for Cell Tower Antennas</b></h2>
 <h3><b> Artificial Intelligence Intern, Reliance Industries Limited</b></h3>
--------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------  
+
 
 ![Radiation Pattern of Towers](/images/tilt-estimation/tilt-estimation-tower-pattern.png){: width="600" }
 
