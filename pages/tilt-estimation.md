@@ -24,5 +24,6 @@ Our successful implementation gave over 99% accuracy in tilt prediction, alongwi
   
   
 ![Autoencoders](/images/tilt-estimation/cell-tower-img.jpg){: width="450" }
-![Autoencoders](/images/ds303_images/autoencoder_ships.png){: width="320" }
-![Autoencoders](/images/ds303_images/autoencoder_planes.png){: width="320" }
+![Autoencoders](/images/tilt-estimation/radiation-pattern.png){: width="320" }
+![Autoencoders](/images/tilt-estimation/tilt-estimation-tower-pattern.png){: width="320" }
+![Autoencoders](/images/tilt-estimation/tilt-estimation-waterfall.png){: width="320" }
