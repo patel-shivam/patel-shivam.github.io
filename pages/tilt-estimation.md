@@ -10,7 +10,7 @@ arrays, which allow to control and localize the effective beam of radiation in a
 cellular communication requirement of users through various spectrum band allocation systems. We focused on the 850, 1800 and 2300 MHz bands 
 for predicting optimal tilt of antennas.   
 
-An antenna is vertically tilted and azimuth adjusted towards the maximum peak of mean user demand. A simple trigonometric equation gives us 
+An antenna is vertically tilted and azimuth adjusted towards the maximum peak of mean user demand. The vertical tilt of the antenna is composed of a mechanical tilt, and an electrical tilt adjustment mechanism. A simple trigonometric equation gives us 
 the ideal solution, which rarely works in the real scenarios. With multipath propagation, channel distortion and varying geographical 
 conditions, the exact relation of tilt angle is hard to formulate.  
 
