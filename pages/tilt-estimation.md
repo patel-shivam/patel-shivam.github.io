@@ -27,7 +27,9 @@ demand, mean number of calls per day, peak hour demand, stationary and moving de
 
 Our successful implementation gave over 99% accuracy in tilt prediction, alongwith a negligible 0.07 degrees MAE. 
  
-  
+ 
+![Moving Demand](/images/tilt-estimation/motion-allocation.png){: width="600" }  
+
 ![SHAP explainability](/images/tilt-estimation/tilt-estimation-waterfall.png){: width="600" }
   
   
