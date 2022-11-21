@@ -7,7 +7,7 @@ order: 5
 You can find here all my research work in the past.   
 To be updated.   
 
-<h2><h>Research Projects</b></h2>
+<h2><b>Research Projects</b></h2>
 -----------------------------------------
 
 1. **Electronic Tilt Estimation using Neural Networks for Cell Tower Antennas**            
