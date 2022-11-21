@@ -29,6 +29,10 @@ You can find my projects here.
  Microprocessors are an indispensible part of today's world. In this project, we built a Turing complete 17 instruction ISA in VHDL. We used an 8-register 16-bit RISC microprocessor design. Incorporated _Multicycle_ and _Pipeline_ based architectures in our design.  
  Read more [here](pages/IITB_RISC.md).
 
+4. **Reinforcement Learning**  
+  [_CS747, Foundations of Intelligent Learning Agents_](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a2022/index.html), [_Prof. Shivaram Kalyanakrishnan_](https://www.cse.iitb.ac.in/~shivaram/)  
+  Read more [here](pages/reinforcement-learning.md)
+
 ## **Other Projects**
 -----------------------------------------  
 1. **Visualising Deep Neural Networks**    
