@@ -5,4 +5,5 @@ permalink: /research
 order: 5
 ---
 You can find here all my research work in the past.   
-To be updated. 
+To be updated.   
+Tilt Estimation project can be found [here](pages/tilt-estimation.md)
