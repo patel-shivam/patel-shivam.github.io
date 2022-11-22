@@ -46,7 +46,8 @@ Assignment repository can be found [here](https://github.com/patel-shivam/CS747/
    > Repeat:
    >>For $s \in S$:  
    >>>$V_{t+1}(s) \leftarrow max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V_t(s^{'}))$   
-   >>>$t \leftarrow t+1$     
+   >>>$t \leftarrow t+1$  
+   >   
    > Until $V_t \approx V_{t-1}$ (upto machine precision)        
 
 
