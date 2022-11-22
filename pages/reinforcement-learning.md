@@ -3,7 +3,7 @@ layout: page
 ---
 <h2><b>Foundations of Intelligent Learning Agents</b></h2>
 <!--- <h3><b>Regret Minimization, Policy Evaluation and Policy Improvement for Reinforcement Learning</b></h3> -->
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">   
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>  
 
 -------------------------------------------------------------------------------------------------------------------    
 The assignments/projects for the course can be found [here](https://github.com/patel-shivam/CS747).  
@@ -62,7 +62,7 @@ Assignment repository can be found [here](https://github.com/patel-shivam/CS747/
    > $V(s) \geq \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V(s^{'}))$ 
 
 Assignment repository can be found [here](https://github.com/patel-shivam/CS747/tree/main/Assignment2).   
- </script> 
+
 
 
 
