@@ -54,8 +54,10 @@ Assignment report can be found [here](/files/CS747_Assn1_Report.pdf).
 
 
  * **Howard's Policy Iteration** - HPI is a policy improvement algorithm, which randomly chooses improvable states, and creates new policies based on the Action Value Function of the MDP. This is also guaranteed to converge, by the Banach's Fixed Point theorem.  
- * **Linear Programming** - We create a set of $|nk|$ linear inequalities from the $|n|$ Bellman Equations, and use an off-the-shelf linear solver to get the otimal value function of the MDP.     
+ * **Linear Programming** - We create a set of $|nk|$ linear inequalities from the $|n|$ Bellman Equations, and use an off-the-shelf linear solver to get the otimal value function of the MDP.  
+   
  ![Bellman Equations](/images/rl-images/rl4.png){: width="400" }   
+ 
    <!--- Bellman Optimality Equations -   
     $V^\*(s) = max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V^\*(s^{'}))$  
 
