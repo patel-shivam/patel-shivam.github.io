@@ -9,7 +9,7 @@ layout: page
 
 -------------------------------------------------------------------------------------------------------------------      
 <span style="background-color:AliceBlue">
-The assignments/projects for the course can be found [here](https://github.com/patel-shivam/CS747).  
+The assignments/projects for the course can be found [here](https://github.com/patel-shivam/CS747).  <br>
 Refer the [course website](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a2022/index.html) for more information. 
 </span>
 
