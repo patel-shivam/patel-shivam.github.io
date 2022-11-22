@@ -12,10 +12,10 @@ The assignments/projects for the course can be found [here](https://github.com/p
 Refer the [course website](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a2022/index.html) for more information. 
 <!---</span>-->
 
-
+-------------------------------------------------------------------------------------------------------------------      
 <h4><b>Regret Minimization Algorithms for Multi Armed Bandit Formulations</b></h4>    
 
--------------------------------------------------------------------------------------------------------------------       
+   
 
 ![Multi Armed Bandit](/images/rl-images/k-armed-regret-1.png){: width="400" }    
 
@@ -40,10 +40,11 @@ GLIE-ified Epsilon Greedy with quantile regret minimization was implemented for 
 Assignment repository can be found [here](https://github.com/patel-shivam/CS747/tree/main/Assignment1).  
 Assignment report can be found [here](/files/CS747_Assn1_Report.pdf).  
 
+-------------------------------------------------------------------------------------------------------------------     
 
 <h4><b>Policy Evaluation, Improvement and MDP Planning</b></h4>  
 
--------------------------------------------------------------------------------------------------------------------       
+    
 
 ![Policy Iteration](/images/rl-images/policy-iteration.png){: width="500" }    
  
