@@ -13,7 +13,7 @@ To be updated.
 1. **Electronic Tilt Estimation using Neural Networks for Cell Tower Antennas**            
    Artificial Intelligence Intern, [Reliance Industries Ltd.](https://www.ril.com/)  
  ![Radiation Pattern of Towers](/images/tilt-estimation/tilt-estimation-tower-pattern.png){: width="600" }  
-  Wireless communication has been made a commercially feasible option through large scale developement of cell tower grids. Optimizing ntennas used in cell towers is  indispensible for improving wireless communication. With largescale deployement and utilisation, it is essential to plan resource allocation and directional specifications of antennas for maximum utility. This summer project was based on optimizing the electronic tilt of cell tower antennas. 
+  Wireless communication has been made a commercially feasible option through large scale developement of cell tower grids. Optimizing antennas used in cell towers is  indispensible for improving wireless communication. With largescale deployment and utilisation, it is essential to plan resource allocation and directional specifications of antennas for maximum utility. This summer project was based on optimizing the electronic tilt of cell tower antennas.   
   Read more [here](pages/tilt-estimation.md).   
   
 2. **Time Series Anomaly Detection**  
