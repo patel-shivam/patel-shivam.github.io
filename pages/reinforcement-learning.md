@@ -18,7 +18,7 @@ In the first assignment, I implemented the Epsilon-Greedy algorithms for linear 
 $R_T = \epsilon(p^\* - p_{avg})T = \Omega(T)$
 
 Later on, I used UCB, KL-UCB and Thompson Sampling algorithms which are in accordance with the Lai-Robbins logarithmic bound. 
-
+$ucb^t_a = \hat{p_a^t} + \sqrt{\frac{2ln(t)}{u_a^t}}$
 
 Later on, the problem of having finite stage feedback was encountered, where we get to know about the regrets only after a batch of samples, and we need to provide the distribution of which arms to be pulled how frequently in the next batch. Thompson Subsampling was implemented for finite stage feedback formulation. 
 
