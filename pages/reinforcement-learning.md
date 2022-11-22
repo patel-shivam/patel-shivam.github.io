@@ -57,6 +57,15 @@ Assignment repository can be found [here](https://github.com/patel-shivam/CS747/
    > Bellman Optimality Equations -   
    > $V^\*(s) = max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V^\*(s^{'}))$  
 
+#demobox {
+  background-color: #cfc ;
+  padding: 10px ;
+  border: 1px solid green ;
+}
+
+<div id="demobox">
+$V(s) \geq \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V(s^{'}))$ 
+</div>
     Linear constraints for Bellman Equations -   
     $V(s) \geq \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V(s^{'}))$ 
 
