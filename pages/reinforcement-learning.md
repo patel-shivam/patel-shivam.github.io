@@ -42,32 +42,23 @@ Assignment repository can be found [here](https://github.com/patel-shivam/CS747/
  
  Given any Markov Decision Process (MDP), we need to determine the Optimal Value Function $V^\*$ and Optimal Policy $\pi^\*$. I implemented three different algorithms for this purpose - 
  * **Value Iteration** - It iteratively updates the value function of each state in the MDP, leading to guaranteed convergence in countably finite number of iterations
-   > $V_0$ ← Arbitrary, element-wise bounded, n-length vector.
-   > t ← 0
-   > Repeat:
-   >>For $s \in S$:  
-   >>>$V_{t+1}(s) \leftarrow max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V_t(s^{'}))$   
-   >>>$t \leftarrow t+1$  
-   >   
-   > Until $V_t \approx V_{t-1}$ (upto machine precision)        
+    $V_0$ ← Arbitrary, element-wise bounded, n-length vector.
+    t ← 0
+    Repeat:
+        For $s \in S$:  
+           $V_{t+1}(s) \leftarrow max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V_t(s^{'}))$   
+           $t \leftarrow t+1$  
+    Until $V_t \approx V_{t-1}$ (upto machine precision)        
 
 
  * **Howard's Policy Iteration** - HPI is a policy improvement algorithm, which randomly chooses improvable states, and creates new policies based on the Action Value Function of the MDP. This is also guaranteed to converge, by the Banach's Fixed Point theorem.  
  * **Linear Programming** - We create a set of $|nk|$ linear inequalities from the $|n|$ Bellman Equations, and use an off-the-shelf linear solver to get the otimal value function of the MDP. 
-   > Bellman Optimality Equations -   
-   > $V^\*(s) = max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V^\*(s^{'}))$  
+    Bellman Optimality Equations -   
+    $V^\*(s) = max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V^\*(s^{'}))$  
 
-#demobox {
-  background-color: #cfc ;
-  padding: 10px ;
-  border: 1px solid green ;
-}
 
-<div id="demobox">
-$V(s) \geq \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V(s^{'}))$ 
-</div>
-    Linear constraints for Bellman Equations -   
-    $V(s) \geq \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V(s^{'}))$ 
+    Linear constraints for Bellman Equations -      
+    $V(s) \geq \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V(s^{'}))$    
 
 Assignment repository can be found [here](https://github.com/patel-shivam/CS747/tree/main/Assignment2).   
 
