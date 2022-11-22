@@ -43,7 +43,7 @@ Assignment report can be found [here](/files/CS747_Assn1_Report.pdf).
 ![Policy Iteration](/images/rl-images/policy-iteration.png){: width="500" }    
  
  Given any Markov Decision Process (MDP), we need to determine the Optimal Value Function V* and Optimal Policy π*. I implemented three different algorithms for this purpose - 
- * **Value Iteration** - It iteratively updates the value function of each state in the MDP, leading to guaranteed convergence in countably finite number of iterations  ![value iteration](/images/rl-images/rl3.png){: width="400" }    
+ * **Value Iteration** - It iteratively updates the value function of each state in the MDP, leading to guaranteed convergence in countably finite number of iterations  ![value iteration](/images/rl-images/rl3.png){: width="600" }    
   <!---  $V_0$ ← Arbitrary, element-wise bounded, n-length vector.  
     t ← 0  
     Repeat:  
@@ -54,9 +54,9 @@ Assignment report can be found [here](/files/CS747_Assn1_Report.pdf).
 
 
  * **Howard's Policy Iteration** - HPI is a policy improvement algorithm, which randomly chooses improvable states, and creates new policies based on the Action Value Function of the MDP. This is also guaranteed to converge, by the Banach's Fixed Point theorem.  
- * **Linear Programming** - We create a set of |nk| linear inequalities from the |n| Bellman Equations, and use an off-the-shelf linear solver to get the otimal value function of the MDP.  
+ * **Linear Programming** - We create a set of n\*k linear inequalities from the n Bellman Equations, and use an off-the-shelf linear solver to get the otimal value function of the MDP.  
    
- ![Bellman Equations](/images/rl-images/rl4.png){: width="400" }   
+ ![Bellman Equations](/images/rl-images/rl4.png){: width="600" }   
  
    <!--- Bellman Optimality Equations -   
     $V^\*(s) = max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V^\*(s^{'}))$  
