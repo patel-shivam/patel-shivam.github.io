@@ -24,7 +24,7 @@ $ucb^t_a = \hat{p_a}^t + \sqrt{\frac{2ln(t)}{u_a^t}}$
 $ucb-kl^t_a$ is the solution of $q \in [\hat{p_a}^t, 1]$ for $KL(\hat{p_a}^t, q) = \frac{ln(t) + cln(ln(t))}{u_a^t}$
 
 Lai Robbins Logarithmic bound -   
-$\frac{R_T(L,I)}{ln(T)} \geq \Sigma_{a:p_a(l) \neq p^\*(l)} \frac{p^\*(l) - p_a(l)}{KL(p_a(l), p^\*(l))}  
+$\frac{R_T(L,I)}{ln(T)} \geq \Sigma_{a:p_a(l) \neq p^\*(l)} \frac{p^\*(l) - p_a(l)}{KL(p_a(l), p^\*(l))}$
 
 
 
