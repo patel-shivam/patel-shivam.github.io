@@ -2,6 +2,8 @@
 layout: page
 ---
 
+<h2><b>Courses Undertaken</b></h2>
+
 You can find here the courses that I have taken.
 
 <!---## Courses -->
