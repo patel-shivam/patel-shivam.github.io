@@ -32,7 +32,8 @@ Later on, the problem of having finite stage feedback was encountered, where we 
 The next task was to find an algorithm that works well when the number of arms is comparable to the horizon T. 
 GLIE-ified Epsilon Greedy with quantile regret minimization was implemented for num_arms A = horizon T. (GLIE - Greedy in the Limit, Infinite Exploration)  
 
-Assignment repository can be found [here](https://github.com/patel-shivam/CS747/tree/main/Assignment1)
+Assignment repository can be found [here](https://github.com/patel-shivam/CS747/tree/main/Assignment1).  
+Assignment report can be found [here](files/CS747_Assn1_Report.pdf).  
 
 <h4><b>Policy Evaluation, Improvement and MDP Planning</b></h4>
 
@@ -58,8 +59,8 @@ Assignment repository can be found [here](https://github.com/patel-shivam/CS747/
     Linear constraints for Bellman Equations -      
     $V(s) \geq \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V(s^{'}))$    
 
-Assignment repository can be found [here](https://github.com/patel-shivam/CS747/tree/main/Assignment2).   
-
+Assignment repository can be found [here](https://github.com/patel-shivam/CS747/tree/main/Assignment2).     
+Assignment report can be found [here](files/CS747_Assn2_Report.pdf).  
 
 
 
