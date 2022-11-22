@@ -3,7 +3,7 @@ layout: page
 ---
 <h2><b>Foundations of Intelligent Learning Agents</b></h2>
 <h3><b>Regret Minimization, Policy Evaluation and Policy Improvement for Reinforcement Learning</b></h3>
-
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 -------------------------------------------------------------------------------------------------------------------    
 The assignments/projects for the course can be found [here](https://github.com/patel-shivam/CS747).  
 Refer the [course website](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a2022/index.html) for more information. 
@@ -37,7 +37,7 @@ Assignment repository can be found [here](https://github.com/patel-shivam/CS747/
 
 <h4><b>Policy Evaluation, Improvement and MDP Planning</b></h4>
 
-![Policy Iteration](/images/rl-images/policy-iteration.png){: width="400" }    
+![Policy Iteration](/images/rl-images/policy-iteration.png){: width="500" }    
  
  Given any Markov Decision Process (MDP), we need to determine the Optimal Value Function $V^\*$ and Optimal Policy $\pi^\*$. I implemented three different algorithms for this purpose - 
  * **Value Iteration** - It iteratively updates the value function of each state in the MDP, leading to guaranteed convergence in countably finite number of iterations
