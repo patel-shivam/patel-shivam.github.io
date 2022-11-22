@@ -55,6 +55,8 @@ Assignment repository can be found [here](https://github.com/patel-shivam/CS747/
  * **Linear Programming** - We create a set of $|nk|$ linear inequalities from the $|n|$ Bellman Equations, and use an off-the-shelf linear solver to get the otimal value function of the MDP. 
    > Bellman Optimality Equations -   
    > $V^\*(s) = max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V^\*(s^{'}))$  
+
+
    > Linear constraints for Bellman Equations -   
    > $V(s) \geq \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V(s^{'}))$ 
 
