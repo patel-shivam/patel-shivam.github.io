@@ -32,7 +32,7 @@ You can find my projects here.
 4. **Reinforcement Learning**  
   [_CS747, Foundations of Intelligent Learning Agents_](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a2022/index.html), [_Prof. Shivaram Kalyanakrishnan_](https://www.cse.iitb.ac.in/~shivaram/)     
   ![Multi Armed Bandit](/images/rl-images/multi-armed-bandit.png){: width="700" }  
-  Intelligent machines are adaptive to their environment, and optimize their decisions for maximizing their rewards in different use cases. Reinforcement learning forms the basis of such learning agents, with it's fundamental origins lying in machine learning and artificial intelligence. Some of the algorithms coded as a part of this course are - regret minimization algorithms (linear and sub-linear), policy planning and evaluation, MDP formulation etc. 
+  Intelligent machines are adaptive to their environment, and optimize their decisions for maximizing their rewards in different use cases. Reinforcement learning forms the basis of such learning agents, with it's fundamental origins lying in machine learning and artificial intelligence. Some of the algorithms coded as a part of this course are - regret minimization algorithms (linear and sub-linear), policy planning and evaluation, MDP formulation etc.   
   Read more [here](pages/reinforcement-learning.md)
 
 ## **Other Projects**
