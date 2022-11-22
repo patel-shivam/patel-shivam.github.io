@@ -4,9 +4,8 @@ layout: page
 <h2><b>Foundations of Intelligent Learning Agents</b></h2>
 <!--- <h3><b>Regret Minimization, Policy Evaluation and Policy Improvement for Reinforcement Learning</b></h3> -->
 
-"And here's to you, <span style="background-color:lgith">Mrs. Robinson</span>, Jesus loves you more than you will know."
 
-
+-------------------------------------------------------------------------------------------------------------------       
 -------------------------------------------------------------------------------------------------------------------      
 <!---<span style="background-color:AliceBlue">-->
 The assignments/projects for the course can be found [here](https://github.com/patel-shivam/CS747).   
@@ -14,7 +13,9 @@ Refer the [course website](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a
 <!---</span>-->
 
 
-<h4><b>Regret Minimization Algorithms for Multi Armed Bandit Formulations</b></h4>  
+<h4><b>Regret Minimization Algorithms for Multi Armed Bandit Formulations</b></h4>    
+
+-------------------------------------------------------------------------------------------------------------------       
 
 ![Multi Armed Bandit](/images/rl-images/k-armed-regret-1.png){: width="400" }    
 
@@ -40,7 +41,9 @@ Assignment repository can be found [here](https://github.com/patel-shivam/CS747/
 Assignment report can be found [here](/files/CS747_Assn1_Report.pdf).  
 
 
-<h4><b>Policy Evaluation, Improvement and MDP Planning</b></h4>
+<h4><b>Policy Evaluation, Improvement and MDP Planning</b></h4>  
+
+-------------------------------------------------------------------------------------------------------------------       
 
 ![Policy Iteration](/images/rl-images/policy-iteration.png){: width="500" }    
  
