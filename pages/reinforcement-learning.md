@@ -43,7 +43,7 @@ Assignment repository can be found [here](https://github.com/patel-shivam/CS747/
  * **Value Iteration** - It iteratively updates the value function of each state in the MDP, leading to guaranteed convergence in countably finite number of iterations
    > $V_0$ ← Arbitrary, element-wise bounded, n-length vector.
    > t ← 0
-   > Repeat:
+   > Repeat:  
    >     >For $s \in S$:  
    >         $V_{t+1}(s) \leftarrow max_{a \in A} \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V_t(s^{'}))$   
    >         $t \leftarrow t+1$     
