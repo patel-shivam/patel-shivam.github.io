@@ -15,7 +15,9 @@ Refer the [course website](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a
 
 Multi Armed Bandit Problems require regret minimization algorithms to optimize the explore-exploit tradeoff for different horizon scales.   
 In the first assignment, I implemented the Epsilon-Greedy algorithms for linear regret.   
-$$  R_T = \epsilon(p^\* - p_{avg})T = \Omega(T)  $$
+$$  
+R_T = \epsilon(p^\* - p_{avg})T = \Omega(T)  
+$$
 
 Later on, I used UCB, KL-UCB and Thompson Sampling algorithms which are in accordance with the Lai-Robbins logarithmic bound. 
 
