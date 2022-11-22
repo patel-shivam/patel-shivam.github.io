@@ -8,10 +8,10 @@ layout: page
 
 
 -------------------------------------------------------------------------------------------------------------------      
-<span style="background-color:AliceBlue">
-The assignments/projects for the course can be found [here](https://github.com/patel-shivam/CS747).  <br>
+<!---<span style="background-color:AliceBlue">-->
+The assignments/projects for the course can be found [here](https://github.com/patel-shivam/CS747).   
 Refer the [course website](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a2022/index.html) for more information. 
-</span>
+<!---</span>-->
 
 
 <h4><b>Regret Minimization Algorithms for Multi Armed Bandit Formulations</b></h4>  
