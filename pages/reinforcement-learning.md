@@ -33,7 +33,7 @@ The next task was to find an algorithm that works well when the number of arms i
 GLIE-ified Epsilon Greedy with quantile regret minimization was implemented for num_arms A = horizon T. (GLIE - Greedy in the Limit, Infinite Exploration)  
 
 Assignment repository can be found [here](https://github.com/patel-shivam/CS747/tree/main/Assignment1).  
-Assignment report can be found [here](files/CS747_Assn1_Report.pdf).  
+Assignment report can be found [here](/files/CS747_Assn1_Report.pdf).  
 
 <h4><b>Policy Evaluation, Improvement and MDP Planning</b></h4>
 
@@ -60,7 +60,7 @@ Assignment report can be found [here](files/CS747_Assn1_Report.pdf).
     $V(s) \geq \Sigma_{s^{'}\in S} T(s, a, s^{'})(R(s, a, s^{'}) + \gamma V(s^{'}))$    
 
 Assignment repository can be found [here](https://github.com/patel-shivam/CS747/tree/main/Assignment2).     
-Assignment report can be found [here](files/CS747_Assn2_Report.pdf).  
+Assignment report can be found [here](/files/CS747_Assn2_Report.pdf).  
 
 
 
