@@ -40,4 +40,5 @@ You can find me at _388, Hostel 3, Students' Residential Road, IIT Bombay, 40007
 Last updated : 14/11/2022
 
 
-Please read my [CV](/cv) or look at my [projects](/projects) to know about my work and achievements.
+Please read my [CV](/cv) or look at my [projects](/projects) to know about my work and achievements.  
+[Here](/pages/courses.md) is a comprehensive list of courses that I have undertaken. 
