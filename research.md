@@ -18,7 +18,7 @@ To be updated.
   
 2. **Time Series Anomaly Detection**  
   RnD Project | [Prof. Nikhil Karamchandani](https://sites.google.com/site/nikhilkaram/) | [Applied Materials](https://www.appliedmaterials.com/)  
-   ![Anomaly Detection in Random Data](/images/tsad-images/prediction-lite.png){: width="600" } 
+   ![Anomaly Detection in Random Data](/images/tsad-images/prediction-lite.png){: width="600" }   
   This is an ongoing research project under Prof. Nikhil Karamchandani, sponsored by Applied Materials India ltd. We are currently working on designing robust anomaly detection algorithms. Use case requirements for different metrics like precision-recall tradeoff, lookback-data size, unreliability of seasonal trends etc. need to be taken into account. Time Series Anomaly Detection has in itself an ML model trying to forecast the upcoming value, and a discriminator algorithm that classifies the actual obtained datapoint as anomalous or otherwise depending on difference between the forecasted and received values. 
   
 3. **Stochastic Climate Modelling**   
