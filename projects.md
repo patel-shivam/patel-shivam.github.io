@@ -14,7 +14,7 @@ You can find my projects here.
   [_CS747, Foundations of Intelligent Learning Agents_](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a2022/index.html), [_Prof. Shivaram Kalyanakrishnan_](https://www.cse.iitb.ac.in/~shivaram/)     
   ![Multi Armed Bandit](/images/rl-images/multi-armed-bandit.png){: width="700" }  
   Intelligent machines are adaptive to their environment, and optimize their decisions for maximizing their rewards in different use cases. Reinforcement learning forms the basis of such learning agents, with it's fundamental origins lying in machine learning and artificial intelligence. Some of the algorithms coded as a part of this course are - regret minimization algorithms (linear and sub-linear), policy planning and evaluation, MDP formulation etc.   
-  Read more [here](pages/reinforcement-learning.md)
+  Read more [here](pages/reinforcement-learning.md).
 
 2. **Autoencoder Architectures for Image Colorization and Noise Reduction**          
    [_DS303, Introduction to Machine Learning_](https://www.minds.iitb.ac.in/index.php/academics/minor-ai-ds?id=22), [_Prof. Biplab Banerjee_](https://biplab-banerjee.github.io/)  
