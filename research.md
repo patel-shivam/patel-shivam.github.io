@@ -25,12 +25,14 @@ To be updated.
 3. **Stochastic Climate Modelling**   
   Research Internship, [Prof. Sandeep Juneja](https://www.tcs.tifr.res.in/~sandeepj/), [TIFR](https://www.tifr.res.in/)    
   ![Grid](/images/climate-modelling-images/cm-grid.png){: width="350" }
-![Seea Surface Temperature Anomaly](/images/climate-modelling-images/sst-anomaly.png){: width="350" }  
+![Sea Surface Temperature Anomaly](/images/climate-modelling-images/sst-anomaly.png){: width="350" }  
   Climate modelling lies at the intersection of physics, mathematics and machine learning. Various generations of climate prediction models are widely being used in practice today. Our work was focused on the modelling of Indian Summer Monsoon Rainfall, and finding optimal models for the same. There are three ways of approaching rainfall prediction - Statistical, Empirical and Dynamic. Our research was concerned with 'physics-free' statistical methods, which use other weather indicators to predict rainfall in India. We also studied IPCC reports and explored the latest CMIP models for climate prediction, and it's applicability to our setting. Currently, we are working on ultra-short time scale (2-16 hrs) prediction, called 'nowcasting'.       
   [Github Repo](https://github.com/patel-shivam/climate-modelling)
   
 4. **Navigation Using SNNs**  
-  Summer Undergraduate Research Program , [Prof. Udayan Ganguly](https://www.ee.iitb.ac.in/web/people/udayan-ganguly/)   
+  Summer Undergraduate Research Program , [Prof. Udayan Ganguly](https://www.ee.iitb.ac.in/web/people/udayan-ganguly/)    
+    ![SNN Block Diagram](/images/navigation-using-snn/snn-block.png){: width="350" }
+![Software Worm Trajectory](/images/navigation-using-snn/software-worm-trajectory.png){: width="350" }    
   Spiking Neural Networks (SNNs) are electroic manifestations of biological counterparts. Biomimicry of the relatively simple nervous system of _C. Elegans_ gives us a good insight into how information can be utilised efficiently in relatively sparse systems and energy constrained environments. Our project was based on emulating the _C. Elegans_ worm navigation using simplified binary neurons, wherein information is encoded through voltage spikes in neurons. Various navigation and foraging algorithms were studied, and emulated in software. The results were qualitatively and quantitatively found to closely follow the actual navigation of the worm in varying concentration 2D environments.
   
   
