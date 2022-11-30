@@ -33,7 +33,7 @@ To be updated.
   Summer Undergraduate Research Program , [Prof. Udayan Ganguly](https://www.ee.iitb.ac.in/web/people/udayan-ganguly/)    
     ![SNN Block Diagram](/images/navigation-using-snn/snn-block.png){: width="350" }
 ![Software Worm Trajectory](/images/navigation-using-snn/software-worm-trajectory.png){: width="350" }    
-  Spiking Neural Networks (SNNs) are electroic manifestations of biological counterparts. Biomimicry of the relatively simple nervous system of _C. Elegans_ gives us a good insight into how information can be utilised efficiently in relatively sparse systems and energy constrained environments. Our project was based on emulating the _C. Elegans_ worm navigation using simplified binary neurons, wherein information is encoded through voltage spikes in neurons. Various navigation and foraging algorithms were studied, and emulated in software. The results were qualitatively and quantitatively found to closely follow the actual navigation of the worm in varying concentration 2D environments.
+  Spiking Neural Networks (SNNs) are electronic emulations of biological neurons. Biomimicry of the relatively simple nervous system of _C. Elegans_ gives us a good insight into how information can be utilised efficiently in relatively sparse systems and energy constrained environments. Our project was based on emulating the _C. Elegans_ worm navigation using simplified binary neurons, wherein information is encoded through voltage spikes in neurons. Various navigation and foraging algorithms were studied, and emulated in software. The results were qualitatively and quantitatively found to closely follow the actual navigation of the worm in varying concentration 2D environments.
   
   
   
