@@ -15,9 +15,9 @@ Indian Institute of Technology Bombay (Mumbai, India) -->
 
 ![my photo](images/aboutmepic.jpg){:height="250px" width="250px"}
 
-Hi there, I'm Shivam, a humble junior in the [Electrical Engineering Department](https://www.ee.iitb.ac.in/web) at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minor in Artificial Intelligence.
+Hi there, I'm Shivam, a junior in the [Electrical Engineering Department](https://www.ee.iitb.ac.in/web) at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minor in Artificial Intelligence.
 
-I love playing with numbers and working on tough probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design. 
+I love playing with numbers and working on probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design. 
 
 I have had the great chance of working under [Prof. Sandeep Juneja](https://www.tcs.tifr.res.in/~sandeepj/) at the [Tata Institute of Fundamental Research](https://www.tifr.res.in/). Our research was mainly focused around climate modelling using algorithms, and some high level stochastic climatological physics. I explored various algorithms that are(/can be) used for climate prediction at various time scales. 
 
@@ -27,8 +27,7 @@ I also worked as an Artificial Intelligence intern in the research labs at [Reli
 
 Some relatively non-academic things about me - 
 * I am an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Field Guide.
-* I also play tabla and harmonium occasionally.   
-* Once a chessmaster and a tournament swimmer.  
+* I also play tabla and harmonium occasionally.
 * Quite a philosopher myself. Speak 4 languages. 
 * Ran 3 marathons.
 
