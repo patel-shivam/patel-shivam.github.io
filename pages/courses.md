@@ -12,18 +12,18 @@ You can find here the courses that I have taken.
 -----------------------------------------
 
 * [EE621: Markov Chains and Queueing Processes](https://www.ee.iitb.ac.in/web/academics/courses/EE621) 
-* [EE341: Communication Systems-I](https://www.ee.iitb.ac.in/web/academics/courses/EE341)   
-* [EE325: Probability and Random Processes](https://www.ee.iitb.ac.in/web/academics/courses/EE325)
-* [EE309: Microprocessors](https://www.ee.iitb.ac.in/web/academics/courses/EE309)
-* [EE302: Control Systems](https://www.ee.iitb.ac.in/web/academics/courses/EE302)
-* [EE301: Electromagnetic Waves](https://www.ee.iitb.ac.in/web/academics/courses/EE301)   
-* [EE238: Power Engineering-II](https://www.ee.iitb.ac.in/web/academics/courses/EE238)
-* [EE229: Signal Processing-I](https://www.ee.iitb.ac.in/web/academics/courses/EE229)
-* [EE224: Digital Systems](https://www.ee.iitb.ac.in/web/academics/courses/EE224)
-* [EE207: Electronic Devices and Circuits](https://www.ee.iitb.ac.in/web/academics/courses/EE207)
-* [EE204: Analog Circuits](https://www.ee.iitb.ac.in/web/academics/courses/EE204)
-* [EE114: Power Engineering-I](https://www.ee.iitb.ac.in/web/academics/courses/EE114)
-* [EE113: Introduction to Electrical Engineering Practice](https://www.ee.iitb.ac.in/web/academics/courses/EE113)
+* [EE341: Communication Systems-I](https://www.ee.iitb.ac.in/web/course_lists/ee-341-communication-systems-i/)   
+* [EE325: Probability and Random Processes](https://www.ee.iitb.ac.in/web/course_lists/ee-325-probability-and-random-processes/)
+* [EE309: Microprocessors](https://www.ee.iitb.ac.in/web/course_lists/ee-309-microprocessors/)
+* [EE302: Control Systems](https://www.ee.iitb.ac.in/web/course_lists/ee-302-control-systems/)
+* [EE301: Electromagnetic Waves](https://www.ee.iitb.ac.in/web/course_lists/ee-301-electromagnetic-waves/)   
+* [EE238: Power Engineering-II](https://www.ee.iitb.ac.in/web/course_lists/ee-236-power-engineering-ii/)
+* [EE229: Signal Processing-I](https://www.ee.iitb.ac.in/web/course_lists/ee-227-microelectronics/)
+* [EE224: Digital Systems](https://www.ee.iitb.ac.in/web/course_lists/ee-224-digital-systems/)
+* [EE207: Electronic Devices and Circuits](https://www.ee.iitb.ac.in/web/course_lists/ee-207-electronic-devices-and-circuits/)
+* [EE204: Analog Circuits](https://www.ee.iitb.ac.in/web/course_lists/ee-204-analog-circuits/)
+* [EE114: Power Engineering-I](https://www.ee.iitb.ac.in/web/course_lists/ee-114-power-engineering-i/)
+* [EE113: Introduction to Electrical Engineering Practice](https://www.ee.iitb.ac.in/web/course_lists/ee113-introduction-to-electrical-engineering-practice/)
 
 
 ### Department of Computer Science and Engineering
