@@ -15,7 +15,7 @@ Indian Institute of Technology Bombay (Mumbai, India) -->
 
 ![my photo](images/aboutmepic.jpg){:height="250px" width="250px"}
 
-Hi there, I'm Shivam, a junior in the [Electrical Engineering Department](https://www.ee.iitb.ac.in/web) ([old_web](https://www.ee.iitb.ac.in/old_web)) at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minor in Artificial Intelligence.
+Hi there, I'm Shivam, a junior in the [Electrical Engineering Department](https://www.ee.iitb.ac.in/old_web) at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minor in Artificial Intelligence.
 
 I love playing with numbers and working on probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design. 
 
