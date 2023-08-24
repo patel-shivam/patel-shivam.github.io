@@ -13,7 +13,7 @@ order: 1
 1. B.Tech. in Electrical Engineering (2020 - 2024)<br/>
 Indian Institute of Technology Bombay (Mumbai, India) -->
 
-![my photo](images/IMG_2164.jpeg){:height="250px" width="250px"}
+![my photo](images/IMG_2164.jpeg){:height="250px"}
 
 Hi there, I'm Shivam, a junior in the [Electrical Engineering Department](https://www.ee.iitb.ac.in/old_web) at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minor in Artificial Intelligence.
 
