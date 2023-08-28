@@ -13,6 +13,17 @@ order: 1
 1. B.Tech. in Electrical Engineering (2020 - 2024)<br/>
 Indian Institute of Technology Bombay (Mumbai, India) -->
 
+var images = [
+    "https://github.com/patel-shivam/patel-shivam.github.io/tree/main/images/aboutmepic.jpg"];
+
+function randImg() {
+    var size = images.length
+    var x = Math.floor(size * Math.random())
+    document.getElementById('image').src = images[x];
+}
+
+randImg();
+
 ![my photo](images/IMG_2164.jpeg){:height="250px"}
 
 Hi there, I'm Shivam, a junior in the [Electrical Engineering Department](https://www.ee.iitb.ac.in/old_web) at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minor in Artificial Intelligence.
