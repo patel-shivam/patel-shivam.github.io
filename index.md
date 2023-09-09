@@ -15,11 +15,15 @@ Indian Institute of Technology Bombay (Mumbai, India) -->
 
 ![my photo](images/IMG_2164.jpeg){:height="250px"}
 
-Hi there, I'm Shivam, a junior in the [Electrical Engineering Department](https://www.ee.iitb.ac.in/old_web) at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minor in Artificial Intelligence.
+Hi there, I'm Shivam, a junior in the Electrical Engineering Department at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minor in Artificial Intelligence.
 
 I love playing with numbers and working on probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design. 
 
-I have had the great chance of working under [Prof. Sandeep Juneja](https://www.tcs.tifr.res.in/~sandeepj/) at the [Tata Institute of Fundamental Research](https://www.tifr.res.in/). Our research was mainly focused around climate modelling using algorithms, and some high level stochastic climatological physics. I explored various algorithms that are(/can be) used for climate prediction at various time scales. 
+I consider myself to be fortunate to work with Prof. Vivek Borkar on my Bachelor's Thesis Project. 
+
+My last summer was spent at the beautiful [USC](https://www.usc.edu) [Viterbi School of Engineering](https://viterbischool.usc.edu) working with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) on fair ML. My research was supported by the [IUSSTF-Viterbi](https://iusstf.org/iusstf-viterbi-program) research grant by the Government of India. 
+
+Previously, I have had the great chance of working under [Prof. Sandeep Juneja](https://www.tcs.tifr.res.in/~sandeepj/) at the [Tata Institute of Fundamental Research](https://www.tifr.res.in/). Our research was mainly focused around climate modelling using algorithms, and some high level stochastic climatological physics. I explored various algorithms that are(/can be) used for climate prediction at various time scales. 
 
 
 I also worked as an Artificial Intelligence intern in the research labs at [Reliance ltd](https://www.ril.com/). I worked in the telecomm wing of the conglomerate on 'Optimizing Electronic Tilt for Reduced Call Latencies in Directional Antennas'. 
@@ -29,7 +33,6 @@ Some relatively non-academic things about me -
 * I am an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Field Guide.
 * I also play tabla and harmonium occasionally.
 * Quite a philosopher myself. Speak 4 languages. 
-* Ran 3 marathons.
 
 #### News
 > * October 2020 - Got accepted into IIT Bombay 
