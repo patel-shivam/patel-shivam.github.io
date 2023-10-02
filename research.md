@@ -29,7 +29,7 @@ To be updated.
   Climate modelling lies at the intersection of physics, mathematics and machine learning. Various generations of climate prediction models are widely being used in practice today. Our work was focused on the modelling of Indian Summer Monsoon Rainfall, and finding optimal models for the same. There are three ways of approaching rainfall prediction - Statistical, Empirical and Dynamic. Our research was concerned with 'physics-free' statistical methods, which use other weather indicators to predict rainfall in India. We also studied IPCC reports and explored the latest CMIP models for climate prediction, and it's applicability to our setting. Currently, we are working on ultra-short time scale (2-16 hrs) prediction, called 'nowcasting'.       
   [Github Repo](https://github.com/patel-shivam/climate-modelling)
   
-4. **Navigation Using SNNs**  
+4. **Navigation Using SNNs** (Reading Project)
   Summer Undergraduate Research Program , [Prof. Udayan Ganguly](https://www.ee.iitb.ac.in/web/people/udayan-ganguly/)    
     ![SNN Block Diagram](/images/navigation-using-snn/snn-block.png){: width="350" }
 ![Software Worm Trajectory](/images/navigation-using-snn/software-worm-trajectory.png){: width="350" }    
