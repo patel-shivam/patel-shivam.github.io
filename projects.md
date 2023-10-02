@@ -12,7 +12,8 @@ You can find my projects here.
 
 1. **Stochastic Optimization in Game Theory**
    EE736, Stochastic Optimization, [_Prof. Vivek Borkar_](https://en.wikipedia.org/wiki/Vivek_Borkar)
-   Game Theoretic representations in the continuous action spaces are vital for solving real-life optimization problems. Conventional research in the field was focused on finite action space games which are efficient in representing economic models of rationality, modelling climatic conditions and extremities, characterizing international peace treaties etc. But with the advent of computing efficiency and applications of game theory to contemporary fields like machine learning, research is being directed towards continuous space games where players can choose from a countable infinite set of actions. [Project Report](/files/StochOpt_in_GT_EE736.pdf). P. Mertikopoulos, Y.-P. Hsieh, and V. Cevher, “A unified stochastic approximation framework for learning in games,” 2023
+   Game Theoretic representations in the continuous action spaces are vital for solving real-life optimization problems. Conventional research in the field was focused on finite action space games which are efficient in representing economic models of rationality, modelling climatic conditions and extremities, characterizing international peace treaties etc. But with the advent of computing efficiency and applications of game theory to contemporary fields like machine learning, research is being directed towards continuous space games where players can choose from a countable infinite set of actions. [Project Report](/files/StochOpt_in_GT_EE736.pdf).
+   P. Mertikopoulos, Y.-P. Hsieh, and V. Cevher, “A unified stochastic approximation framework for learning in games,” 2023
 
 
 1. **Reinforcement Learning**  
