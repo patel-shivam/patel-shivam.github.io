@@ -10,6 +10,11 @@ You can find my projects here.
 ## **Course Projects**
 -----------------------------------------  
 
+1. **Stochastic Optimization in Game Theory**
+   EE736, Stochastic Optimization, [_Prof. Vivek Borkar_](https://en.wikipedia.org/wiki/Vivek_Borkar)
+   Game Theoretic representations in the continuous action spaces are vital for solving real-life optimization problems. Conventional research in the field was focused on finite action space games which are efficient in representing economic models of rationality, modelling climatic conditions and extremities, characterizing international peace treaties etc. But with the advent of computing efficiency and applications of game theory to contemporary fields like machine learning, research is being directed towards continuous space games where players can choose from a countable infinite set of actions. [Project Report](/files/StochOpt_in_GT_EE736.pdf). P. Mertikopoulos, Y.-P. Hsieh, and V. Cevher, “A unified stochastic approximation framework for learning in games,” 2023
+
+
 1. **Reinforcement Learning**  
   [_CS747, Foundations of Intelligent Learning Agents_](https://www.cse.iitb.ac.in/~shivaram/teaching/cs747-a2022/index.html), [_Prof. Shivaram Kalyanakrishnan_](https://www.cse.iitb.ac.in/~shivaram/)     
   ![Multi Armed Bandit](/images/rl-images/multi-armed-bandit.png){: width="700" }  
@@ -32,7 +37,7 @@ You can find my projects here.
 4. **IITB-RISC Microprocessor Design**      
   [_EE309, Microprocessors_](https://www.ee.iitb.ac.in/web/academics/courses/EE309), [_Prof. Virendra Singh_](https://www.ee.iitb.ac.in/~viren/)    
   ![RISC MultiState High Level](/images/risc_microprocessor/risc_high_level_design.png){: width="700" }   
- Microprocessors are an indispensible part of today's world. In this project, we built a Turing complete 17 instruction ISA in VHDL. We used an 8-register 16-bit RISC microprocessor design. Incorporated _Multicycle_ and _Pipeline_ based architectures in our design.  
+ Microprocessors are an indispensable part of today's world. In this project, we built a Turing complete 17 instruction ISA in VHDL. We used an 8-register 16-bit RISC microprocessor design. Incorporated _Multicycle_ and _Pipeline_ based architectures in our design.  
  Read more [here](pages/IITB_RISC.md).
 
 
@@ -43,5 +48,5 @@ You can find my projects here.
   [_Winter in Data Science | Analytics Club_](https://gymkhana.iitb.ac.in/~ugacademics/winter-analytics/)    
   ![Relative Cases](/images/wids_project_images/grad_cam_dog_cat.png){: width="700" }     
  * Explored Attribution Approach for interpreting Deep Neural Networks, with a qualitative focus on image recognition neural architectures, by acquiring ground truth labels and studying the model activation maps
- * Studied the applications of Class Activation Maps, Occlusion Sensitivity Maps and Saliency Maps to visualise CNN functioning for intuitive understanding of various image classification and detection algorithms  
+ * Studied the applications of Class Activation Maps, Occlusion Sensitivity Maps and Saliency Maps to visualise CNN functioning for an intuitive understanding of various image classification and detection algorithms  
  Read more [here](/files/Wids_project.pdf).
