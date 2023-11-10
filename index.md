@@ -23,8 +23,6 @@ I consider myself fortunate to be working with Prof. Vivek Borkar for my Bachelo
 
 I spent the last summer at the beautiful [USC](https://www.usc.edu) [Viterbi School of Engineering](https://viterbischool.usc.edu) working with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) on fair ML. My research was supported by the [IUSSTF-Viterbi](https://iusstf.org/iusstf-viterbi-program) research grant by the Government of India.   
  
-I also worked as an Artificial Intelligence intern in the research labs at [Reliance ltd](https://www.ril.com/). I worked in the telecomm wing of the conglomerate on 'Optimizing Electronic Tilt for Reduced Call Latencies in Directional Antennas'.   
-<!-- 3. (https://www.jioinstitute.edu.in/research-overview)  -->
 
 Some relatively non-academic things about me - 
 * I am an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Field Guide.
