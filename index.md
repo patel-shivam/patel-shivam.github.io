@@ -21,12 +21,9 @@ I love playing with numbers and working on probability puzzles. This interest ma
 
 I consider myself fortunate to be working with Prof. Vivek Borkar for my Bachelor's Thesis Project. 
 
-I spent the last summer at the beautiful [USC](https://www.usc.edu) [Viterbi School of Engineering](https://viterbischool.usc.edu) working with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) on fair ML. My research was supported by the [IUSSTF-Viterbi](https://iusstf.org/iusstf-viterbi-program) research grant by the Government of India. 
-
-Previously, I have had the chance of working under [Prof. Sandeep Juneja](https://www.tcs.tifr.res.in/~sandeepj/) at the [Tata Institute of Fundamental Research](https://www.tifr.res.in/). Our research was mainly focused around climate modelling using algorithms, and some high level stochastic climatological physics. I explored various algorithms that are(/can be) used for climate prediction at various time scales. 
-
-
-I also worked as an Artificial Intelligence intern in the research labs at [Reliance ltd](https://www.ril.com/). I worked in the telecomm wing of the conglomerate on 'Optimizing Electronic Tilt for Reduced Call Latencies in Directional Antennas'. 
+I spent the last summer at the beautiful [USC](https://www.usc.edu) [Viterbi School of Engineering](https://viterbischool.usc.edu) working with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) on fair ML. My research was supported by the [IUSSTF-Viterbi](https://iusstf.org/iusstf-viterbi-program) research grant by the Government of India.   
+ 
+I also worked as an Artificial Intelligence intern in the research labs at [Reliance ltd](https://www.ril.com/). I worked in the telecomm wing of the conglomerate on 'Optimizing Electronic Tilt for Reduced Call Latencies in Directional Antennas'.   
 <!-- 3. (https://www.jioinstitute.edu.in/research-overview)  -->
 
 Some relatively non-academic things about me - 
