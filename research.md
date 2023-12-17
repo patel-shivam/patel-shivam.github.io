@@ -11,7 +11,7 @@ To be updated.
 -----------------------------------------
 
 1. **Rare Event Simulation for Risk Measures on Markov Processes**            
-   Bachelor Thesis, Advisor: Prof. Vivek Borkar, IIT Bombay
+   Bachelor Thesis, Advisor: [Prof. Vivek Borkar](https://scholar.google.co.in/citations?user=Km1V8WwAAAAJ&hl=en), [IIT Bombay](https://www.iitb.ac.in)     
    Ongoing Work...   
 
 2. **Optimization for Fairness Applications**   
