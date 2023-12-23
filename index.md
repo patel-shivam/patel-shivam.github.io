@@ -36,7 +36,6 @@ Some relatively non-academic things about me -
 
 You can find me at _388, Hostel 3, Students' Residential Road, IIT Bombay, 400076_.    
 
-Last updated : 14/11/2022
 
 
 Please read my [CV](/cv) or look at my [projects](/projects) to know about my work and achievements.  
