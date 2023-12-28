@@ -19,7 +19,7 @@ _Welcome to my (largely un-updated) homepage._
 
 Hi there, I'm Shivam, a senior in the Electrical Engineering Department at [IIT Bombay](https://www.iitb.ac.in/). I am also pursuing a minor in Artificial Intelligence.
 
-I love playing with numbers and working on probability puzzles. This interest manifests into a love for Statistics, Machine Learning and algorithm design. 
+I love playing with numbers and working on probability puzzles. This interest manifests into a love for Statistics, Learning Theory and algorithm design. 
 
 I consider myself fortunate to be working with Prof. Vivek Borkar for my Bachelor's Thesis Project. 
 
