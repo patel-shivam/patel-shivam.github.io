@@ -10,7 +10,7 @@ layout: page
 ![Radiation Pattern of Towers](/images/tilt-estimation/tilt-estimation-tower-pattern.png){: width="600" }
 
 
-Dynamic cell towers resource allocation efficiently distributes bandwidth and hardware resources amongst users. Cell towers are made of antenna 
+Dynamic cell tower resource allocation efficiently distributes bandwidth and hardware resources amongst users. Cell towers are made of antenna 
 arrays, which allow to control and localize the effective beam of radiation in any particular direction. Such directional antennas serve the 
 cellular communication requirement of users through various spectrum band allocation systems. We focused on the 850, 1800 and 2300 MHz bands 
 for predicting optimal tilt of antennas.   
@@ -22,10 +22,10 @@ the ideal solution, which rarely works in the real scenarios. With multipath pro
 conditions, the exact relation of tilt angle is hard to formulate.  
 
 Our work was focused on finding optimal prediction models for discrete tile angles in degrees. We used domain knowledge and hypothesis testing
-to ascertain validity of various features towards predicting tilt. Parameters like extracted geographical coordinates, azimuth, spectrum band, 
-demand, mean number of calls per day, peak hour demand, stationary and moving demand ration etc. were used for training a neural network.   
+to ascertain the validity of various features towards predicting tilt. Parameters like extracted geographical coordinates, azimuth, spectrum band, 
+demand, mean number of calls per day, peak hour demand, stationary and moving demand ratio etc. were used for training a neural network.   
 
-Our successful implementation gave over 99% accuracy in tilt prediction, alongwith a negligible 0.07 degrees MAE. 
+Our successful implementation gave over 99% accuracy in tilt prediction, along with a negligible 0.07 degrees MAE. 
  
  
 ![Moving Demand](/images/tilt-estimation/motion-allocation.png){: width="600" }  
