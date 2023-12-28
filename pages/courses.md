@@ -4,7 +4,7 @@ layout: page
 
 <h2><b>Courses Undertaken</b></h2>
 
-You can find here the courses that I have taken.
+You can find here the courses that I have taken. (Last Updated 2022)
 
 <!---## Courses -->
 
