@@ -31,7 +31,7 @@ Later on, I used UCB, KL-UCB and Thompson Sampling algorithms which are in accor
 
 
 
-Later on, the problem of having finite stage feedback was encountered, where we get to know about the regrets only after a batch of samples, and we need to provide the distribution of which arms to be pulled how frequently in the next batch. Thompson Subsampling was implemented for finite stage feedback formulation. 
+Later on, the problem of having finite stage feedback was encountered, where we get to know about the regrets only after a batch of samples, and we need to provide the distribution of which arms to be pulled and how frequently in the next batch. Thompson Subsampling was implemented for finite-stage feedback formulation. 
 
 The next task was to find an algorithm that works well when the number of arms is comparable to the horizon T. 
 GLIE-ified Epsilon Greedy with quantile regret minimization was implemented for num_arms A = horizon T. (GLIE - Greedy in the Limit, Infinite Exploration)  
