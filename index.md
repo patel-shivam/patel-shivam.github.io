@@ -27,7 +27,7 @@ I spent the last summer at the beautiful [USC](https://www.usc.edu) [Viterbi Sch
  
 
 Some relatively non-academic things about me - 
-* I am an avid birdwatcher, and spend most of my winter sunday mornings at the nature park with a pair of binoculars and the Helm Field Guide.
+* I am an avid birdwatcher, and spend most of my winter Sunday mornings at the nature park with a pair of binoculars and the Helm Field Guide.
 * I also play tabla and harmonium occasionally.
 * Quite a philosopher myself. Speak 4 languages. 
 
