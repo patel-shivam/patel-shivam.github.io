@@ -22,14 +22,14 @@ To be updated.
 4. **Electronic Tilt Estimation using Neural Networks for Cell Tower Antennas**            
    Artificial Intelligence Intern, [Reliance Industries Ltd.](https://www.ril.com/)  
  ![Radiation Pattern of Towers](/images/tilt-estimation/tilt-estimation-tower-pattern.png){: width="600" }  
-  Wireless communication has been made a commercially feasible option through large scale developement of cell tower grids. Optimizing antennas used in cell towers is  indispensible for improving wireless communication. With largescale deployment and utilisation, it is essential to plan resource allocation and directional specifications of antennas for maximum utility. This summer project was based on optimizing the electronic tilt of cell tower antennas.   
+  Wireless communication has been made a commercially feasible option through large-scale development of cell tower grids. Optimizing antennas used in cell towers is  indispensable for improving wireless communication. With large-scale deployment and utilisation, it is essential to plan resource allocation and directional specifications of antennas for maximum utility. This summer research project was based on optimizing the electronic tilt of cell tower antennas.   
   Read more [here](pages/tilt-estimation.md).   
   
 5. **Time Series Anomaly Detection**  
   RnD Project | [Prof. Nikhil Karamchandani](https://sites.google.com/site/nikhilkaram/) | [Applied Materials](https://www.appliedmaterials.com/)  
    ![Anomaly Detection in Random Data](/images/tsad-images/prediction-lite.png){: width="750" }  
    ![Anomaly Detection in Sinusoidal Data](/images/tsad-images/prediction_sin.png){: width="750" }  
-  This is an ongoing research project under Prof. Nikhil Karamchandani. We are currently working on designing robust anomaly detection algorithms. Use case requirements for different metrics like precision-recall tradeoff, lookback-data size, unreliability of seasonal trends etc. need to be taken into account. Time Series Anomaly Detection has in itself an ML model trying to forecast the upcoming value, and a discriminator algorithm that classifies the actual obtained datapoint as anomalous or otherwise depending on difference between the forecasted and received values. 
+   I worked with Prof. Nikhil Karamchandani on Anomaly Detection in Semi-Periodic Data with unidirectional Anomalies. We used the predictor-discriminator setting for anomaly detection, where a predictor model predicts an upcoming datapoint, and discriminator model determines if the observed datapoint is an anomaly based on difference between actual and predicted values. I implemented the accumulator and Gaussian tail discriminators, and the Fourier, LSTM, Bidirectional RNN predictors.   
   
 6. **Stochastic Climate Modelling**   
   Research Internship, [Prof. Sandeep Juneja](https://www.tcs.tifr.res.in/~sandeepj/), [TIFR](https://www.tifr.res.in/)    
