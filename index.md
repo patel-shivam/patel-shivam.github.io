@@ -39,6 +39,6 @@ You can find me at _388, Hostel 3, Students' Residential Road, IIT Bombay, 40007
 
 
 Please read my [CV](/cv) or look at my [projects](/projects) to know about my work and achievements.  
-[Here](/pages/courses.md) is a comprehensive list of courses that I have undertaken.  
+
 
 <a href="https://info.flagcounter.com/HojU"><img src="https://s11.flagcounter.com/count2/HojU/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
