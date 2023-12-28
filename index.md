@@ -21,7 +21,7 @@ Hi there, I'm Shivam, a senior in the Electrical Engineering Department at [IIT 
 
 I love playing with numbers and working on probability puzzles. This interest manifests into a love for Statistics, Learning Theory and algorithm design. 
 
-I consider myself fortunate to be working with Prof. Vivek Borkar for my Bachelor's Thesis Project. 
+I consider myself fortunate to be working with Prof. Vivek Borkar for my Bachelors Thesis Project. 
 
 I spent the last summer at the beautiful [USC](https://www.usc.edu) [Viterbi School of Engineering](https://viterbischool.usc.edu) working with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) on fair ML. My research was supported by the [IUSSTF-Viterbi](https://iusstf.org/iusstf-viterbi-program) research grant by the Government of India.   
  
