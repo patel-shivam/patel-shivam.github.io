@@ -21,7 +21,7 @@ Hi there, I'm Shivam, a senior in the Electrical Engineering Department at [IIT 
 
 I love playing with numbers and working on probability puzzles. This interest manifests into a love for Statistics, Learning Theory and algorithm design. 
 
-I consider myself fortunate to be working with Prof. Vivek Borkar for my Bachelors Thesis Project.  
+I consider myself fortunate to be working with Prof. Vivek Borkar for my Bachelors Thesis Project. My initial thesis work is under review at _IEEE SPCOM 2024_.   
 
 I spent the last summer at the beautiful [USC](https://www.usc.edu) [Viterbi School of Engineering](https://viterbischool.usc.edu) working with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) on fair ML. My research was supported by the [IUSSTF-Viterbi](https://iusstf.org/iusstf-viterbi-program) research grant by the Government of India. Our work "f-FERM: A Scalable Framework for Robust Fair Empirical Risk Minimization" will appear at The Twelfth International Conference on Learning Representations ([**ICLR 2024**](https://iclr.cc)). An initial version was presented at the 15th [**OPT-ML Workshop**](https://opt-ml.org), [**NeurIPS 2023**](https://neurips.cc). Please read more on [arXiv](https://arxiv.org/abs/2312.03259).  
  
