@@ -10,13 +10,13 @@ To be updated.
 <h2><b>Research Projects</b></h2>
 -----------------------------------------
 
-1. **Rare Event Simulation for Risk Measures on Markov Processes**            
+1. **An Asymptotic CVaR Measure of Risk for Markov Chains**            
    Bachelor Thesis, Advisor: Prof. Vivek Borkar, [IIT Bombay](https://www.iitb.ac.in)     
-   Ongoing Work...   
+   My first Bachelor Thesis Project is under review at IEEE SPCOM 2024. Further details withheld for double blind review.   
 
 2. **Optimization for Fairness Applications**   
-  Research Internship, Advisor: [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/), [University of Southern California](https://www.usc.edu)  
-  Ongoing Work...  
+  Research Internship, Advisor: [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/), [University of Southern California](https://www.usc.edu)    
+  Our work "f-FERM: A Scalable Framework for Robust Fair Empirical Risk Minimization" will appear at The Twelfth International Conference on Learning Representations ([**ICLR 2024**](https://iclr.cc)). An initial version was presented at the 15th [**OPT-ML Workshop**](https://opt-ml.org), [**NeurIPS 2023**](https://neurips.cc). Please read more on [arXiv](https://arxiv.org/abs/2312.03259).    
 
 
 4. **Electronic Tilt Estimation using Neural Networks for Cell Tower Antennas**            
