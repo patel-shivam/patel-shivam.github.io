@@ -5,4 +5,5 @@ permalink: /cv
 order: 4
 ---
 
-Available on Request. 
+Download [CV](/files/CV.pdf)
+<iframe src="https://patel-shivam.github.io/files/CV.pdf" width="800" height="800"> </iframe>
