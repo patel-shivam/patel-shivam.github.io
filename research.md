@@ -11,11 +11,11 @@ You can find here all my research work in the past and present.
 
 1. **An Asymptotic CVaR Measure of Risk for Markov Chains**            
    Bachelor Thesis, Advisor: Prof. Vivek Borkar, [IIT Bombay](https://www.iitb.ac.in)     
-   My first Bachelor Thesis Project is under review at IEEE SPCOM 2024.     
+   My first Bachelor Thesis Project will appeat at IEEE SPCOM 2024. [arXiv](https://arxiv.org/abs/2405.13513)          
 
 2. **Optimization for Fairness Applications**   
   Research Internship, Advisor: [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/), [University of Southern California](https://www.usc.edu)    
-  Our work "f-FERM: A Scalable Framework for Robust Fair Empirical Risk Minimization" will appear at The Twelfth International Conference on Learning Representations ([**ICLR 2024**](https://iclr.cc)). An initial version was presented at the 15th [**OPT-ML Workshop**](https://opt-ml.org), [**NeurIPS 2023**](https://neurips.cc). Please read more on [arXiv](https://arxiv.org/abs/2312.03259).    
+  Our work "f-FERM: A Scalable Framework for Robust Fair Empirical Risk Minimization" will appear at The Twelfth International Conference on Learning Representations ([ICLR 2024](https://iclr.cc)). An initial version was presented at the 15th [OPT-ML Workshop](https://opt-ml.org), [NeurIPS 2023](https://neurips.cc). Please read more on [arXiv](https://arxiv.org/abs/2312.03259).    
 
 
 4. **Electronic Tilt Estimation using Neural Networks for Cell Tower Antennas**            
