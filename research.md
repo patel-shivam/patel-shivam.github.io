@@ -11,7 +11,7 @@ You can find here all my research work in the past and present.
 
 1. **An Asymptotic CVaR Measure of Risk for Markov Chains**            
    Bachelor Thesis, Advisor: Prof. Vivek Borkar, [IIT Bombay](https://www.iitb.ac.in)     
-   My first Bachelor Thesis Project will appeat at IEEE SPCOM 2024. [arXiv](https://arxiv.org/abs/2405.13513)          
+   My first Bachelor Thesis Project will appear at IEEE SPCOM 2024. [arXiv](https://arxiv.org/abs/2405.13513)          
 
 2. **Optimization for Fairness Applications**   
   Research Internship, Advisor: [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/), [University of Southern California](https://www.usc.edu)    
