@@ -1,10 +1,10 @@
----
+<!-- ---
 layout: page
 title: Projects
 permalink: /projects
 order: 2
 ---
-You can find my projects here. 
+You can find my projects here. -->
 <!-- Link to IITB RISC [project](pages/IITB_RISC.md) -->
 
 ## **Course Projects**
