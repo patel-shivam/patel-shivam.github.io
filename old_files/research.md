@@ -1,9 +1,9 @@
----
+<!-- ---
 layout: page
 title: Research
 permalink: /research
 order: 5
----
+--- -->
 You can find here all my research work in the past and present.    
 
 <h2><b>Research Projects</b></h2>
