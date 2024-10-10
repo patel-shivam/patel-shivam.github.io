@@ -17,7 +17,10 @@ Indian Institute of Technology Bombay (Mumbai, India) -->
 
 _Welcome to my homepage._     
 
-Hi there, I'm Shivam, a first-year PhD student in the Department of [Electrical and Computer Engineering](https://www.ece.cmu.edu), [Carnegie Mellon University](https://www.cmu.edu). I am fortunate to be advised by [Prof. Gauri Joshi](https://www.andrew.cmu.edu/user/gaurij/).         
+Hi there, I'm Shivam, a first-year PhD student in the Department of [Electrical and Computer Engineering](https://www.ece.cmu.edu), [Carnegie Mellon University](https://www.cmu.edu).      
+
+
+I am fortunate to be advised by [Prof. Gauri Joshi](https://www.andrew.cmu.edu/user/gaurij/).         
 
 
                   
