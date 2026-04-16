@@ -14,7 +14,7 @@ order: 1
 
 _Welcome to my homepage._     
 
-Hi there, I'm Shivam, a first-year PhD student in [ECE](https://www.ece.cmu.edu) at [Carnegie Mellon University](https://www.cmu.edu).      
+Hi there, I'm Shivam, a second-year PhD student in [ECE](https://www.ece.cmu.edu) at [Carnegie Mellon University](https://www.cmu.edu).      
 
 
 I am fortunate to be advised by [Prof. Gauri Joshi](https://www.andrew.cmu.edu/user/gaurij/).         
