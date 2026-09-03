@@ -12,7 +12,7 @@ description: >-
       <span>PhD Student, <a href="https://www.ece.cmu.edu">Electrical &amp; Computer Engineering</a></span>
       <span class="inst"><a href="https://www.cmu.edu">Carnegie Mellon University</a></span>
     </p>
-    <p class="contact">shivamp [at] andrew [dot] cmu [dot] edu</p>
+    <p class="contact">shivamap [at] andrew [dot] cmu [dot] edu</p>
   </div>
 </div>
 
@@ -22,12 +22,16 @@ I am a third-year PhD student in [ECE](https://www.ece.cmu.edu) at [Carnegie Mel
 I was an AI research intern at Bosch AI in summer of 2026, where I worked on datacenter level inference optimization for LLMs. I did my undergrad in Electrical Engineering from IIT Bombay in 2024, advised by [Prof. Vivek Borkar](https://en.wikipedia.org/wiki/Vivek_Borkar). I also spent a great summer at [USC Viterbi](https://viterbischool.usc.edu) with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) in 2023. 
 
 
-### Research Overview: 
+<h3 class="overview-head">Research Overview</h3>
+
+<div class="overview" markdown="1">
 My research focuses on making **autoregressive inference more efficient and capable**, through algorithmic and systems advances for solving complex tasks. In particular, I study how to improve the **compute and memory efficiency of LLM systems**, with an emphasis on effectively utilizing multiple models to push the Pareto frontier of **performance and latency**. Specifically I care about:
 1. **LLM Ensembles:** Combining multiple language models to improve overall performance.
 2. **Efficient Inference:** Reducing the compute, memory, latency, and cost of LLM systems.
 3. **Inference Systems:** Building better serving engines and scheduling policies for complex, multi-model and multi-turn workloads.
 
+
+</div>
 
 Before CMU, I worked on theoretical aspects of machine learning. I co-designed an asymptotic CVaR risk measure, and a method for improved statistical fairness in ML models. 
 
@@ -70,7 +74,7 @@ Before CMU, I worked on theoretical aspects of machine learning. I co-designed a
 
 <h2 class="section">Awards</h2>
 
-<ul class="stack">
+<ul class="stack compact scroller">
   <li><span class="when">2026</span><span class="what"><strong>Exemplary PhD Qualifying Examination Performance</strong><span>ECE, Carnegie Mellon University</span></span></li>
   <li><span class="when">2025 – 26</span><span class="what"><strong>William Messner Endowed Fellowship</strong><span>ECE, Carnegie Mellon University</span></span></li>
   <li><span class="when">2024 – 25</span><span class="what"><strong>Carnegie Institute of Technology Dean's Fellowship</strong><span>Carnegie Mellon University</span></span></li>

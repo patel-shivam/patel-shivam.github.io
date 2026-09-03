@@ -703,3 +703,53 @@ h2.section {
 .copy-btn.ok { color: #fff; background: var(--accent); border-color: var(--accent); }
 :root[data-theme="dark"] .copy-btn.ok { color: #10151b; }
 .bibtex { padding-right: 4.5rem; }
+
+/* ══ Homepage density ══════════════════════════════════════════════════
+   Tightens the vertical rhythm: less air around section rules, between
+   news items, inside publication entries, and in the awards list. */
+
+/* Section rules sit closer to the content on both sides. */
+h2.section {
+  margin: 2.1rem 0 .8rem;
+  padding-bottom: .35rem;
+}
+.paper h2.section { margin-top: 2.5rem; }
+
+/* News: tighter rows. */
+.news { max-height: 13.5rem; }
+.news dl { gap: 0 .9rem; }
+.news dd { margin-bottom: .38rem; }
+.news dt { padding-top: .1rem; }
+
+/* Publications: less padding per entry, on both the homepage and /publications. */
+.pub { padding-bottom: .85rem; margin-bottom: .85rem; }
+.pub .venue { margin-bottom: .3rem; }
+.pub .title { margin-bottom: .18rem; }
+.pub .authors { margin-bottom: .1rem; }
+.pub .note { margin-bottom: .28rem; }
+.pub .actions { margin-top: .3rem; }
+
+/* Experience / awards rows. */
+.stack > li { padding: .4rem 0; }
+.stack.compact > li { padding: .3rem 0; font-size: .92rem; }
+.stack.compact .what strong { display: inline; }
+.stack.compact .what span { display: block; font-size: .85rem; }
+
+/* Awards scrolls like the news list rather than running down the page. */
+.stack.scroller {
+  max-height: 11rem;
+  overflow-y: auto;
+  padding-right: .4rem;
+  -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
+}
+
+/* Research overview reads as supporting detail, so set it a notch smaller. */
+.overview-head {
+  font-size: 1rem;
+  margin: 1.5rem 0 .5rem;
+}
+.overview { font-size: .94rem; }
+.overview p { margin-bottom: .6rem; }
+.overview ol { padding-left: 1.2rem; margin: 0; }
+.overview li { margin-bottom: .3rem; }
