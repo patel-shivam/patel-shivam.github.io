@@ -362,10 +362,6 @@ ul.plain li { margin-bottom: .35rem; }
 .notfound p { color: var(--muted); }
 
 /* ══ Paper pages ═══════════════════════════════════════════════════════ */
-.paper { --measure-wide: 52rem; }
-
-/* Paper pages get a slightly wider column than the rest of the site. */
-body:has(.paper) main { max-width: var(--measure-wide); }
 
 .paper-head { margin-bottom: 2.4rem; }
 
@@ -579,14 +575,7 @@ body:has(.paper) main { max-width: var(--measure-wide); }
   margin: 1.4rem 0;
 }
 
-/* Side-by-side figures at equal height: flex weights track aspect ratio, so
-   each image keeps its own proportions while the row shares one height. */
-.fig-row { display: flex; align-items: flex-start; gap: 1rem; }
-.fig-row img { width: 100%; height: auto; display: block; }
-@media (max-width: 640px) {
-  .fig-row { flex-direction: column; }
-  .fig-row > * { width: 100%; }
-}
+
 
 /* Standalone figures are capped by height, not width: these are small matplotlib
    plots, and at full column width (784px) they render ~580px tall and swamp the
@@ -596,7 +585,7 @@ body:has(.paper) main { max-width: var(--measure-wide); }
 .paper figure:not(.fig-pair):not(.fig-trio) > img {
   width: auto;
   max-width: 100%;
-  max-height: 400px;
+  max-height: 280px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -615,3 +604,132 @@ body:has(.paper) main { max-width: var(--measure-wide); }
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 15%, transparent);
 }
+
+/* ══ Paper page refinements ════════════════════════════════════════════ */
+
+/* Reading measure: 784px ran to ~95 characters per line, which is tiring.
+   Paper pages run wider than the rest of the site (46rem vs 42rem) to give
+   equations and multi-panel figures room, while staying inside a readable
+   measure. Figures bleed a further 64px each side. */
+body:has(.paper) .site-header,
+body:has(.paper) main,
+body:has(.paper) .site-footer { max-width: 46rem; }
+
+/* Rule under the site header, separating nav from page content. */
+.site-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ── Breadcrumb + paper header ──────────────────────────────────────── */
+.paper-eyebrow .sep { color: var(--muted); opacity: .6; }
+.paper-eyebrow .here { color: var(--fg-soft); font-weight: 600; }
+
+.paper-head {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2.2rem;
+}
+
+/* Venue now lives with the links rather than in the breadcrumb. */
+.venue-badge {
+  display: inline-block;
+  font-size: .8rem;
+  font-weight: 650;
+  letter-spacing: .03em;
+  padding: .34rem .7rem;
+  border-radius: 6px;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+}
+:root[data-theme="dark"] .venue-badge { color: #10151b; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .venue-badge { color: #10151b; }
+}
+
+/* ── Figures bleed past the text column ─────────────────────────────── */
+.paper figure {
+  margin-left: -64px;
+  margin-right: -64px;
+}
+@media (max-width: 860px) {
+  .paper figure { margin-left: 0; margin-right: 0; }
+}
+
+/* Captions span every column instead of sitting under the first image. */
+.fig-pair figcaption,
+.fig-trio figcaption { grid-column: 1 / -1; }
+
+/* Captions run at 80% of the text measure and are centred under the figure,
+   which keeps them well inside the bleed and gives them a tighter, more
+   readable line length than the body text.
+   --paper-measure is declared on .paper (an ancestor of figcaption) so it
+   actually resolves; keep it equal to the main max-width minus its padding. */
+.paper { --paper-measure: 43rem; }   /* 46rem container - 2 x 1.5rem padding */
+
+.paper figure figcaption {
+  max-width: calc(var(--paper-measure) * 0.8);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Two-panel router-performance figures sit narrower than the full bleed.
+   Selector must out-specify `.paper figure` (0,1,1) or the -64px bleed wins
+   and the figure is pushed left, overhanging the text column. */
+.paper figure.fig-pair {
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+/* ── Section headings ───────────────────────────────────────────────── */
+h2.section {
+  color: var(--accent);
+  border-bottom-color: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.paper h3 {
+  color: var(--fg);
+  padding-left: .6rem;
+  border-left: 3px solid color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* ── Display equations get a quiet box ──────────────────────────────── */
+.paper .katex-display {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 6px;
+  padding: .9rem 1rem;
+  margin: 1.6rem 0;
+}
+
+/* Inline emphasis in body prose picks up the accent. */
+.paper > p strong, .paper li > strong { color: var(--accent); }
+
+/* ── Citation block with copy button ────────────────────────────────── */
+.bibtex-wrap { position: relative; }
+.copy-btn {
+  position: absolute;
+  top: .55rem; right: .55rem;
+  font: inherit;
+  font-size: .76rem;
+  font-weight: 600;
+  padding: .2rem .6rem;
+  border-radius: 5px;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: var(--fg-soft);
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background-color .15s;
+}
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+.copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.copy-btn.ok { color: #fff; background: var(--accent); border-color: var(--accent); }
+:root[data-theme="dark"] .copy-btn.ok { color: #10151b; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .copy-btn.ok { color: #10151b; }
+}
+.bibtex { padding-right: 4.5rem; }

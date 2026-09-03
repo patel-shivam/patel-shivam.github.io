@@ -7,8 +7,8 @@ layout: default
   <header class="paper-head">
     <p class="paper-eyebrow">
       <a href="{{ '/publications' | relative_url }}">Publications</a>
-      <span aria-hidden="true">/</span>
-      <span class="venue">{{ p.venue }}</span>
+      <span class="sep" aria-hidden="true">/</span>
+      <span class="here">{{ p.short_title | default: p.title }}</span>
     </p>
 
     <h1 class="paper-title">{{ p.title }}</h1>
@@ -30,13 +30,15 @@ layout: default
       {%- if p.corresponding_note %}<span class="corr">&dagger;&nbsp;{{ p.corresponding_note }}</span>{% endif -%}
     </p>
 
-    {%- if p.links %}
     <p class="paper-actions">
+      {%- if p.venue -%}
+        {%- if p.venue_url -%}<a class="venue-badge" href="{{ p.venue_url }}">{{ p.venue }}</a>
+        {%- else -%}<span class="venue-badge">{{ p.venue }}</span>{%- endif -%}
+      {%- endif -%}
       {%- for l in p.links -%}
       <a class="btn" href="{{ l.url }}">{{ l.name }}</a>
       {%- endfor -%}
     </p>
-    {%- endif -%}
   </header>
 
   {%- if p.tldr %}
@@ -50,7 +52,34 @@ layout: default
 
   {%- if p.bibtex %}
   <h2 class="section">Cite this work</h2>
-  <pre class="bibtex"><code>{{ p.bibtex }}</code></pre>
+  <div class="bibtex-wrap">
+    <button type="button" class="copy-btn" id="copy-bib" aria-label="Copy BibTeX to clipboard">Copy</button>
+    <pre class="bibtex"><code id="bibtex-text">{{ p.bibtex }}</code></pre>
+  </div>
+  <script>
+    (function () {
+      var b = document.getElementById('copy-bib'), t = document.getElementById('bibtex-text');
+      if (!b || !t) return;
+      b.addEventListener('click', function () {
+        var done = function () {
+          b.textContent = 'Copied'; b.classList.add('ok');
+          setTimeout(function () { b.textContent = 'Copy'; b.classList.remove('ok'); }, 1800);
+        };
+        var txt = t.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(done, function () { fallback(txt, done); });
+        } else { fallback(txt, done); }
+      });
+      function fallback(txt, cb) {
+        var a = document.createElement('textarea');
+        a.value = txt; a.setAttribute('readonly','');
+        a.style.position = 'absolute'; a.style.left = '-9999px';
+        document.body.appendChild(a); a.select();
+        try { document.execCommand('copy'); cb(); } catch (e) {}
+        document.body.removeChild(a);
+      }
+    })();
+  </script>
   {%- endif %}
 
   <p class="paper-foot"><a href="{{ '/publications' | relative_url }}">&larr; All publications</a></p>

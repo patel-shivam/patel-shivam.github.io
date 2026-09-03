@@ -9,6 +9,7 @@ description: >-
   hard nearest-cluster assignment. AISTATS 2026.
 image: /papers/proxrouter/figures/headline-pareto.png
 venue: AISTATS 2026
+venue_url: https://aistats.org/aistats2026/
 authors:
   - name: Shivam Patel
     url: /
@@ -127,23 +128,12 @@ queries into semantically meaningful regions, making local information in the
 embedding space informative of model performance:
 
 <figure>
+  <img src="{{ '/papers/proxrouter/figures/tsne-task.png' | relative_url }}" alt="t-SNE projection of query encodings coloured by source task, showing compact task-specific regions">
 
-  <div class="fig-row">
-
-    <img style="flex:1.271" src="{{ '/papers/proxrouter/figures/tsne-task.png' | relative_url }}" alt="t-SNE of query encodings coloured by source task, showing compact task-specific regions">
-
-    <img style="flex:1.000" src="{{ '/papers/proxrouter/figures/tsne-cluster.png' | relative_url }}" alt="The same encodings coloured by KMeans cluster assignment, closely tracking the task structure">
-
-  </div>
-
-  <figcaption>High-dimensional query encodings projected with t-SNE. <b>Left:</b>
-
-  colored by task. <b>Right:</b> colored by cluster assignment from $K$Means with
-  $K=16$. Queries from the same task occupy compact, localized neighborhoods in
-  embedding space; consequently, clustering recovers semantically coherent regions
-
-  that align closely with query types.</figcaption>
-
+  <figcaption>High-dimensional query encodings projected with t-SNE, colored by
+  source task. Queries from the same task occupy compact, localized neighborhoods
+  in the embedding space; consequently, clustering over these encodings recovers
+  semantically coherent regions that align closely with query types.</figcaption>
 </figure>
 
 Clustering and nearest-neighbor methods can also incorporate new queries and models
@@ -467,20 +457,12 @@ the influence of the few math examples available in the training set, causing
 $k$NN-Base to favor the more expensive general model. Proximity weighting increases
 the contribution of these relevant neighbors, enabling selection of the specialist.
 
-<figure class="fig-trio">
-
+<figure>
   <img src="{{ '/papers/proxrouter/figures/knn-ood-pareto.png' | relative_url }}" alt="Accuracy versus cost on math outliers">
 
-  <img src="{{ '/papers/proxrouter/figures/knn-ood-accuracy.png' | relative_url }}" alt="Accuracy versus lambda">
-
-  <img src="{{ '/papers/proxrouter/figures/knn-ood-cost.png' | relative_url }}" alt="Cost per query versus lambda">
-
-  <figcaption>Router performance on GSM8k and SVAMP outliers. <b>Left:</b> mean
-
-  accuracy-cost curve for outlier queries. <b>Center:</b> average accuracy against
-
-  $\lambda$. <b>Right:</b> average cost per query against $\lambda$.</figcaption>
-
+  <figcaption>Router performance on GSM8k and SVAMP outliers, shown as the mean
+  accuracy-cost curve for outlier queries. $k$NN-Prox attains higher accuracy at
+  lower average cost than $k$NN-Base across the operating range.</figcaption>
 </figure>
 
 <figure>
