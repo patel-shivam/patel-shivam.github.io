@@ -23,7 +23,7 @@ I am a third-year PhD student in [ECE](https://www.ece.cmu.edu) at [Carnegie Mel
 I was an AI research intern at Bosch AI in summer of 2026, where I worked on datacenter level inference optimization for LLMs. I did my undergrad in Electrical Engineering from IIT Bombay in 2024, advised by [Prof. Vivek Borkar](https://en.wikipedia.org/wiki/Vivek_Borkar). I also spent a great summer at [USC Viterbi](https://viterbischool.usc.edu) with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) in 2023. 
 
 
-<h3 class="overview-head">Research Overview</h3>
+<h2 class="overview-head">Research Overview</h2>
 
 <div class="overview" markdown="1">
 My research focuses on making **autoregressive inference more efficient and capable**, through algorithmic and systems advances for solving complex tasks. In particular, I study how to improve the **compute and memory efficiency of LLM systems**, with an emphasis on effectively utilizing multiple models to push the Pareto frontier of **performance and latency**. Specifically I care about:
@@ -35,7 +35,7 @@ My research focuses on making **autoregressive inference more efficient and capa
 Before CMU, I worked on theoretical aspects of machine learning. I co-designed an asymptotic CVaR risk measure, and a method for improved statistical fairness in ML models. 
 </div>
 
-I am always looking forward to work on exciting ideas on LLM Efficiency and , please feel free to reach out to me via email. 
+<p class="callout">I’m always excited to explore new ideas across a broad range of topics in LLMs. If you’re interested in collaborating or discussing potential research ideas, please feel free to reach out via email.</p>
 
 
 <h2 class="section">News</h2>
