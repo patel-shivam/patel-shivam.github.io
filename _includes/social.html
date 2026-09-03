@@ -1,0 +1,14 @@
+{%- comment -%}
+  Row of icon links, shared by the homepage intro and the site footer.
+  include.labels="true" shows text beside each icon.
+{%- endcomment -%}
+<div class="social{% if include.labels != 'true' %} icons-only{% endif %}">
+  {%- for l in site.links -%}
+  <a href="{{ l.url | relative_url }}"
+     {% if l.url contains 'http' %}rel="me noopener"{% endif %}
+     aria-label="{{ l.name }}" title="{{ l.name }}">
+    {%- include icon.html name=l.icon -%}
+    {%- if include.labels == 'true' %}<span class="lbl">{{ l.name }}</span>{% endif -%}
+  </a>
+  {%- endfor -%}
+</div>

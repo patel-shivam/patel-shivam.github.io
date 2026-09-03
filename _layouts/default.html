@@ -38,11 +38,7 @@
   </main>
 
   <footer class="site-footer">
-    <div class="foot-links">
-      {%- for l in site.links -%}
-      <a href="{{ l.url | relative_url }}"{% if l.url contains 'http' %} rel="me noopener"{% endif %}>{{ l.name }}</a>
-      {%- endfor -%}
-    </div>
+    {% include social.html labels="true" %}
     <p class="colophon">
       &copy; {{ 'now' | date: "%Y" }} {{ site.author.name }}.
       Last updated {{ site.time | date: "%B %Y" }}.

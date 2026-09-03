@@ -21,11 +21,14 @@ author:
   photo: /assets/img/social-card.jpg
 
 links:
-  - name: Email
-    url: "mailto:shivamap@andrew.cmu.edu"
   - name: Google Scholar
+    icon: scholar
     url: "https://scholar.google.co.in/citations?user=-842QRIAAAAJ&hl=en"
+  - name: LinkedIn
+    icon: linkedin
+    url: "https://www.linkedin.com/in/shivam-patel02/"
   - name: CV
+    icon: cv
     url: "/files/CV_current.pdf"
 
 nav:

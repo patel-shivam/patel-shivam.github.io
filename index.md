@@ -12,7 +12,8 @@ description: >-
       <span>PhD Student, <a href="https://www.ece.cmu.edu">Electrical &amp; Computer Engineering</a></span>
       <span class="inst"><a href="https://www.cmu.edu">Carnegie Mellon University</a></span>
     </p>
-    <p class="contact">shivamap [at] andrew [dot] cmu [dot] edu</p>
+    {% include contact-email.html %}
+    {% include social.html labels="true" %}
   </div>
 </div>
 
@@ -31,10 +32,10 @@ My research focuses on making **autoregressive inference more efficient and capa
 3. **Inference Systems:** Building better serving engines and scheduling policies for complex, multi-model and multi-turn workloads.
 
 
+Before CMU, I worked on theoretical aspects of machine learning. I co-designed an asymptotic CVaR risk measure, and a method for improved statistical fairness in ML models. 
 </div>
 
-Before CMU, I worked on theoretical aspects of machine learning. I co-designed an asymptotic CVaR risk measure, and a method for improved statistical fairness in ML models. 
-
+I am always looking forward to work on exciting ideas, please feel free to reach out to me via email. 
 
 
 <h2 class="section">News</h2>
