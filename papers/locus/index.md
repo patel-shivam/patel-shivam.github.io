@@ -418,11 +418,13 @@ families without ever being told which models those are.
 
 <h2 class="section">The embedding space, up close</h2>
 
-The figures above summarize the geometry; the map below *is* the geometry. It shows all
-112 model embeddings from the released checkpoint, laid out in two dimensions, with the
-real nearest neighbours, real per-benchmark accuracy profiles, and real correctness
-agreement attached to each point. The two modes correspond to the two applications that
-follow.
+The figures above summarize the geometry; the cloud below *is* the geometry. It holds all
+112 model embeddings from the released checkpoint — drag to rotate it, scroll or use the
+buttons to zoom — with the real nearest neighbours, real per-benchmark accuracy profiles,
+and real correctness agreement attached to each point. Three dimensions are worth the
+trouble here mostly because you can turn the cloud: any single flat projection puts
+unrelated models on top of each other, and rotating separates them. The two modes
+correspond to the two applications that follow.
 
 {% include_relative atlas.part.html %}
 
