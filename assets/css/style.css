@@ -784,32 +784,7 @@ h2.section {
   stroke-linejoin: round;
 }
 
-/* Email: obfuscated until clicked, then swapped for a real mailto link. */
 .contact { margin: 0; }
-.email-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  font: inherit;
-  font-family: var(--mono);
-  font-size: .84rem;
-  color: var(--muted);
-  background: none;
-  border: 0;
-  border-bottom: 1px dashed var(--rule);
-  padding: 0 0 1px;
-  cursor: pointer;
-  transition: color .15s, border-color .15s;
-}
-.email-btn:hover { color: var(--accent); border-bottom-color: var(--accent); }
-.email-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-a.email-btn.revealed {
-  cursor: pointer;
-  color: var(--accent);
-  border-bottom-style: solid;
-  border-bottom-color: color-mix(in srgb, var(--accent) 38%, transparent);
-}
-a.email-btn.revealed:hover { background: none; border-bottom-color: var(--accent); }
 
 /* Footer row inherits .social; drop the old two-tier spacing. */
 .site-footer .social { margin-top: 0; margin-bottom: .7rem; }
