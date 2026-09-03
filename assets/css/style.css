@@ -1,4 +1,7 @@
 /* ── Tokens ─────────────────────────────────────────────────────────── */
+/* The site is light by default regardless of the visitor's OS setting; dark is
+   opt-in through the header toggle, which stamps data-theme="dark" on <html>
+   and remembers the choice in localStorage. */
 :root {
   --bg:        #fdfdfb;
   --surface:   #f4f3ef;
@@ -17,22 +20,6 @@
 
   --measure: 42rem;
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg:        #15171a;
-    --surface:   #1e2126;
-    --fg:        #e8e6e1;
-    --fg-soft:   #c2c0bb;
-    --muted:     #8d9299;
-    --rule:      #2c3037;
-    --accent:    #7ab8f5;
-    --accent-bg: #1c2b3a;
-    --badge-fg:  #b9bec6;
-    --badge-bg:  #262a31;
-    color-scheme: dark;
-  }
 }
 
 :root[data-theme="dark"] {
@@ -153,10 +140,6 @@ strong { font-weight: 650; }
 .i-moon { display: none; }
 :root[data-theme="dark"] .i-sun { display: none; }
 :root[data-theme="dark"] .i-moon { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .i-sun { display: none; }
-  :root:not([data-theme="light"]) .i-moon { display: block; }
-}
 
 /* ── Layout ─────────────────────────────────────────────────────────── */
 main {
@@ -499,9 +482,6 @@ ul.plain li { margin-bottom: .35rem; }
 .delta { font-size: .8rem; color: var(--muted); font-weight: 400; }
 .delta.up { color: #1a7f4b; }
 :root[data-theme="dark"] .delta.up { color: #58c98b; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .delta.up { color: #58c98b; }
-}
 
 /* ── Heatmap (model x dataset) ──────────────────────────────────────── */
 .heat td { text-align: center; padding: .3rem .35rem; font-size: .78rem; position: relative; }
@@ -575,8 +555,6 @@ ul.plain li { margin-bottom: .35rem; }
   margin: 1.4rem 0;
 }
 
-
-
 /* Standalone figures are capped by height, not width: these are small matplotlib
    plots, and at full column width (784px) they render ~580px tall and swamp the
    viewport. Capping height keeps every plot the same visual weight while each
@@ -644,9 +622,6 @@ body:has(.paper) .site-footer { max-width: 46rem; }
   border: 1px solid var(--accent);
 }
 :root[data-theme="dark"] .venue-badge { color: #10151b; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .venue-badge { color: #10151b; }
-}
 
 /* ── Figures bleed past the text column ─────────────────────────────── */
 .paper figure {
@@ -682,8 +657,6 @@ body:has(.paper) .site-footer { max-width: 46rem; }
   margin-left: auto;
   margin-right: auto;
 }
-
-
 
 /* ── Section headings ───────────────────────────────────────────────── */
 h2.section {
@@ -729,7 +702,4 @@ h2.section {
 .copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .copy-btn.ok { color: #fff; background: var(--accent); border-color: var(--accent); }
 :root[data-theme="dark"] .copy-btn.ok { color: #10151b; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .copy-btn.ok { color: #10151b; }
-}
 .bibtex { padding-right: 4.5rem; }
