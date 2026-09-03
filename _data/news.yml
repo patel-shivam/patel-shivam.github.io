@@ -1,0 +1,27 @@
+# Newest first. Keep the ~6 most recent; the list scrolls on the homepage.
+- date: "Aug 2026"
+  text: 'A new work <a href="https://arxiv.org/abs/2607.18253">Beyond Accuracy and Cost</a> tackles latency-aware LLM query routing for dynamic workloads.'
+
+- date: "Jul 2026"
+  text: '<a href="https://arxiv.org/abs/2601.21082">LOCUS</a> presented at <strong>AdaptFM@ICML 2026</strong> in Seoul, South Korea!'
+
+- date: "May 2026"
+  text: "Joined Bosch as an AI Research Intern in Pittsburgh. Working on large-scale inference optimization."
+
+- date: "May 2026"
+  text: '<a href="https://arxiv.org/abs/2510.09852">ProxRouter</a> presented at <strong>AISTATS 2026</strong> in Tangier, Morocco!'
+
+- date: "Apr 2026"
+  text: "Awarded best PhD Qualifying Examination award by ECE, CMU (Spring 26)."
+
+- date: "Jan 2026"
+  text: 'Two preprints out: <a href="https://arxiv.org/abs/2601.21082">LOCUS</a> on generating capable low-dimensional model embeddings, and <a href="https://arxiv.org/abs/2601.22318">Federate the Router</a> for decentralized and private LLM query router training.'
+
+- date: "Oct 2025"
+  text: "New Preprint: <a href='https://arxiv.org/abs/2510.09852'>ProxRouter</a> improves robustness of LLM query routers under true distribution shifts."
+
+- date: "Sep 2025"
+  text: "Awarded the William Messner Endowed Fellowship by ECE, CMU."
+
+- date: "Aug 2024"
+  text: "Began my PhD at Carnegie Mellon University, advised by Prof. Gauri Joshi!! Supported by the CMU CIT Dean's Fellowship."

@@ -1,0 +1,71 @@
+---
+layout: default
+---
+{%- assign p = page -%}
+<article class="paper">
+
+  <header class="paper-head">
+    <p class="paper-eyebrow">
+      <a href="{{ '/publications' | relative_url }}">Publications</a>
+      <span aria-hidden="true">/</span>
+      <span class="venue">{{ p.venue }}</span>
+    </p>
+
+    <h1 class="paper-title">{{ p.title }}</h1>
+
+    <p class="paper-authors">
+      {%- for a in p.authors -%}
+        {%- if a.url -%}<a href="{{ a.url }}"{% if a.me %} class="is-me"{% endif %}>{{ a.name }}</a>
+        {%- else -%}<span{% if a.me %} class="is-me"{% endif %}>{{ a.name }}</span>{%- endif -%}
+        <sup>{{ a.affil }}{% if a.corresponding %}&dagger;{% endif %}</sup>
+        {%- unless forloop.last %}<span class="sep">,</span> {% endunless -%}
+      {%- endfor -%}
+    </p>
+
+    <p class="paper-affils">
+      {%- for f in p.affiliations -%}
+        <span><sup>{{ forloop.index }}</sup>{% if f.url %}<a href="{{ f.url }}">{{ f.name }}</a>{% else %}{{ f.name }}{% endif %}</span>
+        {%- unless forloop.last %} &nbsp; {% endunless -%}
+      {%- endfor -%}
+      {%- if p.corresponding_note %}<span class="corr">&dagger;&nbsp;{{ p.corresponding_note }}</span>{% endif -%}
+    </p>
+
+    {%- if p.links %}
+    <p class="paper-actions">
+      {%- for l in p.links -%}
+      <a class="btn" href="{{ l.url }}">{{ l.name }}</a>
+      {%- endfor -%}
+    </p>
+    {%- endif -%}
+  </header>
+
+  {%- if p.tldr %}
+  <aside class="tldr">
+    <h2>In one paragraph</h2>
+    {{ p.tldr | markdownify }}
+  </aside>
+  {%- endif %}
+
+  {{ content }}
+
+  {%- if p.bibtex %}
+  <h2 class="section">Cite this work</h2>
+  <pre class="bibtex"><code>{{ p.bibtex }}</code></pre>
+  {%- endif %}
+
+  <p class="paper-foot"><a href="{{ '/publications' | relative_url }}">&larr; All publications</a></p>
+</article>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+          delimiters: [
+            {left: '\\[', right: '\\]', display: true},
+            {left: '$$', right: '$$', display: true},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '$', right: '$', display: false}
+          ],
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option'],
+          throwOnError: false
+        });"></script>

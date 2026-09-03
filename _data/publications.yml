@@ -1,0 +1,59 @@
+# Newest first. `selected: true` surfaces the entry on the homepage.
+# Mark equal contribution with * in `authors` and set `note`.
+
+- title: "Beyond Accuracy and Cost: Latency-Aware LLM Query Routing for Dynamic Workloads"
+  authors: "Shivam Patel*, Akaash Parthasarathy*, Ankur Mallick, Gauri Joshi"
+  venue: "arXiv"
+  year: 2026
+  note: "* Equal contribution"
+  selected: true
+  links:
+    - name: arXiv
+      url: https://arxiv.org/abs/2607.18253
+
+- title: "LOCUS: Low-Dimensional Model Embeddings for Efficient Model Exploration, Comparison, and Selection"
+  authors: "Shivam Patel, William Cocke, Gauri Joshi"
+  venue: "AdaptFM @ ICML 2026"
+  year: 2026
+  selected: true
+  links:
+    - name: arXiv
+      url: https://arxiv.org/abs/2601.21082
+
+- title: "Federate the Router: Learning Language Model Routers with Sparse and Decentralized Evaluations"
+  authors: "Baris Askin*, Shivam Patel*, Anupam Nayak*, Andrea Vigano, Jiin Woo, Gauri Joshi, Carlee Joe-Wong"
+  venue: "arXiv"
+  year: 2026
+  note: "* Equal contribution"
+  selected: true
+  links:
+    - name: arXiv
+      url: https://arxiv.org/abs/2601.22318
+
+- title: "ProxRouter: Proximity-Weighted LLM Query Routing for Improved Robustness to Outliers"
+  authors: "Shivam Patel, Neharika Jali, Ankur Mallick, Gauri Joshi"
+  venue: "AISTATS 2026"
+  year: 2026
+  selected: true
+  page: /papers/proxrouter/
+  links:
+    - name: arXiv
+      url: https://arxiv.org/abs/2510.09852
+
+- title: "An Asymptotic CVaR Measure of Risk for Markov Chains"
+  authors: "Shivam Patel, Vivek S. Borkar"
+  venue: "IEEE SPCOM 2024"
+  year: 2024
+  selected: false
+  links:
+    - name: arXiv
+      url: https://arxiv.org/abs/2405.13513
+
+- title: "f-FERM: A Scalable Framework for Robust Fair Empirical Risk Minimization"
+  authors: "Sina Baharlouei, Shivam Patel, Meisam Razaviyayn"
+  venue: "ICLR 2024"
+  year: 2024
+  selected: true
+  links:
+    - name: arXiv
+      url: https://arxiv.org/abs/2312.03259

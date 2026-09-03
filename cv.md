@@ -1,9 +1,15 @@
 ---
 layout: page
-title: CV
+title: Curriculum Vitae
 permalink: /cv
-order: 4
 ---
 
-Download [CV](/files/CV_current.pdf). Last updated January 2026.   
-<iframe src="https://patel-shivam.github.io/files/CV_current.pdf" width="800" height="800"> </iframe>
+{%- assign cv = '/files/CV_current.pdf' | relative_url -%}
+
+<p><a href="{{ cv }}" download>Download PDF</a> &nbsp;·&nbsp; Last updated August 2026.</p>
+
+<object class="pdf-frame" data="{{ cv }}" type="application/pdf" aria-label="Curriculum vitae">
+  <p>Preview unavailable. <a href="{{ cv }}" download>Download the PDF</a>.</p>
+</object>
+
+<p class="pdf-note">Preview unavailable. <a href="{{ cv }}" download>Download the PDF</a>.</p>

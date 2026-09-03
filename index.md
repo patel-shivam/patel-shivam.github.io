@@ -1,41 +1,83 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-layout: home
-title: About Me
-order: 1
+layout: default
+description: >-
+  Shivam Patel is a PhD student in Electrical and Computer Engineering at Carnegie Mellon University working on efficient and low-latency LLM inference.
 ---
 
+<div class="intro">
+  {% include profile-photo.html %}
+  <div>
+    <h1>Shivam Patel</h1>
+    <p class="role">
+      <span>PhD Student, <a href="https://www.ece.cmu.edu">Electrical &amp; Computer Engineering</a></span>
+      <span class="inst"><a href="https://www.cmu.edu">Carnegie Mellon University</a></span>
+    </p>
+    <p class="contact">shivamp [at] andrew [dot] cmu [dot] edu</p>
+  </div>
+</div>
+
+I am a third-year PhD student in [ECE](https://www.ece.cmu.edu) at [Carnegie Mellon University](https://www.cmu.edu), fortunate to be advised by [Prof. Gauri Joshi](https://www.andrew.cmu.edu/user/gaurij/).
+
+
+I was an AI research intern at Bosch AI in summer of 2026, where I worked on datacenter level inference optimization for LLMs. I did my undergrad in Electrical Engineering from IIT Bombay in 2024, advised by [Prof. Vivek Borkar](https://en.wikipedia.org/wiki/Vivek_Borkar). I also spent a great summer at [USC Viterbi](https://viterbischool.usc.edu) with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) in 2023. 
+
+
+### Research Overview: 
+My research focuses on making **autoregressive inference more efficient and capable**, through algorithmic and systems advances for solving complex tasks. In particular, I study how to improve the **compute and memory efficiency of LLM systems**, with an emphasis on effectively utilizing multiple models to push the Pareto frontier of **performance and latency**. Specifically I care about:
+1. **LLM Ensembles:** Combining multiple language models to improve overall performance.
+2. **Efficient Inference:** Reducing the compute, memory, latency, and cost of LLM systems.
+3. **Inference Systems:** Building better serving engines and scheduling policies for complex, multi-model and multi-turn workloads.
+
+
+Before CMU, I worked on theoretical aspects of machine learning. I co-designed an asymptotic CVaR risk measure, and a method for improved statistical fairness in ML models. 
 
 
 
-![my photo](images/IMG_2164.jpeg){:height="250px"}
+<h2 class="section">News</h2>
 
-_Welcome to my homepage._     
+<div class="news">
+  <dl>
+    {%- for item in site.data.news -%}
+    <dt>{{ item.date }}</dt>
+    <dd>{{ item.text }}</dd>
+    {%- endfor -%}
+  </dl>
+</div>
 
-Hi there, I'm Shivam, a second-year PhD student in [ECE](https://www.ece.cmu.edu) at [Carnegie Mellon University](https://www.cmu.edu).      
+<h2 class="section">
+  Selected Publications
+  <span class="more"><a href="{{ '/publications' | relative_url }}">All publications &rarr;</a></span>
+</h2>
 
+{% include pub-list.html selected_only="true" %}
 
-I am fortunate to be advised by [Prof. Gauri Joshi](https://www.andrew.cmu.edu/user/gaurij/). My current research interests broadly lie in compute and memory efficient LLM inference, and harnessing the collective capabilities of multiple models.           
+<h2 class="section">Experience</h2>
 
+<ul class="stack">
+  <li>
+    <span class="when">May – Aug 2026</span>
+    <span class="what"><strong>AI Research Intern</strong><span>Robert Bosch Research, Pittsburgh · with Dr. Bingqing Chen</span></span>
+  </li>
+  <li>
+    <span class="when">2024 – present</span>
+    <span class="what"><strong>Graduate Researcher</strong><span>Carnegie Mellon University · with Prof. Gauri Joshi</span></span>
+  </li>
+  <li>
+    <span class="when">May – Aug 2023</span>
+    <span class="what"><strong>Visiting Undergraduate Researcher</strong><span>USC Viterbi School of Engineering · with Prof. Meisam Razaviyayn</span></span>
+  </li>
+</ul>
 
-                  
-I have previously worked with Prof. Vivek Borkar for my Bachelors Thesis Project. My initial thesis work on Asymptotic Risk Measures for Markov Chains was presented at _IEEE SPCOM 2024_. Read more on [arXiv](https://arxiv.org/abs/2405.13513). I later worked on an optimal control formulation of the reverse denoising process in generative modelling.       
+<h2 class="section">Awards</h2>
 
-I spent summer of 2023 at the beautiful [USC](https://www.usc.edu) [Viterbi School of Engineering](https://viterbischool.usc.edu) working with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) on fair ML. My research was supported by the [IUSSTF-Viterbi](https://iusstf.org/iusstf-viterbi-program) research grant. Our work "f-FERM: A Scalable Framework for Robust Fair Empirical Risk Minimization" appeared at The Twelfth International Conference on Learning Representations ([ICLR 2024](https://iclr.cc)). Please read more on [arXiv](https://arxiv.org/abs/2312.03259).  
- 
+<ul class="stack">
+  <li><span class="when">2026</span><span class="what"><strong>Exemplary PhD Qualifying Examination Performance</strong><span>ECE, Carnegie Mellon University</span></span></li>
+  <li><span class="when">2025 – 26</span><span class="what"><strong>William Messner Endowed Fellowship</strong><span>ECE, Carnegie Mellon University</span></span></li>
+  <li><span class="when">2024 – 25</span><span class="what"><strong>Carnegie Institute of Technology Dean's Fellowship</strong><span>Carnegie Mellon University</span></span></li>
+  <li><span class="when">2023</span><span class="what"><strong>IUSSTF-Viterbi Scholarship</strong><span>Dept. of Science &amp; Technology, Govt. of India — one of 15 selected nationally</span></span></li>
+  <li><span class="when">2020</span><span class="what"><strong>KVPY Fellowship</strong><span>Indian Institute of Science &amp; DST, India</span></span></li>
+</ul>
 
-Some relatively non-academic things about me - 
-* I have recently become a fan of endurance sports. Ping me up if you are around and up for a long run or swim!!
-* I ~~am~~ used to be an avid birdwatcher, and ~~spend~~ spent most of my winter Sunday mornings at the nature park with binoculars and the Helm Field Guide.
-* I ~~also~~ used to play tabla and harmonium occasionally.
-* Quite a philosopher myself. Speak 4 languages. 
+<h2 class="section">Beyond research</h2>
 
-
-
-
-Please read my [CV](/cv) or visit [Scholar profile](https://scholar.google.co.in/citations?user=-842QRIAAAAJ&hl=en) to learn more about my work and interests.       
-
-
-<a href="https://info.flagcounter.com/HojU"><img src="https://s11.flagcounter.com/count2/HojU/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+I have recently become an endurance sports fan — get in touch if you are around Pittsburgh and up for a long run or a swim. I used to be an avid birdwatcher, and I played tabla and harmonium in an early life. I speak four languages.

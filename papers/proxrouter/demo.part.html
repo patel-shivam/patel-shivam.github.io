@@ -1,0 +1,259 @@
+<style>
+.pr-demo {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 1.1rem 1.2rem 1.2rem;
+  margin: 2rem 0;
+}
+.pr-demo h4 {
+  font-family: var(--sans);
+  font-size: .72rem; font-weight: 650; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 0 0 .9rem;
+}
+.pr-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.4rem; align-items: start; }
+@media (max-width: 700px) { .pr-grid { grid-template-columns: 1fr; } }
+
+.pr-stage { width: 100%; height: auto; display: block; touch-action: none; cursor: grab; }
+.pr-stage.dragging { cursor: grabbing; }
+.pr-stage .halo { opacity: .13; }
+.pr-stage .pt { opacity: .75; }
+.pr-stage .cent { stroke: var(--bg); stroke-width: 1.5; }
+.pr-stage .link { stroke-linecap: round; opacity: .75; }
+.pr-stage .qmark { fill: var(--fg); stroke: var(--bg); stroke-width: 2; }
+.pr-stage .qring { fill: none; stroke: var(--fg); stroke-dasharray: 3 3; opacity: .32; }
+.pr-stage text { font-family: var(--sans); font-size: 9px; fill: var(--muted); }
+
+.pr-bars { font-size: .82rem; }
+.pr-row { margin-bottom: .55rem; }
+.pr-row .lab {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: .18rem; color: var(--fg-soft);
+}
+.pr-row .lab .pct { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .78rem; }
+.pr-track { height: 7px; border-radius: 4px; background: var(--badge-bg); overflow: hidden; }
+.pr-fill { height: 100%; width: 0; border-radius: 4px; transition: width .12s ease; }
+
+.pr-sub {
+  font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 .5rem; font-weight: 650;
+}
+.pr-sub.second { margin-top: 1.1rem; }
+
+.pr-controls { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--rule); }
+.pr-slider { display: flex; align-items: center; gap: .7rem; font-size: .82rem; color: var(--fg-soft); }
+.pr-slider input { flex: 1; accent-color: var(--accent); }
+.pr-slider .val { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 3.6rem; text-align: right; font-size: .78rem; }
+.pr-presets { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .7rem; }
+.pr-presets button {
+  font: inherit; font-size: .78rem;
+  padding: .25rem .6rem; border-radius: 5px;
+  border: 1px solid var(--rule); background: var(--bg); color: var(--fg-soft);
+  cursor: pointer; transition: border-color .15s, color .15s;
+}
+.pr-presets button:hover { border-color: var(--accent); color: var(--accent); }
+.pr-presets button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pr-note { font-size: .8rem; color: var(--muted); margin: .8rem 0 0; line-height: 1.55; }
+.pr-note b { color: var(--fg-soft); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .pr-fill { transition: none; } }
+</style>
+
+<div class="pr-demo">
+  <h4>Interactive · how the two routers allocate trust</h4>
+  <div class="pr-grid">
+    <div>
+      <svg class="pr-stage" id="pr-stage" viewBox="0 0 340 250" role="img"
+           aria-label="Encoding space with four clusters of training queries and a draggable test query">
+        <g id="pr-clusters"></g>
+        <g id="pr-links"></g>
+        <g id="pr-query">
+          <circle class="qring" id="pr-qring" r="13"></circle>
+          <circle class="qmark" id="pr-qdot" r="6"></circle>
+        </g>
+      </svg>
+    </div>
+
+    <div class="pr-bars">
+      <p class="pr-sub">Base router &mdash; nearest cluster only</p>
+      <div id="pr-base"></div>
+      <p class="pr-sub second">KM&#8209;Prox &mdash; proximity&#8209;weighted</p>
+      <div id="pr-prox"></div>
+    </div>
+  </div>
+
+  <div class="pr-controls">
+    <label class="pr-slider">
+      <span>Proximity strength&nbsp;1/&tau;</span>
+      <input type="range" id="pr-tau" min="0" max="60" step="1" value="20"
+             aria-label="Proximity strength, one over tau">
+      <span class="val" id="pr-tauval">20</span>
+    </label>
+    <div class="pr-presets">
+      <button type="button" data-x="74"  data-y="64">Inside a cluster</button>
+      <button type="button" data-x="168" data-y="113">Between clusters</button>
+      <button type="button" data-x="160" data-y="58">On a boundary</button>
+    </div>
+    <p class="pr-note" id="pr-note"></p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var stage = document.getElementById('pr-stage');
+  if (!stage) return;
+
+  // Four clusters: position, member count n, spread s. The min-variance prior is
+  // p ~ n/s, so a large tight cluster is trusted more than a small diffuse one.
+  var C = [
+    { x:  70, y:  60, n: 40, s: 15, c: '#3b7dbf', label: 'A' },
+    { x: 250, y:  55, n: 25, s: 26, c: '#d98032', label: 'B' },
+    { x:  85, y: 175, n: 60, s: 22, c: '#4f9d69', label: 'C' },
+    { x: 255, y: 170, n: 15, s: 13, c: '#a05fb4', label: 'D' }
+  ];
+
+  // Start in the gap between clusters, where the two routers disagree most.
+  var q = { x: 168, y: 113 };
+  var invTau = 20;
+
+  // Deterministic scatter so the picture is stable across reloads.
+  var seed = 7;
+  function rnd() { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
+
+  var gC = document.getElementById('pr-clusters');
+  C.forEach(function (c) {
+    var halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    halo.setAttribute('class', 'halo');
+    halo.setAttribute('cx', c.x); halo.setAttribute('cy', c.y);
+    halo.setAttribute('r', c.s * 1.7); halo.setAttribute('fill', c.c);
+    gC.appendChild(halo);
+
+    var pts = Math.round(c.n / 3.2);
+    for (var i = 0; i < pts; i++) {
+      var a = rnd() * Math.PI * 2, r = Math.sqrt(rnd()) * c.s * 1.45;
+      var d = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      d.setAttribute('class', 'pt');
+      d.setAttribute('cx', c.x + Math.cos(a) * r);
+      d.setAttribute('cy', c.y + Math.sin(a) * r);
+      d.setAttribute('r', 1.9); d.setAttribute('fill', c.c);
+      gC.appendChild(d);
+    }
+
+    var cen = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    cen.setAttribute('class', 'cent');
+    cen.setAttribute('cx', c.x); cen.setAttribute('cy', c.y);
+    cen.setAttribute('r', 4.2); cen.setAttribute('fill', c.c);
+    gC.appendChild(cen);
+
+    var t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', c.x); t.setAttribute('y', c.y - 9);
+    t.setAttribute('text-anchor', 'middle');
+    t.textContent = c.label + ' (n=' + c.n + ')';
+    gC.appendChild(t);
+  });
+
+  var gL = document.getElementById('pr-links');
+  var links = C.map(function (c) {
+    var l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    l.setAttribute('class', 'link'); l.setAttribute('stroke', c.c);
+    gL.appendChild(l); return l;
+  });
+
+  function mkRows(host) {
+    return C.map(function (c) {
+      var row = document.createElement('div'); row.className = 'pr-row';
+      var lab = document.createElement('div'); lab.className = 'lab';
+      var nm = document.createElement('span'); nm.textContent = 'Cluster ' + c.label;
+      var pc = document.createElement('span'); pc.className = 'pct';
+      lab.appendChild(nm); lab.appendChild(pc);
+      var tr = document.createElement('div'); tr.className = 'pr-track';
+      var fl = document.createElement('div'); fl.className = 'pr-fill';
+      fl.style.background = c.c;
+      tr.appendChild(fl); row.appendChild(lab); row.appendChild(tr);
+      host.appendChild(row);
+      return { pct: pc, fill: fl };
+    });
+  }
+  var rowsBase = mkRows(document.getElementById('pr-base'));
+  var rowsProx = mkRows(document.getElementById('pr-prox'));
+
+  var qdot = document.getElementById('pr-qdot');
+  var qring = document.getElementById('pr-qring');
+  var note = document.getElementById('pr-note');
+  var tauOut = document.getElementById('pr-tauval');
+
+  function render() {
+    var d = C.map(function (c) { return Math.hypot(q.x - c.x, q.y - c.y); });
+
+    // Base: winner-take-all on the nearest centroid.
+    var near = d.indexOf(Math.min.apply(null, d));
+    var wBase = C.map(function (_, i) { return i === near ? 1 : 0; });
+
+    // Prox: min-variance prior p ~ n/s, tilted by exp(-distance / tau).
+    var prior = C.map(function (c) { return c.n / c.s; });
+    var theta = prior.map(function (p, i) { return p * Math.exp(-(d[i] / 100) * invTau); });
+    var Z = theta.reduce(function (a, b) { return a + b; }, 0) || 1;
+    var wProx = theta.map(function (t) { return t / Z; });
+
+    C.forEach(function (c, i) {
+      links[i].setAttribute('x1', q.x); links[i].setAttribute('y1', q.y);
+      links[i].setAttribute('x2', c.x); links[i].setAttribute('y2', c.y);
+      links[i].setAttribute('stroke-width', Math.max(0.4, wProx[i] * 9));
+      rowsBase[i].fill.style.width = (wBase[i] * 100) + '%';
+      rowsBase[i].pct.textContent = (wBase[i] * 100).toFixed(0) + '%';
+      rowsProx[i].fill.style.width = (wProx[i] * 100) + '%';
+      rowsProx[i].pct.textContent = (wProx[i] * 100).toFixed(1) + '%';
+    });
+
+    qdot.setAttribute('cx', q.x); qdot.setAttribute('cy', q.y);
+    qring.setAttribute('cx', q.x); qring.setAttribute('cy', q.y);
+
+    // exp(entropy) = how many clusters genuinely contribute.
+    var H = wProx.reduce(function (a, w) { return w > 1e-9 ? a - w * Math.log(w) : a; }, 0);
+    var eff = Math.exp(H);
+    var dmin = Math.min.apply(null, d);
+    note.innerHTML = 'Nearest centroid is <b>' + Math.round(dmin) + '</b> units away. ' +
+      'Base leans entirely on cluster <b>' + C[near].label + '</b>; ProxRouter draws on ' +
+      '<b>' + eff.toFixed(2) + '</b> clusters&rsquo; worth of evidence' +
+      (dmin > 75 ? ', with the query well outside all clusters.' : '.');
+  }
+
+  function pointFromEvent(e) {
+    var r = stage.getBoundingClientRect();
+    var vb = stage.viewBox.baseVal;
+    return {
+      x: Math.max(6, Math.min(vb.width  - 6, (e.clientX - r.left) / r.width  * vb.width)),
+      y: Math.max(6, Math.min(vb.height - 6, (e.clientY - r.top)  / r.height * vb.height))
+    };
+  }
+
+  var dragging = false;
+  stage.addEventListener('pointerdown', function (e) {
+    dragging = true; stage.classList.add('dragging');
+    stage.setPointerCapture(e.pointerId);
+    q = pointFromEvent(e); render();
+  });
+  stage.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    q = pointFromEvent(e); render();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    stage.addEventListener(ev, function () { dragging = false; stage.classList.remove('dragging'); });
+  });
+
+  document.getElementById('pr-tau').addEventListener('input', function (e) {
+    invTau = +e.target.value;
+    tauOut.textContent = invTau;
+    render();
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('.pr-presets button'), function (b) {
+    b.addEventListener('click', function () {
+      q = { x: +b.dataset.x, y: +b.dataset.y };
+      render();
+    });
+  });
+
+  render();
+})();
+</script>

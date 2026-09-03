@@ -1,0 +1,32 @@
+{%- comment -%}
+  Renders publications. Params:
+    include.selected_only : "true" to show only entries with selected: true
+{%- endcomment -%}
+<ol class="pubs">
+  {%- for pub in site.data.publications -%}
+  {%- if include.selected_only == "true" and pub.selected != true -%}{%- continue -%}{%- endif -%}
+  {%- comment -%}Title links to the project page when there is one, else the first paper link.{%- endcomment -%}
+  {%- if pub.page -%}
+    {%- assign primary_url = pub.page | relative_url -%}
+  {%- else -%}
+    {%- assign first_link = pub.links | first -%}
+    {%- assign primary_url = first_link.url -%}
+  {%- endif -%}
+  <li class="pub">
+    <span class="venue">{{ pub.venue }}{% unless pub.venue contains pub.year %} {{ pub.year }}{% endunless %}</span>
+    {%- if primary_url -%}
+    <a class="title" href="{{ primary_url }}">{{ pub.title }}</a>
+    {%- else -%}
+    <span class="title">{{ pub.title }}</span>
+    {%- endif -%}
+    <p class="authors">{{ pub.authors | replace: "Shivam Patel", "<strong>Shivam Patel</strong>" }}</p>
+    {%- if pub.note %}<p class="note">{{ pub.note }}</p>{% endif -%}
+    {%- if pub.links or pub.page -%}
+    <p class="actions">
+      {%- if pub.page %}<a class="page-link" href="{{ pub.page | relative_url }}">Project page &rarr;</a>{% endif -%}
+      {%- for l in pub.links -%}<a href="{{ l.url }}">{{ l.name }}</a>{%- endfor -%}
+    </p>
+    {%- endif -%}
+  </li>
+  {%- endfor -%}
+</ol>
