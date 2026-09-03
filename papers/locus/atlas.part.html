@@ -264,6 +264,21 @@
               truthfulqa_mc1:'TruthfulQA' };
 
   function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+  // The site is light unless data-theme says otherwise; it does not follow the OS.
+  function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
+
+  // Points must read against the panel, so the unspecialised majority needs a
+  // neutral that is DARK on the light theme and LIGHT on the dark one. --muted is
+  // a mid-grey in both and disappears into the light surface once dimmed.
+  function neutral() { return isDark() ? '#c3c8d0' : '#4e535b'; }
+  function ramp(kind) {
+    if (kind === 'acc')  return isDark() ? ['#6e757f', css('--accent') || '#7ab8f5']
+                                         : ['#8d939c', css('--accent') || '#1c5d99'];
+    return isDark() ? ['#727984', '#a8cbe8'] : ['#8f959e', '#2f5570'];
+  }
+  // Under "colour by accuracy"/"size" the colour is the data for every point, so
+  // dimming the unselected ones to emphasise a neighbourhood would erase it.
+  function dimAlpha() { return (mode === 0 && colBy !== 'spec') ? 0.78 : 0.5; }
   function fmtD(d) {
     if (d >= 0.01) return d.toFixed(3);
     if (d >= 0.001) return d.toFixed(4);
@@ -281,17 +296,19 @@
     return 'rgb(' + a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }).join(',') + ')';
   }
   function colorOf(m, inPortfolio) {
-    if (mode === 1) return inPortfolio ? (css('--accent') || '#1c5d99') : (css('--muted') || '#74787f');
-    if (colBy === 'spec') return m.s && SPEC[m.s] ? SPEC[m.s] : (css('--muted') || '#74787f');
+    if (mode === 1) return inPortfolio ? (css('--accent') || '#1c5d99') : neutral();
+    if (colBy === 'spec') return m.s && SPEC[m.s] ? SPEC[m.s] : neutral();
     if (colBy === 'acc') {
+      var r = ramp('acc');
       var t = (m.a - accRange[0]) / (accRange[1] - accRange[0]);
-      return mix('#c9ccd1', css('--accent') || '#1c5d99', Math.pow(t, 0.85));
+      return mix(r[0], r[1], Math.pow(t, 0.85));
     }
-    return mix('#cfd3d8', '#3b5f7d', Math.min(1, Math.log2(m.b) / Math.log2(70)));
+    var rs = ramp('size');
+    return mix(rs[0], rs[1], Math.min(1, Math.log2(m.b) / Math.log2(70)));
   }
   function sizeOf(m) {
-    if (colBy === 'size' && mode === 0) return 5 + 9 * Math.min(1, Math.log2(m.b) / Math.log2(70));
-    return 7;
+    if (colBy === 'size' && mode === 0) return 6 + 9 * Math.min(1, Math.log2(m.b) / Math.log2(70));
+    return 8;
   }
   // scatter3d takes a single scalar marker.opacity, so per-point dimming has to
   // live in the colour itself.
@@ -360,8 +377,8 @@
     MS.forEach(function (m) {
       var dim   = (mode === 0 && m.i !== sel && !isNb[m.i]) || (mode === 1 && !inSet[m.i]);
       var isSel = (mode === 0 && m.i === sel) || (mode === 1 && inSet[m.i]);
-      col.push(withAlpha(colorOf(m, !!inSet[m.i]), dim ? 0.3 : 1));
-      siz.push(isSel ? sizeOf(m) + 3 : (dim ? sizeOf(m) * 0.7 : sizeOf(m)));
+      col.push(withAlpha(colorOf(m, !!inSet[m.i]), dim ? dimAlpha() : 1));
+      siz.push(isSel ? sizeOf(m) + 3 : (dim ? sizeOf(m) * 0.85 : sizeOf(m)));
       txt.push('<b>' + shortName(m.n) + '</b><br>' + (m.b >= 1 ? m.b + 'B' : m.b) +
                ' params' + (m.s ? ' · ' + m.s : '') + '<br>' + m.a.toFixed(1) + '% accuracy');
     });
@@ -388,8 +405,9 @@
         z: MS.map(function (m) { return m.z; }),
         customdata: MS.map(function (m) { return m.i; }),
         text: txt, hoverinfo: 'text',
-        marker: { color: col, size: siz,
-                  line: { color: css('--bg') || '#fff', width: 0.5 } },
+        // No marker outline: at these sizes a background-coloured rim swallows
+        // the dot and the whole cloud reads as white.
+        marker: { color: col, size: siz, line: { width: 0 } },
         showlegend: false }
     ];
   }
@@ -412,42 +430,64 @@
   }
   var CONFIG = { displayModeBar: false, responsive: true, scrollZoom: true };
 
-  var started = false;
+  // Plotly mutates gd.layout as the viewer orbits, so this is the live angle.
+  function liveCam() {
+    try {
+      var c = gd.layout && gd.layout.scene && gd.layout.scene.camera;
+      if (c && c.eye) return c;
+    } catch (e) {}
+    return cam;
+  }
+
+  var started = false, ready = false;
   function draw() {
     if (NOGL) return;
     if (!started) {
+      started = true;
       gd.innerHTML = '';
       Plotly.newPlot(gd, buildTraces(), layout(), CONFIG).then(function () {
+        ready = true;
         gd.on('plotly_click', function (e) {
           if (mode !== 0 || !e.points || !e.points.length) return;
           var i = e.points[0].customdata;
           if (typeof i === 'number') { sel = i; render(); }
         });
-        gd.on('plotly_relayout', function (e) {
-          if (e && e['scene.camera']) cam = e['scene.camera'];
-        });
       });
-      started = true;
-    } else {
-      Plotly.react(gd, buildTraces(), layout(), CONFIG);
+      return;
     }
+    if (!ready) return;
+    // Data-only update. Going through Plotly.react would re-send the layout —
+    // including scene.camera — and snap the view back mid-drag, and rebuilding
+    // the whole scene on every slider tick is what made it feel stuck.
+    var t = buildTraces();
+    Plotly.restyle(gd, { x: [t[0].x, t[1].x, t[2].x],
+                         y: [t[0].y, t[1].y, t[2].y],
+                         z: [t[0].z, t[1].z, t[2].z] }, [0, 1, 2]);
+    Plotly.restyle(gd, { 'line.color': [t[0].line.color],
+                         'line.width': [t[0].line.width],
+                         opacity: [t[0].opacity] }, [0]);
+    Plotly.restyle(gd, { 'marker.color': [t[1].marker.color],
+                         'marker.size': [t[1].marker.size] }, [1]);
+    Plotly.restyle(gd, { 'marker.color': [t[2].marker.color],
+                         'marker.size': [t[2].marker.size],
+                         text: [t[2].text] }, [2]);
   }
 
   // ── zoom / reset ───────────────────────────────────────────────────────
-  function applyCam() { if (!NOGL) Plotly.relayout(gd, { 'scene.camera': cam }); }
+  function applyCam(c) { if (!NOGL && ready) Plotly.relayout(gd, { 'scene.camera': c }); }
   function zoom(f) {
-    var e = cam.eye, r = Math.sqrt(e.x*e.x + e.y*e.y + e.z*e.z), nr = r * f;
-    nr = Math.max(0.55, Math.min(6, nr));
-    var s = nr / r;
+    var c = liveCam(), e = c.eye;
+    var r = Math.sqrt(e.x*e.x + e.y*e.y + e.z*e.z);
+    var nr = Math.max(0.55, Math.min(6, r * f)), s = nr / r;
     cam = { eye: { x: e.x*s, y: e.y*s, z: e.z*s },
-            center: cam.center || CAM0.center, up: cam.up || CAM0.up };
-    applyCam();
+            center: c.center || CAM0.center, up: c.up || CAM0.up };
+    applyCam(cam);
   }
   document.getElementById('at-zin').addEventListener('click', function () { zoom(1 / 1.25); });
   document.getElementById('at-zout').addEventListener('click', function () { zoom(1.25); });
   document.getElementById('at-reset').addEventListener('click', function () {
     cam = JSON.parse(JSON.stringify(CAM0));
-    applyCam();
+    applyCam(cam);
     render('View reset. The axes carry no units — a t-SNE layout only preserves ' +
            '<i>relative</i> position, so rotate and zoom freely; the distances quoted in the ' +
            'panel are the real 128-dimensional ones either way.');
@@ -464,17 +504,19 @@
     }
     if (mode === 1) {
       item(css('--accent') || '#1c5d99', 'in the portfolio');
-      item(css('--muted') || '#74787f', 'covered by a selected model');
+      item(neutral(), 'covered by a selected model');
       return;
     }
     if (colBy === 'spec') {
       ['math', 'code', 'biomed', 'science', 'safety', 'roleplay'].forEach(function (k) { item(SPEC[k], k); });
-      item(css('--muted') || '#74787f', 'general');
+      item(neutral(), 'general');
     } else if (colBy === 'acc') {
-      item('#c9ccd1', accRange[0].toFixed(0) + '% accuracy');
-      item(css('--accent') || '#1c5d99', accRange[1].toFixed(0) + '%');
+      var r = ramp('acc');
+      item(r[0], accRange[0].toFixed(0) + '% accuracy');
+      item(r[1], accRange[1].toFixed(0) + '%');
     } else {
-      item('#cfd3d8', '≈1B parameters'); item('#3b5f7d', '≈70B');
+      var rs = ramp('size');
+      item(rs[0], '≈1B parameters'); item(rs[1], '≈70B');
     }
   }
 
@@ -657,7 +699,12 @@
   for (var i = 0; i < MS.length; i++) if (MS[i].n.indexOf('deepseek-math') >= 0) { sel = i; break; }
   document.getElementById('at-pkval').textContent = D.portfolio.k[pkIdx];
   render();
-  new MutationObserver(function () { started = false; render(); })
-    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  // A theme switch needs a fresh plot for the new palette; carry the viewer's
+  // current angle across it rather than snapping back to the default.
+  new MutationObserver(function () {
+    cam = JSON.parse(JSON.stringify(liveCam()));
+    started = false; ready = false;
+    render();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();
 </script>
