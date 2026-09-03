@@ -16,6 +16,7 @@
   venue: "AdaptFM @ ICML 2026"
   year: 2026
   selected: true
+  page: /papers/locus/
   links:
     - name: arXiv
       url: https://arxiv.org/abs/2601.21082

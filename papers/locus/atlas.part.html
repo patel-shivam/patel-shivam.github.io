@@ -1,0 +1,625 @@
+<style>
+.at {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 1.1rem 1.2rem 1.2rem;
+  margin: 2rem 0;
+}
+.at h4 {
+  font-family: var(--sans);
+  font-size: .72rem; font-weight: 650; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 0 0 .85rem;
+}
+
+/* mode tabs */
+.at-tabs { display: flex; gap: .3rem; margin-bottom: .9rem; flex-wrap: wrap; }
+.at-tabs button {
+  font: inherit; font-size: .78rem;
+  padding: .3rem .7rem; border-radius: 5px;
+  border: 1px solid var(--rule); background: var(--bg); color: var(--fg-soft);
+  cursor: pointer; transition: border-color .15s, color .15s, background .15s;
+}
+.at-tabs button:hover { border-color: var(--accent); color: var(--accent); }
+.at-tabs button[aria-pressed="true"] {
+  background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 600;
+}
+.at-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.at-grid { display: grid; grid-template-columns: 1.16fr 1fr; gap: 1.3rem; align-items: start; }
+@media (max-width: 760px) { .at-grid { grid-template-columns: 1fr; } }
+
+/* map */
+.at-map { width: 100%; height: auto; display: block; touch-action: manipulation; cursor: crosshair; }
+.at-map .pt { stroke: var(--bg); stroke-width: .8; transition: opacity .12s; }
+.at-map .pt.dim { opacity: .34; }
+.at-map .sel { stroke: var(--fg); stroke-width: 1.6; }
+.at-map .hot { stroke: var(--fg); stroke-width: 1.8; }
+.at-map .link { stroke-linecap: round; fill: none; }
+.at-map .cover { stroke: var(--muted); stroke-width: .5; opacity: .3; }
+.at-map .ring { fill: none; stroke: var(--fg); stroke-dasharray: 3 3; opacity: .4; }
+.at-map text.lbl {
+  font-family: var(--sans); font-size: 7.5px; fill: var(--fg-soft);
+  paint-order: stroke; stroke: var(--bg); stroke-width: 2.4px; stroke-linejoin: round;
+}
+
+.at-legend {
+  display: flex; flex-wrap: wrap; gap: .3rem .8rem;
+  margin-top: .5rem; font-size: .7rem; color: var(--muted);
+}
+.at-legend span { display: inline-flex; align-items: center; gap: .28rem; }
+.at-legend i { width: .5rem; height: .5rem; border-radius: 50%; display: inline-block; }
+
+/* side panel */
+.at-sub {
+  font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 .5rem; font-weight: 650;
+}
+.at-sub.second { margin-top: 1.15rem; }
+.at-name {
+  font-size: .92rem; font-weight: 650; color: var(--fg);
+  margin: 0 0 .1rem; line-height: 1.35; word-break: break-word;
+}
+.at-name .org { color: var(--muted); font-weight: 400; }
+.at-meta { font-size: .75rem; color: var(--muted); margin: 0 0 .8rem; }
+.at-meta .tag {
+  display: inline-block; padding: .04rem .34rem; border-radius: 3px;
+  background: var(--badge-bg); color: var(--fg-soft); margin-right: .3rem; font-size: .92em;
+}
+
+/* profile bars */
+.at-prof { font-size: .72rem; }
+.at-prow { display: grid; grid-template-columns: 4.6rem 1fr 2.1rem; gap: .4rem; align-items: center; margin-bottom: .2rem; }
+.at-prow .nm { color: var(--muted); }
+.at-prow .tr { height: 6px; border-radius: 3px; background: var(--badge-bg); overflow: hidden; }
+.at-prow .fl { height: 100%; border-radius: 3px; }
+.at-prow .pc { text-align: right; color: var(--fg-soft); font-variant-numeric: tabular-nums; }
+
+/* neighbour list */
+.at-nb { font-size: .78rem; }
+.at-nb ol { margin: 0; padding: 0; list-style: none; counter-reset: nb; }
+.at-nb li {
+  display: grid; grid-template-columns: 1rem 1fr auto; gap: .45rem;
+  padding: .26rem 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+}
+.at-nb li:last-child { border-bottom: none; }
+.at-nb li::before {
+  counter-increment: nb; content: counter(nb);
+  color: var(--muted); font-size: .72rem; font-variant-numeric: tabular-nums;
+}
+.at-nb .who { color: var(--fg-soft); word-break: break-word; line-height: 1.35; }
+.at-nb .ag { color: var(--fg); font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.at-nb .ag small { color: var(--muted); font-weight: 400; display: block; font-size: .8em; text-align: right; }
+
+/* portfolio bars */
+.at-bars { font-size: .8rem; margin-top: .2rem; }
+.at-brow { margin-bottom: .5rem; }
+.at-brow .lab { display: flex; justify-content: space-between; margin-bottom: .16rem; color: var(--fg-soft); }
+.at-brow .lab .v { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .92em; }
+.at-btrack { height: 8px; border-radius: 4px; background: var(--badge-bg); overflow: hidden; position: relative; }
+.at-bfill { height: 100%; border-radius: 4px; transition: width .15s ease; }
+.at-full {
+  position: absolute; top: -2px; bottom: -2px; width: 0;
+  border-right: 2px dashed var(--fg); opacity: .55;
+}
+
+.at-picks { font-size: .75rem; color: var(--fg-soft); line-height: 1.55; margin: .2rem 0 0; }
+.at-picks li { margin-bottom: .12rem; word-break: break-word; }
+
+/* controls */
+.at-controls { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--rule); }
+.at-slider { display: flex; align-items: center; gap: .7rem; font-size: .82rem; color: var(--fg-soft); }
+.at-slider input { flex: 1; accent-color: var(--accent); }
+.at-slider .val { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 2.4rem; text-align: right; font-size: .78rem; }
+.at-row { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .7rem; align-items: center; }
+.at-row .cap { font-size: .75rem; color: var(--muted); margin-right: .1rem; }
+.at-row button {
+  font: inherit; font-size: .75rem;
+  padding: .2rem .55rem; border-radius: 5px;
+  border: 1px solid var(--rule); background: var(--bg); color: var(--fg-soft); cursor: pointer;
+}
+.at-row button:hover { border-color: var(--accent); color: var(--accent); }
+.at-row button[aria-pressed="true"] { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+.at-row button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.at-note { font-size: .8rem; color: var(--muted); margin: .85rem 0 0; line-height: 1.6; }
+.at-note b { color: var(--fg-soft); font-weight: 600; }
+.at-src {
+  font-size: .72rem; color: var(--muted); margin: .85rem 0 0;
+  padding-top: .7rem; border-top: 1px solid var(--rule); line-height: 1.55;
+}
+.at-hide { display: none !important; }
+</style>
+
+<div class="at">
+  <h4>Interactive · all 112 model embeddings</h4>
+
+  <div class="at-tabs" role="group" aria-label="Atlas mode">
+    <button type="button" id="at-m0" aria-pressed="true">Neighbours &amp; fallbacks</button>
+    <button type="button" id="at-m1" aria-pressed="false">Portfolio selection</button>
+  </div>
+
+  <div class="at-grid">
+    <div>
+      <svg class="at-map" id="at-map" viewBox="0 0 380 380" role="img"
+           aria-label="Two-dimensional map of 112 language model embeddings"></svg>
+      <div class="at-legend" id="at-legend"></div>
+    </div>
+
+    <div>
+      <!-- neighbours panel -->
+      <div id="at-pane-nb">
+        <p class="at-sub">Selected model</p>
+        <p class="at-name" id="at-name">—</p>
+        <p class="at-meta" id="at-meta"></p>
+
+        <p class="at-sub">Accuracy by benchmark</p>
+        <div class="at-prof" id="at-prof"></div>
+
+        <p class="at-sub second">Nearest neighbours <span style="text-transform:none;letter-spacing:0;font-weight:400">— hover to locate, click to follow</span></p>
+        <div class="at-nb"><ol id="at-nblist"></ol></div>
+      </div>
+
+      <!-- portfolio panel -->
+      <div id="at-pane-pf" class="at-hide">
+        <p class="at-sub">Routing accuracy of the selected portfolio</p>
+        <div class="at-bars" id="at-bars"></div>
+        <p class="at-sub second">Models chosen <span id="at-pfk" style="text-transform:none;letter-spacing:0;font-weight:400"></span></p>
+        <ol class="at-picks" id="at-picklist"></ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="at-controls">
+    <!-- neighbour controls -->
+    <div id="at-ctl-nb">
+      <label class="at-slider">
+        <span>Neighbours&nbsp;shown</span>
+        <input type="range" id="at-k" min="1" max="10" step="1" value="5"
+               aria-label="Number of nearest neighbours to show">
+        <span class="val" id="at-kval">5</span>
+      </label>
+      <div class="at-row">
+        <span class="cap">Colour by</span>
+        <button type="button" data-col="spec" aria-pressed="true">Specialization</button>
+        <button type="button" data-col="acc" aria-pressed="false">Accuracy</button>
+        <button type="button" data-col="size" aria-pressed="false">Size</button>
+      </div>
+      <div class="at-row">
+        <span class="cap">Jump to</span>
+        <button type="button" class="at-jump" data-q="deepseek-math">a math specialist</button>
+        <button type="button" class="at-jump" data-q="CodeLlama-34b">a code specialist</button>
+        <button type="button" class="at-jump" data-q="Llama-3-70B-Instruct">the strongest model</button>
+        <button type="button" class="at-jump" data-q="Starling">a near-duplicate pair</button>
+      </div>
+    </div>
+
+    <!-- portfolio controls -->
+    <div id="at-ctl-pf" class="at-hide">
+      <label class="at-slider">
+        <span>Portfolio&nbsp;size&nbsp;k</span>
+        <input type="range" id="at-pk" min="0" max="11" step="1" value="9"
+               aria-label="Number of models in the portfolio">
+        <span class="val" id="at-pkval">15</span>
+      </label>
+      <div class="at-row">
+        <span class="cap">Selection rule</span>
+        <button type="button" data-sel="kcenter" aria-pressed="true">k-center</button>
+        <button type="button" data-sel="kmedoids" aria-pressed="false">k-medoids</button>
+      </div>
+      <div class="at-row">
+        <span class="cap">Show</span>
+        <button type="button" id="at-cover" aria-pressed="true">Coverage assignment</button>
+      </div>
+    </div>
+
+    <p class="at-note" id="at-note"></p>
+
+    <p class="at-src" id="at-src"></p>
+  </div>
+</div>
+
+<script id="at-data" type="application/json">{"models":[{"i":0,"n":"Qwen/Qwen1.5-7B-Chat","f":"qwen_1_5","s":"","b":7.5,"x":-0.1283,"y":-0.1246,"a":43.5,"p":{"asdiv":1.5,"gpqa":16.6,"gsm8k":55.4,"logiqa":43.1,"mathqa":40.1,"medmcqa":45.5,"mmlu":59.8,"piqa":80.6,"social_iqa":28.4,"truthfulqa_mc1":25.7},"nb":[75,56,79,44,37,47,11,9,85,68],"na":[74.4,73.7,73.7,73.9,72.9,72.6,73.9,75.1,75.1,75.0],"nd":[0.0044,0.0052,0.0056,0.0065,0.0081,0.0086,0.0092,0.0093,0.0099,0.0104]},{"i":1,"n":"ConvexAI/Luminex-34B-v0.1","f":"other","s":"","b":32.0,"x":-0.9536,"y":-0.8498,"a":54.2,"p":{"asdiv":0.0,"gpqa":28.0,"gsm8k":75.0,"logiqa":39.2,"mathqa":40.9,"medmcqa":60.7,"mmlu":74.3,"piqa":84.3,"social_iqa":30.2,"truthfulqa_mc1":43.2},"nb":[39,5,88,83,31,15,76,95,30,72],"na":[94.3,94.3,88.8,86.6,86.3,85.8,79.0,80.6,80.3,77.1],"nd":[0.0,0.0,0.0001,0.0004,0.0004,0.0022,0.0026,0.0028,0.0069,0.0085]},{"i":2,"n":"lmsys/vicuna-13b-v1.5","f":"vicuna","s":"","b":12.5,"x":0.0721,"y":0.073,"a":41.7,"p":{"asdiv":0.0,"gpqa":19.4,"gsm8k":33.0,"logiqa":33.3,"mathqa":34.6,"medmcqa":42.7,"mmlu":56.6,"piqa":87.3,"social_iqa":38.9,"truthfulqa_mc1":27.0},"nb":[98,16,68,14,47,58,11,74,27,96],"na":[75.0,80.2,75.7,74.6,72.7,75.7,76.7,84.1,74.2,78.3],"nd":[0.0016,0.0017,0.0022,0.0024,0.0027,0.0028,0.003,0.0031,0.0032,0.0046]},{"i":3,"n":"deepseek-ai/deepseek-math-7b-instruct","f":"deepseek_math","s":"math","b":7.5,"x":0.3016,"y":0.2621,"a":37.8,"p":{"asdiv":1.5,"gpqa":17.2,"gsm8k":29.5,"logiqa":29.4,"mathqa":35.9,"medmcqa":38.1,"mmlu":51.7,"piqa":77.6,"social_iqa":32.1,"truthfulqa_mc1":17.6},"nb":[45,101,26,4,108,38,96,28,74,93],"na":[73.8,72.4,71.9,71.9,72.8,72.2,73.3,71.6,71.5,73.6],"nd":[0.0008,0.001,0.0015,0.0022,0.0024,0.0025,0.0025,0.0031,0.0031,0.0032]},{"i":4,"n":"TigerResearch/tigerbot-13b-base","f":"other","s":"","b":12.5,"x":0.2724,"y":0.3071,"a":37.4,"p":{"asdiv":2.0,"gpqa":19.8,"gsm8k":40.2,"logiqa":39.2,"mathqa":33.3,"medmcqa":33.6,"mmlu":49.2,"piqa":80.6,"social_iqa":31.5,"truthfulqa_mc1":24.3},"nb":[101,26,96,3,38,28,20,73,93,108],"na":[76.8,77.5,74.4,71.9,76.5,74.0,74.5,74.5,76.0,77.0],"nd":[0.0015,0.002,0.0022,0.0022,0.0024,0.0026,0.0028,0.0034,0.0035,0.0037]},{"i":5,"n":"ConvexAI/Luminex-34B-v0.2","f":"other","s":"","b":32.0,"x":-0.9575,"y":-0.8275,"a":55.0,"p":{"asdiv":0.0,"gpqa":31.0,"gsm8k":74.1,"logiqa":39.2,"mathqa":41.4,"medmcqa":61.0,"mmlu":74.2,"piqa":85.8,"social_iqa":30.9,"truthfulqa_mc1":51.4},"nb":[39,1,88,31,83,15,76,95,30,72],"na":[97.6,94.3,89.3,86.0,86.6,85.9,79.2,80.5,80.2,76.4],"nd":[0.0,0.0,0.0001,0.0003,0.0003,0.0018,0.0021,0.0023,0.0061,0.0077]},{"i":6,"n":"berkeley-nest/Starling-LM-7B-alpha","f":"starling","s":"","b":7.5,"x":-0.6271,"y":-0.5037,"a":47.1,"p":{"asdiv":0.0,"gpqa":23.0,"gsm8k":70.5,"logiqa":35.3,"mathqa":33.8,"medmcqa":52.8,"mmlu":62.7,"piqa":86.6,"social_iqa":37.0,"truthfulqa_mc1":25.7},"nb":[87,8,36,71,62,111,17,13,78,67],"na":[91.6,80.7,81.5,81.7,83.3,80.2,82.1,81.6,85.6,82.0],"nd":[0.0,0.0001,0.0001,0.0002,0.0002,0.0003,0.0003,0.0004,0.0005,0.0006]},{"i":7,"n":"EleutherAI/llemma_7b","f":"llemma","s":"math","b":7.5,"x":0.4809,"y":0.5972,"a":33.7,"p":{"asdiv":3.0,"gpqa":20.0,"gsm8k":41.1,"logiqa":37.3,"mathqa":34.6,"medmcqa":33.1,"mmlu":40.6,"piqa":70.9,"social_iqa":30.9,"truthfulqa_mc1":23.0},"nb":[51,60,102,106,25,4,41,20,82,38],"na":[82.2,72.3,74.5,73.1,72.7,73.0,72.7,71.8,73.2,72.0],"nd":[0.0008,0.0041,0.0049,0.0074,0.0099,0.0121,0.0125,0.0129,0.0131,0.0136]},{"i":8,"n":"CultriX/NeuralTrix-bf16","f":"other","s":"","b":7.5,"x":-0.6464,"y":-0.5071,"a":46.2,"p":{"asdiv":0.5,"gpqa":18.0,"gsm8k":69.6,"logiqa":45.1,"mathqa":32.1,"medmcqa":49.4,"mmlu":62.6,"piqa":85.1,"social_iqa":32.1,"truthfulqa_mc1":51.4},"nb":[87,6,36,71,62,17,13,111,67,78],"na":[82.3,80.7,92.7,93.2,85.4,91.8,91.5,81.0,92.0,80.8],"nd":[0.0,0.0001,0.0002,0.0002,0.0002,0.0002,0.0003,0.0004,0.0005,0.0005]},{"i":9,"n":"SciPhi/SciPhi-Mistral-7B-32k","f":"other","s":"long-context","b":7.5,"x":-0.4556,"y":-0.354,"a":44.2,"p":{"asdiv":0.0,"gpqa":20.4,"gsm8k":49.1,"logiqa":29.4,"mathqa":38.4,"medmcqa":45.8,"mmlu":60.9,"piqa":83.6,"social_iqa":30.9,"truthfulqa_mc1":29.7},"nb":[85,44,43,92,99,84,111,56,6,87],"na":[81.1,81.2,79.7,79.2,78.2,78.3,83.2,79.9,78.8,81.1],"nd":[0.0002,0.0003,0.0007,0.0012,0.004,0.0046,0.0047,0.0052,0.007,0.0072]},{"i":10,"n":"TheBloke/tulu-30B-fp16","f":"tulu","s":"","b":32.0,"x":0.0135,"y":-0.1516,"a":44.3,"p":{"asdiv":19.2,"gpqa":23.4,"gsm8k":42.0,"logiqa":33.3,"mathqa":35.9,"medmcqa":41.5,"mmlu":59.5,"piqa":83.6,"social_iqa":29.0,"truthfulqa_mc1":25.7},"nb":[79,61,24,37,0,12,58,68,75,47],"na":[71.9,70.5,65.8,70.7,72.1,72.0,71.2,72.4,72.9,71.6],"nd":[0.0043,0.0067,0.009,0.0144,0.0176,0.0235,0.0247,0.0296,0.0296,0.0309]},{"i":11,"n":"lmsys/vicuna-33b-v1.3","f":"vicuna","s":"","b":32.0,"x":-0.058,"y":0.0485,"a":42.7,"p":{"asdiv":0.0,"gpqa":25.4,"gsm8k":37.5,"logiqa":33.3,"mathqa":35.0,"medmcqa":38.4,"mmlu":59.0,"piqa":82.8,"social_iqa":24.7,"truthfulqa_mc1":39.2},"nb":[47,68,75,2,56,70,58,98,16,14],"na":[74.0,74.1,76.3,76.7,74.3,72.9,73.9,73.6,77.4,73.8],"nd":[0.0002,0.0012,0.0017,0.003,0.0039,0.0043,0.0047,0.0048,0.0066,0.0071]},{"i":12,"n":"scb10x/typhoon-7b","f":"typhoon_mistral_based","s":"","b":7.5,"x":0.0735,"y":0.1007,"a":41.0,"p":{"asdiv":6.6,"gpqa":17.2,"gsm8k":33.9,"logiqa":11.8,"mathqa":36.3,"medmcqa":44.9,"mmlu":56.7,"piqa":82.1,"social_iqa":31.5,"truthfulqa_mc1":16.2},"nb":[58,14,27,16,48,34,2,24,96,68],"na":[78.6,78.3,77.5,75.7,75.2,72.4,73.5,70.7,76.9,76.5],"nd":[0.0005,0.0021,0.0031,0.0043,0.0048,0.0049,0.0049,0.0061,0.0064,0.0065]},{"i":13,"n":"mlabonne/AlphaMonarch-7B","f":"other","s":"","b":7.5,"x":-0.7019,"y":-0.5381,"a":47.3,"p":{"asdiv":0.5,"gpqa":19.4,"gsm8k":76.8,"logiqa":43.1,"mathqa":33.8,"medmcqa":51.1,"mmlu":62.8,"piqa":86.6,"social_iqa":35.2,"truthfulqa_mc1":52.7},"nb":[17,62,71,67,8,46,87,36,6,35],"na":[94.9,86.5,92.5,92.7,91.5,90.1,82.7,92.3,81.6,90.2],"nd":[0.0001,0.0001,0.0001,0.0001,0.0003,0.0003,0.0003,0.0004,0.0004,0.0004]},{"i":14,"n":"mistralai/Mistral-7B-Instruct-v0.1","f":"mistral","s":"","b":7.5,"x":0.1279,"y":0.1414,"a":41.1,"p":{"asdiv":4.0,"gpqa":21.2,"gsm8k":34.8,"logiqa":35.3,"mathqa":34.2,"medmcqa":44.9,"mmlu":54.1,"piqa":79.9,"social_iqa":30.9,"truthfulqa_mc1":37.8},"nb":[27,16,96,58,12,101,2,48,74,26],"na":[77.2,71.4,75.1,87.6,78.3,76.4,74.6,76.6,74.2,76.7],"nd":[0.0002,0.0005,0.0014,0.0019,0.0021,0.0023,0.0024,0.0025,0.0026,0.0046]},{"i":15,"n":"01-ai/Yi-34B-Chat","f":"yi","s":"","b":32.0,"x":-0.9071,"y":-0.7884,"a":51.9,"p":{"asdiv":0.0,"gpqa":19.6,"gsm8k":68.8,"logiqa":35.3,"mathqa":42.6,"medmcqa":60.7,"mmlu":73.3,"piqa":82.8,"social_iqa":30.9,"truthfulqa_mc1":31.1},"nb":[95,31,76,30,5,39,83,88,1,72],"na":[82.1,88.0,79.4,81.8,85.9,86.1,88.8,87.0,85.8,74.9],"nd":[0.0003,0.0008,0.0012,0.0016,0.0018,0.0018,0.0018,0.0018,0.0022,0.0022]},{"i":16,"n":"meta-llama/Llama-2-13b-chat-hf","f":"llama_2","s":"","b":12.5,"x":0.1585,"y":0.1442,"a":40.5,"p":{"asdiv":1.0,"gpqa":19.4,"gsm8k":40.2,"logiqa":17.6,"mathqa":35.0,"medmcqa":37.9,"mmlu":55.8,"piqa":83.6,"social_iqa":37.7,"truthfulqa_mc1":20.3},"nb":[27,14,96,74,2,101,48,26,58,12],"na":[73.8,71.4,85.5,79.7,80.2,70.7,74.0,73.1,71.6,75.7],"nd":[0.0004,0.0005,0.0009,0.0016,0.0017,0.0021,0.003,0.0035,0.0035,0.0043]},{"i":17,"n":"eren23/ogno-monarch-jaskier-merge-7b-OH-PREF-DPO","f":"community_merge","s":"","b":7.5,"x":-0.6799,"y":-0.5674,"a":47.0,"p":{"asdiv":0.5,"gpqa":20.2,"gsm8k":71.4,"logiqa":45.1,"mathqa":34.2,"medmcqa":50.0,"mmlu":63.2,"piqa":86.6,"social_iqa":32.1,"truthfulqa_mc1":44.6},"nb":[62,71,67,13,46,35,36,8,87,6],"na":[87.2,93.6,93.1,94.9,90.4,90.8,93.3,91.8,82.8,82.1],"nd":[0.0,0.0,0.0,0.0001,0.0001,0.0002,0.0002,0.0002,0.0002,0.0003]},{"i":18,"n":"ibivibiv/alpaca-dragon-72b-v1","f":"other","s":"rag","b":70.0,"x":0.9344,"y":0.8784,"a":19.4,"p":{"asdiv":0.0,"gpqa":9.6,"gsm8k":0.0,"logiqa":17.6,"mathqa":22.8,"medmcqa":21.2,"mmlu":22.9,"piqa":43.3,"social_iqa":32.1,"truthfulqa_mc1":20.3},"nb":[33,90,22,107,110,105,65,81,57,104],"na":[78.9,80.1,72.6,69.4,74.2,66.9,78.0,72.5,74.5,74.4],"nd":[0.0005,0.0009,0.0615,0.0732,0.0927,0.1214,0.1492,0.1816,0.2,0.2554]},{"i":19,"n":"golaxy/gowizardlm","f":"wizardlm","s":"","b":7.5,"x":0.6353,"y":0.5068,"a":32.0,"p":{"asdiv":0.0,"gpqa":20.2,"gsm8k":17.0,"logiqa":31.4,"mathqa":27.0,"medmcqa":31.9,"mmlu":40.2,"piqa":79.1,"social_iqa":30.9,"truthfulqa_mc1":24.3},"nb":[29,109,25,41,40,82,55,102,106,103],"na":[72.0,74.5,74.5,72.3,78.5,79.3,75.6,78.7,73.4,69.6],"nd":[0.0005,0.0015,0.0024,0.0026,0.0036,0.0045,0.0052,0.0059,0.0063,0.0068]},{"i":20,"n":"codellama/CodeLlama-34b-Instruct-hf","f":"code_llama","s":"code","b":32.0,"x":0.1253,"y":0.284,"a":36.8,"p":{"asdiv":3.0,"gpqa":19.4,"gsm8k":45.5,"logiqa":27.5,"mathqa":33.8,"medmcqa":29.9,"mmlu":48.8,"piqa":79.1,"social_iqa":32.1,"truthfulqa_mc1":24.3},"nb":[4,48,34,96,27,101,21,86,14,3],"na":[74.5,76.1,76.7,79.2,75.1,73.6,78.7,76.0,73.7,73.1],"nd":[0.0028,0.0047,0.005,0.0056,0.0058,0.0058,0.0061,0.0068,0.0071,0.0074]},{"i":21,"n":"OpenBuddy/openbuddy-codellama2-34b-v11.1-bf16","f":"code_llama","s":"code","b":32.0,"x":0.0113,"y":0.2095,"a":39.7,"p":{"asdiv":1.0,"gpqa":19.4,"gsm8k":63.4,"logiqa":33.3,"mathqa":33.8,"medmcqa":34.2,"mmlu":53.1,"piqa":78.4,"social_iqa":30.9,"truthfulqa_mc1":32.4},"nb":[34,48,70,20,12,14,86,27,58,16],"na":[75.3,75.9,76.6,78.7,75.4,76.5,76.2,75.0,75.9,74.4],"nd":[0.0006,0.002,0.0034,0.0061,0.0074,0.0075,0.0076,0.0078,0.0084,0.0092]},{"i":22,"n":"deepseek-ai/deepseek-coder-1.3b-base","f":"deepseek_coder","s":"code","b":2.0,"x":0.9094,"y":0.8253,"a":24.3,"p":{"asdiv":0.0,"gpqa":15.8,"gsm8k":4.5,"logiqa":19.6,"mathqa":26.6,"medmcqa":30.5,"mmlu":27.2,"piqa":58.2,"social_iqa":30.9,"truthfulqa_mc1":23.0},"nb":[107,110,105,65,81,57,33,18,90,104],"na":[74.9,70.5,67.3,69.9,71.4,70.4,71.4,72.6,67.0,66.3],"nd":[0.0005,0.0034,0.0111,0.0229,0.0359,0.0453,0.0514,0.0615,0.0764,0.0796]},{"i":23,"n":"Neko-Institute-of-Science/pygmalion-7b","f":"roleplay_pygmalion","s":"roleplay","b":7.5,"x":0.7975,"y":0.7477,"a":26.4,"p":{"asdiv":0.0,"gpqa":16.8,"gsm8k":11.6,"logiqa":21.6,"mathqa":24.9,"medmcqa":28.2,"mmlu":30.1,"piqa":79.9,"social_iqa":30.9,"truthfulqa_mc1":20.3},"nb":[80,77,104,57,81,65,32,105,29,19],"na":[87.0,76.5,69.5,74.7,75.5,68.8,72.5,72.4,70.3,73.9],"nd":[0.0004,0.0021,0.0028,0.006,0.0104,0.0215,0.0346,0.0348,0.0438,0.0523]},{"i":24,"n":"cognitivecomputations/yayi2-30b-llama","f":"other","s":"","b":32.0,"x":0.0797,"y":-0.0841,"a":42.3,"p":{"asdiv":18.2,"gpqa":11.8,"gsm8k":33.9,"logiqa":31.4,"mathqa":24.9,"medmcqa":33.6,"mmlu":66.0,"piqa":64.2,"social_iqa":31.5,"truthfulqa_mc1":36.5},"nb":[12,58,10,79,86,61,34,14,59,27],"na":[70.7,69.1,65.8,68.5,68.2,69.3,65.9,69.0,68.4,69.2],"nd":[0.0061,0.0082,0.009,0.0092,0.0125,0.0133,0.0142,0.0147,0.0156,0.0169]},{"i":25,"n":"meta-llama/LlamaGuard-7b","f":"llama_guard","s":"safety","b":7.5,"x":0.5807,"y":0.5143,"a":32.8,"p":{"asdiv":2.5,"gpqa":20.8,"gsm8k":15.2,"logiqa":27.5,"mathqa":26.2,"medmcqa":37.6,"mmlu":40.5,"piqa":79.9,"social_iqa":30.9,"truthfulqa_mc1":20.3},"nb":[41,106,82,102,60,19,55,109,29,40],"na":[78.7,79.3,77.6,75.7,72.1,74.5,72.5,76.8,73.0,74.6],"nd":[0.0004,0.0013,0.0013,0.0014,0.0023,0.0024,0.0032,0.0042,0.0043,0.0045]},{"i":26,"n":"NousResearch/Nous-Hermes-13b","f":"nous_hermes","s":"","b":12.5,"x":0.3258,"y":0.2631,"a":36.6,"p":{"asdiv":0.5,"gpqa":19.0,"gsm8k":32.1,"logiqa":31.4,"mathqa":27.0,"medmcqa":37.9,"mmlu":48.0,"piqa":84.3,"social_iqa":30.9,"truthfulqa_mc1":33.8},"nb":[101,93,45,108,96,28,73,3,74,38],"na":[75.1,78.5,73.6,75.8,73.1,73.3,74.4,71.9,75.5,76.5],"nd":[0.0006,0.0008,0.0009,0.001,0.0011,0.0014,0.0015,0.0015,0.0015,0.0016]},{"i":27,"n":"tiiuae/falcon-40b-instruct","f":"falcon","s":"","b":42.5,"x":0.1592,"y":0.1709,"a":40.1,"p":{"asdiv":0.5,"gpqa":20.2,"gsm8k":32.1,"logiqa":29.4,"mathqa":34.6,"medmcqa":38.7,"mmlu":54.3,"piqa":88.1,"social_iqa":30.9,"truthfulqa_mc1":31.1},"nb":[14,16,96,101,74,48,12,2,58,26],"na":[77.2,73.8,76.6,75.0,75.3,75.6,77.5,74.2,76.3,73.9],"nd":[0.0002,0.0004,0.0007,0.0014,0.0022,0.0025,0.0031,0.0032,0.0032,0.0033]},{"i":28,"n":"meta-llama/Llama-2-7b-chat-hf","f":"llama_2","s":"","b":7.5,"x":0.395,"y":0.3488,"a":36.6,"p":{"asdiv":0.5,"gpqa":23.8,"gsm8k":20.5,"logiqa":31.4,"mathqa":29.1,"medmcqa":34.5,"mmlu":48.3,"piqa":83.6,"social_iqa":28.4,"truthfulqa_mc1":28.4},"nb":[73,38,93,108,89,52,91,26,4,45],"na":[88.9,72.8,76.1,82.9,75.7,81.8,80.1,73.3,74.0,74.5],"nd":[0.0001,0.0001,0.0004,0.0004,0.0009,0.0009,0.0011,0.0014,0.0026,0.0029]},{"i":29,"n":"mosaicml/mpt-7b-chat","f":"mpt","s":"","b":7.5,"x":0.6541,"y":0.5337,"a":30.8,"p":{"asdiv":0.0,"gpqa":21.2,"gsm8k":8.0,"logiqa":29.4,"mathqa":24.9,"medmcqa":28.0,"mmlu":39.4,"piqa":81.3,"social_iqa":30.9,"truthfulqa_mc1":18.9},"nb":[19,109,25,41,40,102,82,60,55,106],"na":[72.0,74.2,73.0,75.8,74.5,73.1,71.2,71.2,75.1,76.4],"nd":[0.0005,0.003,0.0043,0.0051,0.0064,0.0075,0.0077,0.0084,0.0087,0.0093]},{"i":30,"n":"Qwen/Qwen1.5-32B-Chat","f":"qwen_1_5","s":"","b":32.0,"x":-0.853,"y":-0.7718,"a":51.7,"p":{"asdiv":0.0,"gpqa":15.4,"gsm8k":74.1,"logiqa":35.3,"mathqa":43.5,"medmcqa":58.2,"mmlu":74.4,"piqa":79.1,"social_iqa":30.9,"truthfulqa_mc1":43.2},"nb":[72,95,15,97,76,31,64,83,67,88],"na":[76.6,80.5,81.8,79.7,78.9,80.5,78.5,81.7,77.4,80.0],"nd":[0.0009,0.001,0.0016,0.0017,0.0019,0.0039,0.0051,0.0053,0.0058,0.0059]},{"i":31,"n":"NousResearch/Nous-Hermes-2-Yi-34B","f":"yi","s":"","b":32.0,"x":-0.9338,"y":-0.8103,"a":54.4,"p":{"asdiv":1.5,"gpqa":25.8,"gsm8k":72.3,"logiqa":37.3,"mathqa":43.9,"medmcqa":60.2,"mmlu":75.8,"piqa":84.3,"social_iqa":30.9,"truthfulqa_mc1":36.5},"nb":[88,83,5,39,1,15,76,95,30,72],"na":[89.2,90.3,86.0,86.3,86.3,88.0,79.2,81.7,80.5,75.1],"nd":[0.0002,0.0002,0.0003,0.0003,0.0004,0.0008,0.001,0.0011,0.0039,0.0055]},{"i":32,"n":"deepseek-ai/deepseek-coder-6.7b-instruct","f":"deepseek_coder","s":"code","b":7.5,"x":0.6306,"y":0.6622,"a":29.9,"p":{"asdiv":4.5,"gpqa":18.4,"gsm8k":27.7,"logiqa":27.5,"mathqa":32.1,"medmcqa":30.8,"mmlu":34.5,"piqa":67.9,"social_iqa":30.9,"truthfulqa_mc1":27.0},"nb":[60,7,102,51,77,25,29,19,106,41],"na":[71.5,71.3,72.6,70.6,73.8,68.9,70.6,69.9,69.9,70.3],"nd":[0.0137,0.0144,0.0159,0.0163,0.0204,0.0225,0.0234,0.0258,0.0259,0.0284]},{"i":33,"n":"google/gemma-7b-it","f":"gemma","s":"","b":7.5,"x":0.9421,"y":0.864,"a":21.8,"p":{"asdiv":1.0,"gpqa":14.4,"gsm8k":0.9,"logiqa":35.3,"mathqa":24.1,"medmcqa":22.9,"mmlu":23.8,"piqa":56.7,"social_iqa":30.2,"truthfulqa_mc1":25.7},"nb":[18,90,22,107,110,105,65,81,57,104],"na":[78.9,77.7,71.4,68.1,75.8,67.9,79.4,75.9,76.3,73.1],"nd":[0.0005,0.0027,0.0514,0.0621,0.0802,0.1073,0.134,0.1648,0.1825,0.2367]},{"i":34,"n":"EleutherAI/llemma_34b","f":"llemma","s":"math","b":32.0,"x":0.0365,"y":0.2084,"a":38.2,"p":{"asdiv":2.5,"gpqa":17.8,"gsm8k":58.0,"logiqa":23.5,"mathqa":37.1,"medmcqa":33.9,"mmlu":50.1,"piqa":76.1,"social_iqa":35.8,"truthfulqa_mc1":23.0},"nb":[21,48,86,12,20,70,14,27,58,16],"na":[75.3,72.5,72.9,72.4,76.7,71.3,72.3,70.9,73.4,74.8],"nd":[0.0006,0.0023,0.0044,0.0049,0.005,0.0056,0.006,0.0064,0.0065,0.0084]},{"i":35,"n":"zhengr/MixTAO-7Bx2-MoE-v8.1","f":"mixtral_moe","s":"moe","b":7.5,"x":-0.6443,"y":-0.6123,"a":47.5,"p":{"asdiv":0.5,"gpqa":19.4,"gsm8k":76.8,"logiqa":45.1,"mathqa":33.8,"medmcqa":51.7,"mmlu":63.1,"piqa":87.3,"social_iqa":35.2,"truthfulqa_mc1":52.7},"nb":[46,67,17,71,62,36,13,78,87,8],"na":[91.0,91.8,90.8,91.2,87.3,91.1,90.2,82.8,83.8,89.6],"nd":[0.0,0.0001,0.0002,0.0002,0.0002,0.0003,0.0004,0.0005,0.0006,0.0006]},{"i":36,"n":"yam-peleg/Experiment26-7B","f":"other","s":"","b":7.5,"x":-0.5959,"y":-0.5599,"a":47.0,"p":{"asdiv":0.5,"gpqa":18.4,"gsm8k":70.5,"logiqa":45.1,"mathqa":33.8,"medmcqa":50.8,"mmlu":63.1,"piqa":86.6,"social_iqa":37.0,"truthfulqa_mc1":50.0},"nb":[87,6,71,62,8,17,78,35,67,46],"na":[83.0,81.5,97.0,86.2,92.7,93.3,80.8,91.1,93.0,90.6],"nd":[0.0001,0.0001,0.0001,0.0001,0.0002,0.0002,0.0002,0.0003,0.0004,0.0004]},{"i":37,"n":"meta-llama/Meta-Llama-3-8B","f":"llama_3","s":"","b":7.5,"x":-0.1229,"y":-0.2164,"a":47.2,"p":{"asdiv":11.6,"gpqa":21.4,"gsm8k":49.1,"logiqa":33.3,"mathqa":45.6,"medmcqa":58.2,"mmlu":61.7,"piqa":80.6,"social_iqa":30.9,"truthfulqa_mc1":21.6},"nb":[0,79,63,53,10,94,44,85,43,66],"na":[72.9,74.7,73.5,74.0,70.7,76.5,77.4,76.2,75.7,74.0],"nd":[0.0081,0.0099,0.0141,0.0143,0.0144,0.0187,0.019,0.0205,0.0212,0.0217]},{"i":38,"n":"mosaicml/mpt-30b-instruct","f":"mpt","s":"","b":32.0,"x":0.396,"y":0.3539,"a":37.9,"p":{"asdiv":3.0,"gpqa":19.6,"gsm8k":33.0,"logiqa":39.2,"mathqa":28.3,"medmcqa":41.8,"mmlu":49.6,"piqa":79.1,"social_iqa":32.1,"truthfulqa_mc1":25.7},"nb":[28,73,108,93,89,52,91,26,4,3],"na":[72.8,74.0,75.4,75.6,76.4,72.6,72.8,76.5,76.5,72.2],"nd":[0.0001,0.0003,0.0005,0.0007,0.001,0.001,0.0014,0.0016,0.0024,0.0025]},{"i":39,"n":"fblgit/UNA-SimpleSmaug-34b-v1beta","f":"community_merge","s":"","b":32.0,"x":-0.9574,"y":-0.8295,"a":54.7,"p":{"asdiv":0.0,"gpqa":29.4,"gsm8k":77.7,"logiqa":43.1,"mathqa":41.8,"medmcqa":60.7,"mmlu":74.0,"piqa":85.1,"social_iqa":30.9,"truthfulqa_mc1":48.6},"nb":[5,1,88,31,83,15,76,95,30,72],"na":[97.6,94.3,89.4,86.3,87.1,86.1,79.1,80.9,80.6,76.9],"nd":[0.0,0.0,0.0001,0.0003,0.0003,0.0018,0.0021,0.0023,0.0062,0.0078]},{"i":40,"n":"FelixChao/vicuna-7B-physics","f":"vicuna","s":"science","b":7.5,"x":0.6111,"y":0.4244,"a":34.1,"p":{"asdiv":0.0,"gpqa":19.0,"gsm8k":8.9,"logiqa":19.6,"mathqa":26.6,"medmcqa":34.5,"mmlu":46.2,"piqa":79.1,"social_iqa":30.9,"truthfulqa_mc1":29.7},"nb":[109,55,103,82,41,19,25,89,52,106],"na":[79.0,84.0,71.1,77.6,74.9,78.5,74.6,76.5,76.6,75.3],"nd":[0.0008,0.0009,0.0012,0.0023,0.0025,0.0036,0.0045,0.005,0.0057,0.0062]},{"i":41,"n":"TheBloke/koala-13B-HF","f":"koala","s":"","b":12.5,"x":0.5743,"y":0.4788,"a":34.4,"p":{"asdiv":0.5,"gpqa":19.6,"gsm8k":8.9,"logiqa":35.3,"mathqa":32.5,"medmcqa":38.7,"mmlu":43.5,"piqa":81.3,"social_iqa":30.9,"truthfulqa_mc1":27.0},"nb":[82,25,106,55,40,19,102,109,60,89],"na":[73.0,78.7,82.9,74.4,74.9,72.3,74.7,78.5,72.5,80.7],"nd":[0.0003,0.0004,0.0011,0.0013,0.0025,0.0026,0.0027,0.003,0.0039,0.0044]},{"i":42,"n":"meta-llama/Meta-Llama-3-70B","f":"llama_3","s":"","b":70.0,"x":-0.8594,"y":-0.9564,"a":57.9,"p":{"asdiv":24.2,"gpqa":26.0,"gsm8k":82.1,"logiqa":37.3,"mathqa":50.6,"medmcqa":72.6,"mmlu":75.2,"piqa":85.8,"social_iqa":30.9,"truthfulqa_mc1":25.7},"nb":[50,76,83,88,31,95,30,5,39,1],"na":[84.5,77.7,79.9,78.8,79.6,78.3,77.3,78.0,78.3,78.6],"nd":[0.0023,0.0181,0.0204,0.0227,0.0233,0.024,0.0246,0.0248,0.0248,0.0253]},{"i":43,"n":"Plaban81/Moe-4x7b-math-reason-code","f":"other","s":"moe","b":7.5,"x":-0.4869,"y":-0.4086,"a":45.1,"p":{"asdiv":1.0,"gpqa":21.2,"gsm8k":58.9,"logiqa":33.3,"mathqa":35.9,"medmcqa":51.4,"mmlu":59.8,"piqa":86.6,"social_iqa":29.6,"truthfulqa_mc1":35.1},"nb":[85,92,9,44,99,84,111,6,87,8],"na":[76.8,78.3,79.7,80.2,75.9,78.0,82.2,78.6,79.4,77.5],"nd":[0.0002,0.0004,0.0007,0.0015,0.0016,0.0018,0.002,0.0035,0.0037,0.0038]},{"i":44,"n":"meta-math/MetaMath-Mistral-7B","f":"metamath","s":"math","b":7.5,"x":-0.4254,"y":-0.3375,"a":43.5,"p":{"asdiv":0.5,"gpqa":16.6,"gsm8k":70.5,"logiqa":37.3,"mathqa":32.9,"medmcqa":50.0,"mmlu":58.4,"piqa":84.3,"social_iqa":30.9,"truthfulqa_mc1":24.3},"nb":[9,85,43,92,56,99,84,0,111,75],"na":[81.2,78.5,80.2,78.7,78.5,76.8,76.2,73.9,82.9,83.2],"nd":[0.0003,0.0007,0.0015,0.0027,0.0043,0.0061,0.0061,0.0065,0.0068,0.0084]},{"i":45,"n":"BioMistral/BioMistral-7B","f":"biomistral","s":"biomed","b":7.5,"x":0.3371,"y":0.2273,"a":38.5,"p":{"asdiv":4.0,"gpqa":14.2,"gsm8k":4.5,"logiqa":25.5,"mathqa":34.2,"medmcqa":43.5,"mmlu":54.6,"piqa":79.9,"social_iqa":30.9,"truthfulqa_mc1":29.7},"nb":[3,26,54,101,74,108,93,91,96,38],"na":[73.8,73.6,76.7,74.5,73.2,76.3,76.8,75.3,76.9,74.1],"nd":[0.0008,0.0009,0.0011,0.0012,0.0013,0.0015,0.0021,0.0022,0.0024,0.0027]},{"i":46,"n":"FelixChao/Scorpio-7B","f":"other","s":"","b":7.5,"x":-0.6685,"y":-0.615,"a":47.0,"p":{"asdiv":0.0,"gpqa":18.6,"gsm8k":81.2,"logiqa":39.2,"mathqa":33.3,"medmcqa":52.5,"mmlu":61.7,"piqa":88.1,"social_iqa":35.8,"truthfulqa_mc1":50.0},"nb":[35,67,17,71,62,13,36,87,8,78],"na":[91.0,90.4,90.4,90.9,87.5,90.1,90.6,84.0,89.4,83.1],"nd":[0.0,0.0,0.0001,0.0002,0.0002,0.0003,0.0004,0.0007,0.0007,0.0007]},{"i":47,"n":"SciPhi/SciPhi-Self-RAG-Mistral-7B-32k","f":"other","s":"long-context","b":7.5,"x":-0.0438,"y":0.0393,"a":43.5,"p":{"asdiv":2.0,"gpqa":25.0,"gsm8k":45.5,"logiqa":17.6,"mathqa":33.8,"medmcqa":43.8,"mmlu":59.3,"piqa":82.1,"social_iqa":31.5,"truthfulqa_mc1":28.4},"nb":[11,68,75,2,58,98,56,70,16,12],"na":[74.0,75.7,79.9,72.7,76.2,74.2,77.2,76.8,73.7,79.5],"nd":[0.0002,0.0006,0.0016,0.0027,0.0037,0.0039,0.0044,0.0052,0.0066,0.0066]},{"i":48,"n":"microsoft/phi-2","f":"phi","s":"","b":2.0,"x":0.0644,"y":0.1764,"a":40.5,"p":{"asdiv":1.5,"gpqa":20.8,"gsm8k":60.7,"logiqa":27.5,"mathqa":29.5,"medmcqa":37.9,"mmlu":54.8,"piqa":79.9,"social_iqa":29.0,"truthfulqa_mc1":28.4},"nb":[21,34,14,27,70,16,96,20,12,58],"na":[75.9,72.5,76.6,75.6,74.9,74.0,76.0,76.1,75.2,76.4],"nd":[0.002,0.0023,0.0025,0.0025,0.0025,0.003,0.0042,0.0047,0.0048,0.0048]},{"i":49,"n":"CausalLM/34b-beta","f":"other","s":"","b":32.0,"x":-1.0,"y":-0.8909,"a":57.9,"p":{"asdiv":1.0,"gpqa":25.8,"gsm8k":73.2,"logiqa":45.1,"mathqa":39.7,"medmcqa":56.5,"mmlu":86.2,"piqa":86.6,"social_iqa":30.9,"truthfulqa_mc1":33.8},"nb":[1,39,5,88,83,31,15,76,95,50],"na":[82.8,83.1,82.8,82.9,83.4,82.0,82.2,78.1,78.2,77.9],"nd":[0.0095,0.0104,0.0105,0.0108,0.0118,0.0136,0.0197,0.0201,0.022,0.0293]},{"i":50,"n":"meta-llama/Meta-Llama-3-70B-Instruct","f":"llama_3","s":"","b":70.0,"x":-0.8821,"y":-0.9531,"a":60.5,"p":{"asdiv":10.1,"gpqa":29.0,"gsm8k":89.3,"logiqa":47.1,"mathqa":59.9,"medmcqa":75.4,"mmlu":78.3,"piqa":85.1,"social_iqa":30.9,"truthfulqa_mc1":41.9},"nb":[42,83,76,88,31,39,5,1,95,15],"na":[84.5,80.2,78.1,80.3,79.2,79.8,79.7,79.9,78.2,79.0],"nd":[0.0023,0.0178,0.018,0.0196,0.0212,0.0215,0.0215,0.0218,0.0241,0.0264]},{"i":51,"n":"meta-math/MetaMath-Llemma-7B","f":"metamath","s":"math","b":7.5,"x":0.4648,"y":0.6008,"a":35.0,"p":{"asdiv":0.0,"gpqa":20.2,"gsm8k":63.4,"logiqa":31.4,"mathqa":30.4,"medmcqa":34.7,"mmlu":43.0,"piqa":70.1,"social_iqa":30.9,"truthfulqa_mc1":20.3},"nb":[7,60,102,106,20,4,25,38,41,28],"na":[82.2,72.6,75.0,70.7,73.1,70.9,71.4,71.3,70.2,72.9],"nd":[0.0008,0.0057,0.0067,0.0092,0.0114,0.0122,0.0132,0.0153,0.0157,0.0159]},{"i":52,"n":"lmsys/vicuna-7b-v1.5-16k","f":"vicuna","s":"","b":7.5,"x":0.4724,"y":0.3349,"a":36.4,"p":{"asdiv":0.0,"gpqa":22.0,"gsm8k":10.7,"logiqa":25.5,"mathqa":30.0,"medmcqa":37.9,"mmlu":47.8,"piqa":82.1,"social_iqa":35.2,"truthfulqa_mc1":29.7},"nb":[89,91,108,73,93,28,38,55,26,82],"na":[76.1,83.1,80.5,80.9,76.5,81.8,72.6,74.0,76.6,78.8],"nd":[0.0001,0.0005,0.0006,0.0006,0.0009,0.0009,0.001,0.0025,0.003,0.0033]},{"i":53,"n":"cloudyu/Mixtral_11Bx2_MoE_19B","f":"mixtral_moe","s":"moe","b":12.5,"x":-0.5244,"y":-0.7044,"a":48.6,"p":{"asdiv":15.7,"gpqa":20.6,"gsm8k":66.1,"logiqa":39.2,"mathqa":34.6,"medmcqa":53.1,"mmlu":64.3,"piqa":83.6,"social_iqa":32.1,"truthfulqa_mc1":54.1},"nb":[63,66,94,64,78,84,35,97,36,46],"na":[96.6,95.5,74.7,75.0,75.4,75.6,76.2,75.5,75.6,75.8],"nd":[0.0,0.0015,0.0017,0.0024,0.0041,0.0054,0.0057,0.006,0.0061,0.0063]},{"i":54,"n":"Qwen/Qwen1.5-4B-Chat","f":"qwen_1_5","s":"","b":3.5,"x":0.3763,"y":0.2017,"a":38.5,"p":{"asdiv":0.0,"gpqa":14.8,"gsm8k":8.0,"logiqa":33.3,"mathqa":33.3,"medmcqa":41.5,"mmlu":55.5,"piqa":78.4,"social_iqa":30.9,"truthfulqa_mc1":25.7},"nb":[45,74,91,108,26,93,3,101,52,73],"na":[76.7,72.0,73.4,74.8,74.2,76.5,75.0,75.5,72.6,73.4],"nd":[0.0011,0.0016,0.0023,0.0026,0.0026,0.0032,0.0037,0.0039,0.0041,0.0045]},{"i":55,"n":"FelixChao/vicuna-7B-chemical","f":"vicuna","s":"science","b":7.5,"x":0.5571,"y":0.4085,"a":34.0,"p":{"asdiv":0.0,"gpqa":20.0,"gsm8k":5.4,"logiqa":23.5,"mathqa":25.7,"medmcqa":35.0,"mmlu":45.5,"piqa":79.1,"social_iqa":30.9,"truthfulqa_mc1":35.1},"nb":[82,40,41,89,52,109,106,25,103,73],"na":[75.4,84.0,74.4,76.2,74.0,79.8,73.8,72.5,70.2,76.3],"nd":[0.0006,0.0009,0.0013,0.0019,0.0025,0.0028,0.0032,0.0032,0.0036,0.0045]},{"i":56,"n":"HuggingFaceH4/zephyr-7b-beta","f":"zephyr_mistral_based","s":"","b":7.5,"x":-0.1626,"y":-0.0528,"a":43.3,"p":{"asdiv":5.1,"gpqa":16.6,"gsm8k":35.7,"logiqa":35.3,"mathqa":37.6,"medmcqa":47.2,"mmlu":58.7,"piqa":88.8,"social_iqa":34.0,"truthfulqa_mc1":33.8},"nb":[75,11,44,47,9,0,68,85,43,70],"na":[80.5,74.3,78.5,77.2,79.9,73.7,75.2,77.1,81.5,79.5],"nd":[0.0011,0.0039,0.0043,0.0044,0.0052,0.0052,0.0062,0.0065,0.0091,0.0104]},{"i":57,"n":"OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5","f":"other","s":"","b":12.5,"x":0.8456,"y":0.7582,"a":24.2,"p":{"asdiv":0.5,"gpqa":21.2,"gsm8k":6.2,"logiqa":23.5,"mathqa":19.8,"medmcqa":27.7,"mmlu":23.9,"piqa":79.1,"social_iqa":31.5,"truthfulqa_mc1":21.6},"nb":[81,65,23,80,104,105,77,110,107,22],"na":[78.7,76.6,74.7,72.0,72.2,70.8,72.7,77.6,69.0,70.4],"nd":[0.0006,0.0056,0.006,0.0064,0.0076,0.012,0.0142,0.0249,0.0365,0.0453]},{"i":58,"n":"BioMistral/BioMistral-7B-DARE","f":"biomistral","s":"biomed","b":7.5,"x":0.047,"y":0.0785,"a":41.4,"p":{"asdiv":8.1,"gpqa":19.6,"gsm8k":33.9,"logiqa":33.3,"mathqa":32.5,"medmcqa":43.5,"mmlu":55.5,"piqa":84.3,"social_iqa":30.9,"truthfulqa_mc1":33.8},"nb":[12,14,2,27,68,16,47,11,48,98],"na":[78.6,87.6,75.7,76.3,78.5,71.6,76.2,73.9,76.4,78.1],"nd":[0.0005,0.0019,0.0028,0.0032,0.0035,0.0035,0.0037,0.0047,0.0048,0.0051]},{"i":59,"n":"Biomimicry-AI/ANIMA-Nectar-v2","f":"other","s":"biomed","b":7.5,"x":0.1749,"y":-0.0413,"a":40.6,"p":{"asdiv":27.3,"gpqa":20.2,"gsm8k":22.3,"logiqa":33.3,"mathqa":32.9,"medmcqa":37.3,"mmlu":53.5,"piqa":81.3,"social_iqa":31.5,"truthfulqa_mc1":27.0},"nb":[86,69,24,34,12,61,20,3,10,58],"na":[73.5,71.7,68.4,69.6,76.5,71.7,73.5,71.5,71.4,78.0],"nd":[0.0105,0.0135,0.0156,0.0266,0.0267,0.0271,0.0291,0.0303,0.0322,0.0337]},{"i":60,"n":"microsoft/phi-1_5","f":"phi","s":"","b":2.0,"x":0.5477,"y":0.5705,"a":33.6,"p":{"asdiv":0.5,"gpqa":20.6,"gsm8k":27.7,"logiqa":27.5,"mathqa":30.8,"medmcqa":35.0,"mmlu":41.1,"piqa":79.9,"social_iqa":30.9,"truthfulqa_mc1":28.4},"nb":[102,106,25,41,7,82,51,19,29,55],"na":[75.7,73.4,72.1,72.5,72.3,73.7,72.6,75.9,71.2,73.0],"nd":[0.0001,0.0022,0.0023,0.0039,0.0041,0.0052,0.0057,0.007,0.0084,0.0092]},{"i":61,"n":"meta-llama/Meta-Llama-Guard-2-8B","f":"llama_guard","s":"safety","b":7.5,"x":0.062,"y":-0.1441,"a":44.9,"p":{"asdiv":22.7,"gpqa":12.6,"gsm8k":33.0,"logiqa":29.4,"mathqa":39.7,"medmcqa":54.8,"mmlu":61.1,"piqa":82.1,"social_iqa":30.2,"truthfulqa_mc1":27.0},"nb":[10,24,79,59,12,37,58,86,0,68],"na":[70.5,69.3,72.1,71.7,73.8,80.6,74.0,69.8,72.8,74.5],"nd":[0.0067,0.0133,0.0203,0.0271,0.0363,0.0365,0.0394,0.0417,0.0427,0.0486]},{"i":62,"n":"rishiraj/CatPPT-base","f":"other","s":"","b":7.5,"x":-0.6711,"y":-0.5367,"a":48.1,"p":{"asdiv":0.0,"gpqa":21.8,"gsm8k":72.3,"logiqa":35.3,"mathqa":36.3,"medmcqa":52.8,"mmlu":63.8,"piqa":87.3,"social_iqa":39.5,"truthfulqa_mc1":40.5},"nb":[71,17,13,67,36,87,8,46,35,6],"na":[86.7,87.2,86.5,86.3,86.2,85.0,85.4,87.5,87.3,83.3],"nd":[0.0,0.0,0.0001,0.0001,0.0001,0.0002,0.0002,0.0002,0.0002,0.0002]},{"i":63,"n":"kyujinpy/Sakura-SOLRCA-Math-Instruct-DPO-v1","f":"other","s":"math","b":12.5,"x":-0.5184,"y":-0.6992,"a":48.6,"p":{"asdiv":16.7,"gpqa":22.2,"gsm8k":67.9,"logiqa":39.2,"mathqa":34.6,"medmcqa":50.8,"mmlu":63.7,"piqa":82.8,"social_iqa":34.0,"truthfulqa_mc1":55.4},"nb":[53,66,94,64,78,84,35,36,97,46],"na":[96.6,96.1,74.9,74.4,75.2,75.9,76.6,76.0,75.0,76.1],"nd":[0.0,0.0015,0.0016,0.0024,0.0041,0.0053,0.0057,0.006,0.0061,0.0064]},{"i":64,"n":"meta-llama/Meta-Llama-3-8B-Instruct","f":"llama_3","s":"","b":7.5,"x":-0.609,"y":-0.6412,"a":48.8,"p":{"asdiv":1.0,"gpqa":20.4,"gsm8k":77.7,"logiqa":29.4,"mathqa":41.4,"medmcqa":59.9,"mmlu":65.2,"piqa":79.9,"social_iqa":30.9,"truthfulqa_mc1":32.4},"nb":[66,78,94,35,36,46,71,17,67,62],"na":[75.0,80.5,79.2,76.3,75.0,75.9,75.4,75.1,76.3,78.0],"nd":[0.0002,0.0004,0.0006,0.0008,0.001,0.0011,0.0012,0.0012,0.0013,0.0013]},{"i":65,"n":"google/gemma-2b-it","f":"gemma","s":"","b":2.0,"x":0.8703,"y":0.7661,"a":25.7,"p":{"asdiv":0.0,"gpqa":23.4,"gsm8k":8.0,"logiqa":19.6,"mathqa":26.2,"medmcqa":30.5,"mmlu":27.0,"piqa":55.2,"social_iqa":31.5,"truthfulqa_mc1":31.1},"nb":[105,81,57,110,107,104,80,23,22,77],"na":[66.5,77.4,76.6,75.7,66.1,75.6,68.0,68.8,69.9,68.2],"nd":[0.0031,0.0035,0.0056,0.0101,0.017,0.0183,0.0204,0.0215,0.0229,0.0361]},{"i":66,"n":"upstage/SOLAR-10.7B-Instruct-v1.0","f":"solar","s":"","b":12.5,"x":-0.5774,"y":-0.655,"a":48.4,"p":{"asdiv":14.6,"gpqa":19.8,"gsm8k":69.6,"logiqa":33.3,"mathqa":35.4,"medmcqa":51.7,"mmlu":64.3,"piqa":83.6,"social_iqa":32.7,"truthfulqa_mc1":54.1},"nb":[64,94,78,35,53,63,36,46,84,71],"na":[75.0,74.9,75.7,76.8,95.5,96.1,75.4,76.2,76.0,75.5],"nd":[0.0002,0.0004,0.0008,0.0014,0.0015,0.0015,0.0017,0.0018,0.0019,0.0021]},{"i":67,"n":"CorticalStack/pastiche-crown-clown-7b-dare-dpo","f":"other","s":"","b":7.5,"x":-0.6923,"y":-0.5923,"a":46.7,"p":{"asdiv":0.5,"gpqa":18.2,"gsm8k":78.6,"logiqa":41.2,"mathqa":35.0,"medmcqa":50.3,"mmlu":62.9,"piqa":86.6,"social_iqa":28.4,"truthfulqa_mc1":48.6},"nb":[17,46,62,35,71,13,36,8,87,6],"na":[93.1,90.4,86.3,91.8,92.8,92.7,93.0,92.0,83.2,82.0],"nd":[0.0,0.0,0.0001,0.0001,0.0001,0.0001,0.0004,0.0005,0.0005,0.0006]},{"i":68,"n":"01-ai/Yi-6B","f":"yi","s":"","b":5.5,"x":-0.0274,"y":0.0212,"a":44.3,"p":{"asdiv":1.0,"gpqa":18.8,"gsm8k":36.6,"logiqa":37.3,"mathqa":36.3,"medmcqa":49.2,"mmlu":62.3,"piqa":81.3,"social_iqa":32.1,"truthfulqa_mc1":24.3},"nb":[47,11,98,2,75,58,56,12,14,16],"na":[75.7,74.1,84.6,75.7,78.3,78.5,75.2,76.5,77.5,72.5],"nd":[0.0006,0.0012,0.0018,0.0022,0.0024,0.0035,0.0062,0.0065,0.0069,0.0069]},{"i":69,"n":"codefuse-ai/CodeFuse-DeepSeek-33B","f":"other","s":"code","b":32.0,"x":0.1331,"y":0.4395,"a":36.2,"p":{"asdiv":19.2,"gpqa":22.6,"gsm8k":42.0,"logiqa":31.4,"mathqa":38.8,"medmcqa":29.4,"mmlu":43.3,"piqa":73.9,"social_iqa":30.9,"truthfulqa_mc1":24.3},"nb":[59,86,7,51,20,32,34,4,3,60],"na":[71.7,72.7,71.1,71.4,72.7,70.4,68.5,70.9,71.0,70.4],"nd":[0.0135,0.0248,0.0313,0.0357,0.0396,0.0453,0.048,0.0483,0.0496,0.0501]},{"i":70,"n":"abhishek/zephyr-beta-math","f":"zephyr_mistral_based","s":"math","b":7.5,"x":-0.0391,"y":0.1351,"a":40.7,"p":{"asdiv":0.0,"gpqa":21.4,"gsm8k":59.8,"logiqa":33.3,"mathqa":32.5,"medmcqa":39.5,"mmlu":53.7,"piqa":83.6,"social_iqa":30.9,"truthfulqa_mc1":24.3},"nb":[48,21,11,47,34,16,14,58,27,2],"na":[74.9,76.6,72.9,76.8,71.3,74.8,76.0,76.2,76.6,72.1],"nd":[0.0025,0.0034,0.0043,0.0052,0.0056,0.0073,0.0073,0.0074,0.0081,0.0081]},{"i":71,"n":"bardsai/jaskier-7b-dpo-v5.6","f":"other","s":"","b":7.5,"x":-0.6393,"y":-0.5642,"a":47.1,"p":{"asdiv":0.5,"gpqa":17.4,"gsm8k":75.0,"logiqa":45.1,"mathqa":34.6,"medmcqa":49.7,"mmlu":63.4,"piqa":87.3,"social_iqa":37.0,"truthfulqa_mc1":47.3},"nb":[62,17,36,67,13,87,8,35,6,46],"na":[86.7,93.6,97.0,92.8,92.5,82.8,93.2,91.2,81.7,90.9],"nd":[0.0,0.0,0.0001,0.0001,0.0001,0.0002,0.0002,0.0002,0.0002,0.0002]},{"i":72,"n":"allenai/tulu-2-dpo-70b","f":"tulu","s":"","b":70.0,"x":-0.8285,"y":-0.7301,"a":50.2,"p":{"asdiv":1.0,"gpqa":27.0,"gsm8k":70.5,"logiqa":41.2,"mathqa":39.7,"medmcqa":47.2,"mmlu":68.0,"piqa":86.6,"social_iqa":36.4,"truthfulqa_mc1":43.2},"nb":[30,97,95,15,13,67,17,46,76,62],"na":[76.6,80.8,76.3,74.9,76.1,76.1,76.3,76.7,78.8,77.2],"nd":[0.0009,0.0009,0.002,0.0022,0.0036,0.0036,0.0038,0.004,0.0041,0.0043]},{"i":73,"n":"Harshvir/Llama-2-7B-physics","f":"other","s":"science","b":7.5,"x":0.4209,"y":0.3296,"a":35.8,"p":{"asdiv":0.5,"gpqa":18.0,"gsm8k":17.9,"logiqa":31.4,"mathqa":28.3,"medmcqa":34.2,"mmlu":49.3,"piqa":80.6,"social_iqa":30.2,"truthfulqa_mc1":28.4},"nb":[28,93,108,38,52,89,91,26,45,4],"na":[88.9,77.5,83.7,74.0,80.9,77.4,81.7,74.4,75.2,74.5],"nd":[0.0001,0.0002,0.0003,0.0003,0.0006,0.0006,0.0006,0.0015,0.0029,0.0034]},{"i":74,"n":"lmsys/vicuna-13b-v1.5-16k","f":"vicuna","s":"","b":12.5,"x":0.2644,"y":0.1722,"a":40.4,"p":{"asdiv":0.0,"gpqa":19.0,"gsm8k":32.1,"logiqa":35.3,"mathqa":34.6,"medmcqa":38.4,"mmlu":55.2,"piqa":85.8,"social_iqa":37.0,"truthfulqa_mc1":28.4},"nb":[45,96,101,26,54,16,27,14,2,3],"na":[73.2,77.7,71.2,75.5,72.0,79.7,75.3,74.2,84.1,71.5],"nd":[0.0013,0.0014,0.0015,0.0015,0.0016,0.0016,0.0022,0.0026,0.0031,0.0031]},{"i":75,"n":"shleeeee/mistral-ko-tech-science-v1","f":"other","s":"","b":7.5,"x":-0.1018,"y":-0.0189,"a":43.0,"p":{"asdiv":2.5,"gpqa":16.4,"gsm8k":40.2,"logiqa":21.6,"mathqa":37.1,"medmcqa":49.4,"mmlu":60.5,"piqa":79.1,"social_iqa":30.9,"truthfulqa_mc1":21.6},"nb":[56,47,11,68,0,98,2,44,70,58],"na":[80.5,79.9,76.3,78.3,74.4,78.5,74.1,83.2,78.5,80.3],"nd":[0.0011,0.0016,0.0017,0.0024,0.0044,0.0077,0.008,0.0084,0.0086,0.0089]},{"i":76,"n":"JaeyeonKang/CCK_Asura_v1","f":"other","s":"","b":7.5,"x":-0.8859,"y":-0.8322,"a":53.9,"p":{"asdiv":1.0,"gpqa":26.8,"gsm8k":78.6,"logiqa":49.0,"mathqa":43.0,"medmcqa":55.4,"mmlu":73.2,"piqa":88.1,"social_iqa":32.1,"truthfulqa_mc1":50.0},"nb":[95,31,15,83,88,30,5,39,1,72],"na":[79.4,79.2,79.4,79.5,78.9,78.9,79.2,79.1,79.0,78.8],"nd":[0.0005,0.001,0.0012,0.0012,0.0017,0.0019,0.0021,0.0021,0.0026,0.0041]},{"i":77,"n":"codellama/CodeLlama-7b-hf","f":"code_llama","s":"code","b":7.5,"x":0.7749,"y":0.7249,"a":27.7,"p":{"asdiv":0.5,"gpqa":18.0,"gsm8k":12.5,"logiqa":27.5,"mathqa":29.1,"medmcqa":22.3,"mmlu":34.0,"piqa":74.6,"social_iqa":31.5,"truthfulqa_mc1":17.6},"nb":[23,80,104,57,81,32,29,65,19,60],"na":[76.5,71.8,68.7,72.7,75.5,73.8,72.5,68.2,70.4,70.0],"nd":[0.0021,0.0033,0.0077,0.0142,0.0203,0.0204,0.0358,0.0361,0.0432,0.0479]},{"i":78,"n":"Nexusflow/Starling-LM-7B-beta","f":"starling","s":"","b":7.5,"x":-0.5828,"y":-0.5812,"a":48.7,"p":{"asdiv":1.0,"gpqa":23.4,"gsm8k":76.8,"logiqa":31.4,"mathqa":40.1,"medmcqa":54.8,"mmlu":64.1,"piqa":89.6,"social_iqa":30.2,"truthfulqa_mc1":35.1},"nb":[36,64,87,35,6,71,84,8,62,17],"na":[80.8,80.5,87.0,82.8,85.6,80.9,82.2,80.8,84.9,82.0],"nd":[0.0002,0.0004,0.0004,0.0005,0.0005,0.0005,0.0005,0.0005,0.0005,0.0006]},{"i":79,"n":"microsoft/Orca-2-13b","f":"orca_2","s":"","b":12.5,"x":-0.0377,"y":-0.1404,"a":45.2,"p":{"asdiv":11.1,"gpqa":22.8,"gsm8k":54.5,"logiqa":39.2,"mathqa":37.6,"medmcqa":45.2,"mmlu":59.3,"piqa":88.8,"social_iqa":30.9,"truthfulqa_mc1":29.7},"nb":[10,0,24,37,58,12,75,47,68,11],"na":[71.9,73.7,68.5,74.7,76.1,74.9,76.0,73.8,76.8,72.5],"nd":[0.0043,0.0056,0.0092,0.0099,0.0139,0.0141,0.0141,0.0155,0.0164,0.0174]},{"i":80,"n":"Neko-Institute-of-Science/metharme-7b","f":"roleplay_pygmalion","s":"roleplay","b":7.5,"x":0.8096,"y":0.7322,"a":27.7,"p":{"asdiv":0.0,"gpqa":17.4,"gsm8k":17.9,"logiqa":25.5,"mathqa":29.1,"medmcqa":28.2,"mmlu":31.2,"piqa":81.3,"social_iqa":30.9,"truthfulqa_mc1":20.3},"nb":[23,104,77,57,81,65,105,32,29,19],"na":[87.0,67.5,71.8,72.0,70.8,68.0,70.2,69.2,69.5,76.7],"nd":[0.0004,0.0012,0.0033,0.0064,0.011,0.0204,0.0349,0.037,0.0405,0.0489]},{"i":81,"n":"bigcode/octocoder","f":"bigcode_octocoder","s":"code","b":12.5,"x":0.8334,"y":0.7807,"a":25.2,"p":{"asdiv":0.0,"gpqa":21.0,"gsm8k":3.6,"logiqa":27.5,"mathqa":28.7,"medmcqa":28.8,"mmlu":26.4,"piqa":64.9,"social_iqa":30.9,"truthfulqa_mc1":21.6},"nb":[57,65,105,23,80,104,110,77,107,22],"na":[78.7,77.4,71.1,75.5,70.8,71.7,77.4,75.5,68.7,71.4],"nd":[0.0006,0.0035,0.0074,0.0104,0.011,0.0121,0.0179,0.0203,0.028,0.0359]},{"i":82,"n":"PharMolix/BioMedGPT-LM-7B","f":"other","s":"biomed","b":7.5,"x":0.541,"y":0.4462,"a":34.9,"p":{"asdiv":0.0,"gpqa":20.8,"gsm8k":16.1,"logiqa":31.4,"mathqa":30.8,"medmcqa":35.3,"mmlu":45.8,"piqa":79.1,"social_iqa":30.9,"truthfulqa_mc1":21.6},"nb":[41,55,106,25,40,89,52,102,109,38],"na":[73.0,75.4,72.4,77.6,77.6,76.3,78.8,79.7,75.4,72.7],"nd":[0.0003,0.0006,0.001,0.0013,0.0023,0.0024,0.0033,0.0038,0.0039,0.0044]},{"i":83,"n":"SUSTech/SUS-Chat-34B","f":"other","s":"","b":32.0,"x":-0.9158,"y":-0.8612,"a":53.8,"p":{"asdiv":3.0,"gpqa":23.6,"gsm8k":69.6,"logiqa":33.3,"mathqa":42.2,"medmcqa":62.1,"mmlu":75.0,"piqa":85.8,"social_iqa":30.9,"truthfulqa_mc1":35.1},"nb":[88,31,5,39,1,76,15,95,30,72],"na":[88.3,90.3,86.6,87.1,86.6,79.5,88.8,82.1,81.7,75.8],"nd":[0.0001,0.0002,0.0003,0.0003,0.0004,0.0012,0.0018,0.0019,0.0053,0.0076]},{"i":84,"n":"kevin009/llamaRAGdrama","f":"other","s":"rag","b":7.5,"x":-0.5462,"y":-0.5192,"a":45.5,"p":{"asdiv":0.5,"gpqa":14.0,"gsm8k":72.3,"logiqa":51.0,"mathqa":35.0,"medmcqa":49.7,"mmlu":61.0,"piqa":87.3,"social_iqa":33.3,"truthfulqa_mc1":51.4},"nb":[111,78,6,87,36,99,8,94,71,62],"na":[82.8,82.2,82.0,82.9,90.4,74.7,89.3,81.3,90.6,86.0],"nd":[0.0005,0.0005,0.0006,0.0007,0.0007,0.0008,0.0008,0.0011,0.0013,0.0013]},{"i":85,"n":"meta-llama/Llama-2-70b-chat-hf","f":"llama_2","s":"","b":70.0,"x":-0.4702,"y":-0.3725,"a":44.7,"p":{"asdiv":0.0,"gpqa":22.4,"gsm8k":47.3,"logiqa":27.5,"mathqa":36.3,"medmcqa":42.9,"mmlu":62.8,"piqa":86.6,"social_iqa":30.2,"truthfulqa_mc1":27.0},"nb":[9,43,92,44,99,84,111,6,87,8],"na":[81.1,76.8,78.1,78.5,84.9,74.8,78.1,76.6,78.0,74.4],"nd":[0.0002,0.0002,0.0007,0.0007,0.0027,0.0032,0.0034,0.0053,0.0055,0.0056]},{"i":86,"n":"TheBloke/CodeLlama-70B-Instruct-AWQ","f":"code_llama","s":"code","b":70.0,"x":0.0543,"y":0.271,"a":39.1,"p":{"asdiv":5.1,"gpqa":21.4,"gsm8k":51.8,"logiqa":27.5,"mathqa":35.4,"medmcqa":32.5,"mmlu":51.2,"piqa":84.3,"social_iqa":30.2,"truthfulqa_mc1":27.0},"nb":[34,20,21,12,59,48,24,27,14,58],"na":[72.9,76.0,76.2,75.5,73.5,73.9,68.2,72.8,74.9,75.4],"nd":[0.0044,0.0068,0.0076,0.0098,0.0105,0.0112,0.0125,0.0133,0.0133,0.014]},{"i":87,"n":"openchat/openchat_3.5","f":"openchat","s":"","b":7.5,"x":-0.6038,"y":-0.5325,"a":46.9,"p":{"asdiv":0.0,"gpqa":20.8,"gsm8k":71.4,"logiqa":33.3,"mathqa":35.0,"medmcqa":53.4,"mmlu":62.9,"piqa":85.8,"social_iqa":37.7,"truthfulqa_mc1":24.3},"nb":[8,6,36,71,62,17,111,13,78,67],"na":[82.3,91.6,83.0,82.8,85.0,82.8,81.7,82.7,87.0,83.2],"nd":[0.0,0.0,0.0001,0.0002,0.0002,0.0002,0.0003,0.0003,0.0004,0.0005]},{"i":88,"n":"dfurman/HermesBagel-34B-v0.1","f":"community_merge","s":"","b":32.0,"x":-0.9264,"y":-0.8599,"a":56.4,"p":{"asdiv":0.0,"gpqa":29.4,"gsm8k":74.1,"logiqa":43.1,"mathqa":47.7,"medmcqa":63.3,"mmlu":76.5,"piqa":86.6,"social_iqa":30.9,"truthfulqa_mc1":47.3},"nb":[5,39,83,1,31,76,15,95,30,72],"na":[89.3,89.4,88.3,88.8,89.2,78.9,87.0,80.6,80.0,75.4],"nd":[0.0001,0.0001,0.0001,0.0001,0.0002,0.0017,0.0018,0.0022,0.0059,0.0078]},{"i":89,"n":"project-baize/baize-v2-13b","f":"other","s":"","b":12.5,"x":0.4753,"y":0.3647,"a":35.8,"p":{"asdiv":0.0,"gpqa":20.8,"gsm8k":23.2,"logiqa":23.5,"mathqa":30.8,"medmcqa":38.4,"mmlu":45.6,"piqa":85.8,"social_iqa":31.5,"truthfulqa_mc1":27.0},"nb":[52,73,91,28,108,38,93,55,82,26],"na":[76.1,77.4,76.1,75.7,77.7,76.4,81.4,76.2,76.3,81.4],"nd":[0.0001,0.0006,0.0009,0.0009,0.0009,0.001,0.0011,0.0019,0.0024,0.0036]},{"i":90,"n":"augmxnt/shisa-base-7b-v1","f":"other","s":"","b":7.5,"x":0.9405,"y":0.8824,"a":20.8,"p":{"asdiv":1.0,"gpqa":9.4,"gsm8k":0.0,"logiqa":25.5,"mathqa":21.5,"medmcqa":30.8,"mmlu":23.2,"piqa":38.1,"social_iqa":37.7,"truthfulqa_mc1":21.6},"nb":[18,33,22,107,110,105,65,81,57,100],"na":[80.1,77.7,67.0,63.6,73.4,66.0,80.0,72.7,75.7,67.3],"nd":[0.0009,0.0027,0.0764,0.0893,0.1105,0.1414,0.1708,0.205,0.2242,0.2814]},{"i":91,"n":"lmsys/vicuna-7b-v1.5","f":"vicuna","s":"","b":7.5,"x":0.4379,"y":0.2772,"a":38.1,"p":{"asdiv":0.0,"gpqa":21.4,"gsm8k":13.4,"logiqa":31.4,"mathqa":28.7,"medmcqa":37.6,"mmlu":52.9,"piqa":82.8,"social_iqa":29.0,"truthfulqa_mc1":29.7},"nb":[108,93,52,73,89,28,38,26,45,54],"na":[80.4,77.4,83.1,81.7,76.1,80.1,72.8,75.4,75.3,73.4],"nd":[0.0003,0.0004,0.0005,0.0006,0.0009,0.0011,0.0014,0.0017,0.0022,0.0023]},{"i":92,"n":"Intel/neural-chat-7b-v3-3","f":"other","s":"","b":7.5,"x":-0.5234,"y":-0.4052,"a":46.1,"p":{"asdiv":0.0,"gpqa":19.6,"gsm8k":67.9,"logiqa":39.2,"mathqa":37.6,"medmcqa":48.9,"mmlu":61.2,"piqa":86.6,"social_iqa":37.0,"truthfulqa_mc1":40.5},"nb":[43,85,99,9,111,84,6,44,87,8],"na":[78.3,78.1,75.3,79.2,82.9,82.3,78.2,78.7,79.6,81.5],"nd":[0.0004,0.0007,0.0009,0.0012,0.0013,0.0018,0.0026,0.0027,0.0028,0.0028]},{"i":93,"n":"AdaptLLM/medicine-LLM-13B","f":"other","s":"biomed","b":12.5,"x":0.3876,"y":0.2944,"a":37.4,"p":{"asdiv":0.0,"gpqa":17.0,"gsm8k":21.4,"logiqa":21.6,"mathqa":29.1,"medmcqa":38.1,"mmlu":51.8,"piqa":83.6,"social_iqa":34.0,"truthfulqa_mc1":28.4},"nb":[73,108,91,28,38,26,52,89,45,101],"na":[77.5,77.5,77.4,76.1,75.6,78.5,76.5,81.4,76.8,76.1],"nd":[0.0002,0.0002,0.0004,0.0004,0.0007,0.0008,0.0009,0.0011,0.0021,0.0027]},{"i":94,"n":"openchat/openchat-3.5-0106","f":"openchat","s":"","b":7.5,"x":-0.533,"y":-0.6152,"a":48.7,"p":{"asdiv":5.6,"gpqa":26.4,"gsm8k":73.2,"logiqa":27.5,"mathqa":38.8,"medmcqa":52.8,"mmlu":64.0,"piqa":88.1,"social_iqa":30.9,"truthfulqa_mc1":28.4},"nb":[66,64,78,84,63,53,36,35,87,6],"na":[74.9,79.2,94.8,81.3,74.9,74.7,80.1,81.8,86.1,85.6],"nd":[0.0004,0.0006,0.0008,0.0011,0.0016,0.0017,0.0017,0.0021,0.0022,0.0023]},{"i":95,"n":"deepseek-ai/deepseek-llm-67b-chat","f":"deepseek_llm","s":"","b":70.0,"x":-0.8909,"y":-0.7981,"a":52.7,"p":{"asdiv":2.0,"gpqa":24.8,"gsm8k":79.5,"logiqa":45.1,"mathqa":38.0,"medmcqa":57.3,"mmlu":71.9,"piqa":89.6,"social_iqa":31.5,"truthfulqa_mc1":39.2},"nb":[15,76,30,31,83,72,88,5,39,1],"na":[82.1,79.4,80.5,81.7,82.1,76.3,80.6,80.5,80.9,80.6],"nd":[0.0003,0.0005,0.001,0.0011,0.0019,0.002,0.0022,0.0023,0.0023,0.0028]},{"i":96,"n":"FelixChao/llama2-13b-math1.2","f":"other","s":"math","b":12.5,"x":0.2216,"y":0.2074,"a":38.5,"p":{"asdiv":0.0,"gpqa":18.4,"gsm8k":32.1,"logiqa":29.4,"mathqa":34.2,"medmcqa":35.3,"mmlu":53.4,"piqa":85.1,"social_iqa":29.0,"truthfulqa_mc1":21.6},"nb":[101,27,16,26,74,14,4,45,3,93],"na":[73.6,76.6,85.5,73.1,77.7,75.1,74.4,76.9,73.3,77.8],"nd":[0.0004,0.0007,0.0009,0.0011,0.0014,0.0014,0.0022,0.0024,0.0025,0.0037]},{"i":97,"n":"MaziyarPanahi/WizardLM-Math-70B-v0.1","f":"wizardlm","s":"math","b":70.0,"x":-0.7391,"y":-0.6627,"a":50.7,"p":{"asdiv":2.0,"gpqa":25.8,"gsm8k":72.3,"logiqa":52.9,"mathqa":39.2,"medmcqa":47.7,"mmlu":69.7,"piqa":88.8,"social_iqa":30.9,"truthfulqa_mc1":37.8},"nb":[72,67,46,17,35,64,13,30,62,71],"na":[80.8,75.9,75.1,74.9,75.8,79.6,74.7,79.7,76.6,74.0],"nd":[0.0009,0.0013,0.0014,0.0015,0.0015,0.0016,0.0016,0.0017,0.0018,0.0018]},{"i":98,"n":"01-ai/Yi-6B-200K","f":"yi","s":"long-context","b":5.5,"x":0.0228,"y":0.0286,"a":42.9,"p":{"asdiv":0.5,"gpqa":20.0,"gsm8k":21.4,"logiqa":37.3,"mathqa":36.3,"medmcqa":46.0,"mmlu":61.1,"piqa":80.6,"social_iqa":30.9,"truthfulqa_mc1":23.0},"nb":[2,68,47,11,58,74,16,14,75,12],"na":[75.0,84.6,74.2,73.6,78.1,74.0,72.8,77.4,78.5,76.8],"nd":[0.0016,0.0018,0.0039,0.0048,0.0051,0.006,0.0061,0.0067,0.0077,0.0079]},{"i":99,"n":"WizardLM/WizardLM-70B-V1.0","f":"wizardlm","s":"","b":70.0,"x":-0.5784,"y":-0.4614,"a":46.9,"p":{"asdiv":0.0,"gpqa":21.6,"gsm8k":61.6,"logiqa":49.0,"mathqa":34.6,"medmcqa":50.0,"mmlu":64.3,"piqa":82.8,"social_iqa":30.2,"truthfulqa_mc1":37.8},"nb":[111,8,87,6,84,92,36,71,62,78],"na":[77.2,74.5,76.3,74.9,74.7,75.3,74.0,74.0,75.8,76.6],"nd":[0.0003,0.0007,0.0007,0.0007,0.0008,0.0009,0.0012,0.0015,0.0015,0.0015]},{"i":100,"n":"bigscience/bloom-7b1","f":"bloom","s":"","b":7.5,"x":0.8879,"y":0.9387,"a":28.3,"p":{"asdiv":70.2,"gpqa":16.8,"gsm8k":0.9,"logiqa":25.5,"mathqa":24.5,"medmcqa":22.0,"mmlu":26.5,"piqa":76.9,"social_iqa":30.9,"truthfulqa_mc1":16.2},"nb":[22,33,107,18,90,110,105,81,65,57],"na":[65.9,73.6,64.1,71.2,67.3,71.1,62.0,69.2,69.5,69.1],"nd":[0.2745,0.277,0.2791,0.2793,0.2814,0.2842,0.2936,0.3104,0.3173,0.3191]},{"i":101,"n":"sail/Sailor-7B","f":"other","s":"","b":7.5,"x":0.2583,"y":0.2299,"a":39.5,"p":{"asdiv":4.0,"gpqa":24.2,"gsm8k":37.5,"logiqa":27.5,"mathqa":36.3,"medmcqa":42.1,"mmlu":50.4,"piqa":81.3,"social_iqa":30.9,"truthfulqa_mc1":17.6},"nb":[96,26,3,45,27,74,4,16,14,93],"na":[73.6,75.1,72.4,74.5,75.0,71.2,76.8,70.7,76.4,76.1],"nd":[0.0004,0.0006,0.001,0.0012,0.0014,0.0015,0.0015,0.0021,0.0023,0.0027]},{"i":102,"n":"codellama/CodeLlama-13b-Instruct-hf","f":"code_llama","s":"code","b":12.5,"x":0.549,"y":0.5556,"a":31.7,"p":{"asdiv":0.5,"gpqa":16.0,"gsm8k":22.3,"logiqa":31.4,"mathqa":31.6,"medmcqa":29.9,"mmlu":40.7,"piqa":77.6,"social_iqa":30.9,"truthfulqa_mc1":21.6},"nb":[60,106,25,41,82,7,19,51,55,29],"na":[75.7,73.7,75.7,74.7,79.7,74.5,78.7,75.0,76.0,73.1],"nd":[0.0001,0.0014,0.0014,0.0027,0.0038,0.0049,0.0059,0.0067,0.0073,0.0075]},{"i":103,"n":"Writer/palmyra-med-20b","f":"palmyra","s":"biomed","b":22.5,"x":0.6471,"y":0.402,"a":34.5,"p":{"asdiv":0.0,"gpqa":19.2,"gsm8k":0.9,"logiqa":21.6,"mathqa":24.5,"medmcqa":44.1,"mmlu":45.8,"piqa":75.4,"social_iqa":35.8,"truthfulqa_mc1":18.9},"nb":[40,109,55,82,19,41,89,52,25,29],"na":[71.1,70.6,70.2,68.5,69.6,71.4,70.9,72.6,70.9,71.0],"nd":[0.0012,0.0021,0.0036,0.0066,0.0068,0.0069,0.0087,0.009,0.0096,0.0097]},{"i":104,"n":"Qwen/Qwen1.5-0.5B-Chat","f":"qwen_1_5","s":"","b":1.0,"x":0.8232,"y":0.7254,"a":25.0,"p":{"asdiv":0.0,"gpqa":11.4,"gsm8k":4.5,"logiqa":21.6,"mathqa":21.1,"medmcqa":28.2,"mmlu":30.6,"piqa":63.4,"social_iqa":37.7,"truthfulqa_mc1":27.0},"nb":[80,23,57,77,81,65,105,29,32,19],"na":[67.5,69.5,72.2,68.7,71.7,75.6,69.4,70.7,65.2,65.9],"nd":[0.0012,0.0028,0.0076,0.0077,0.0121,0.0183,0.034,0.0394,0.045,0.0476]},{"i":105,"n":"databricks/dolly-v2-12b","f":"other","s":"","b":12.5,"x":0.8529,"y":0.8108,"a":25.6,"p":{"asdiv":0.0,"gpqa":23.8,"gsm8k":3.6,"logiqa":19.6,"mathqa":27.0,"medmcqa":26.3,"mmlu":26.0,"piqa":75.4,"social_iqa":35.8,"truthfulqa_mc1":17.6},"nb":[110,65,107,81,22,57,104,23,80,77],"na":[74.3,66.5,71.1,71.1,67.3,70.8,69.4,72.4,70.2,69.2],"nd":[0.0024,0.0031,0.0069,0.0074,0.0111,0.012,0.034,0.0348,0.0349,0.0514]},{"i":106,"n":"nomic-ai/gpt4all-13b-snoozy","f":"other","s":"","b":12.5,"x":0.5181,"y":0.4925,"a":33.8,"p":{"asdiv":0.5,"gpqa":20.0,"gsm8k":34.8,"logiqa":29.4,"mathqa":27.4,"medmcqa":37.0,"mmlu":40.6,"piqa":83.6,"social_iqa":30.9,"truthfulqa_mc1":31.1},"nb":[82,41,25,102,60,55,89,38,28,73],"na":[72.4,82.9,79.3,73.7,73.4,73.8,83.3,76.6,73.0,74.7],"nd":[0.001,0.0011,0.0013,0.0014,0.0022,0.0032,0.004,0.0047,0.0048,0.0052]},{"i":107,"n":"stabilityai/stablelm-tuned-alpha-7b","f":"other","s":"","b":7.5,"x":0.8786,"y":0.84,"a":23.9,"p":{"asdiv":1.0,"gpqa":21.6,"gsm8k":1.8,"logiqa":25.5,"mathqa":23.6,"medmcqa":26.6,"mmlu":23.7,"piqa":71.6,"social_iqa":34.0,"truthfulqa_mc1":17.6},"nb":[22,110,105,65,81,57,33,104,80,23],"na":[74.9,71.6,71.1,66.1,68.7,69.0,68.1,67.0,73.9,72.3],"nd":[0.0005,0.0013,0.0069,0.017,0.028,0.0365,0.0621,0.0685,0.0709,0.0709]},{"i":108,"n":"AdaptLLM/medicine-chat","f":"other","s":"biomed","b":7.5,"x":0.4051,"y":0.2851,"a":36.8,"p":{"asdiv":2.0,"gpqa":22.6,"gsm8k":20.5,"logiqa":29.4,"mathqa":27.4,"medmcqa":38.4,"mmlu":48.7,"piqa":79.1,"social_iqa":30.9,"truthfulqa_mc1":24.3},"nb":[93,73,91,28,38,52,89,26,45,3],"na":[77.5,83.7,80.4,82.9,75.4,80.5,77.7,75.8,76.3,72.8],"nd":[0.0002,0.0003,0.0003,0.0004,0.0005,0.0006,0.0009,0.001,0.0015,0.0024]},{"i":109,"n":"AdaptLLM/medicine-LLM","f":"other","s":"biomed","b":7.5,"x":0.644,"y":0.4602,"a":33.5,"p":{"asdiv":0.0,"gpqa":18.4,"gsm8k":5.4,"logiqa":31.4,"mathqa":25.7,"medmcqa":31.4,"mmlu":46.3,"piqa":80.6,"social_iqa":30.9,"truthfulqa_mc1":23.0},"nb":[40,19,103,55,41,29,82,25,106,89],"na":[79.0,74.5,70.6,79.8,78.5,74.2,75.4,76.8,78.8,79.8],"nd":[0.0008,0.0015,0.0021,0.0028,0.003,0.003,0.0039,0.0042,0.0076,0.0093]},{"i":110,"n":"EleutherAI/pythia-12b","f":"pythia","s":"","b":12.5,"x":0.9017,"y":0.7999,"a":24.7,"p":{"asdiv":0.0,"gpqa":20.0,"gsm8k":4.5,"logiqa":29.4,"mathqa":25.7,"medmcqa":24.0,"mmlu":26.3,"piqa":76.1,"social_iqa":31.5,"truthfulqa_mc1":17.6},"nb":[107,105,22,65,81,57,104,23,80,77],"na":[71.6,74.3,70.5,75.7,77.4,77.6,72.9,74.6,72.9,72.3],"nd":[0.0013,0.0024,0.0034,0.0101,0.0179,0.0249,0.0536,0.0546,0.0549,0.0745]},{"i":111,"n":"Q-bert/Optimus-7B","f":"other","s":"","b":7.5,"x":-0.5876,"y":-0.4779,"a":46.7,"p":{"asdiv":0.0,"gpqa":21.8,"gsm8k":71.4,"logiqa":43.1,"mathqa":39.2,"medmcqa":51.4,"mmlu":61.7,"piqa":86.6,"social_iqa":29.6,"truthfulqa_mc1":33.8},"nb":[99,6,87,8,84,36,71,62,78,17],"na":[77.2,80.2,81.7,81.0,82.8,81.4,81.6,83.4,83.8,81.9],"nd":[0.0003,0.0003,0.0003,0.0004,0.0005,0.0006,0.0009,0.0009,0.001,0.0011]}],"datasets":["asdiv","gpqa","gsm8k","logiqa","mathqa","medmcqa","mmlu","piqa","social_iqa","truthfulqa_mc1"],"kth":[0.7897,0.7865,0.7773,0.7749,0.7772,0.7701,0.7704,0.7679,0.7672,0.7625,0.7628,0.7517,0.7541,0.7516,0.749,0.7504,0.7447,0.7463,0.7453,0.7407],"portfolio":{"k":[1,2,3,4,5,6,7,8,10,15,20,25],"kcenter":[{"k":1,"h1":40.5,"h3":40.5,"h5":40.5},{"k":2,"h1":40.2,"h3":53.17,"h5":53.17},{"k":3,"h1":44.33,"h3":65.23,"h5":65.23},{"k":4,"h1":44.27,"h3":64.63,"h5":69.5},{"k":5,"h1":63.63,"h3":76.97,"h5":83.17},{"k":6,"h1":63.63,"h3":76.63,"h5":83.0},{"k":7,"h1":63.6,"h3":76.37,"h5":82.57},{"k":8,"h1":63.47,"h3":76.57,"h5":81.83},{"k":10,"h1":63.53,"h3":76.27,"h5":81.8},{"k":15,"h1":65.77,"h3":78.87,"h5":83.17},{"k":20,"h1":65.73,"h3":78.77,"h5":82.8},{"k":25,"h1":65.67,"h3":78.93,"h5":83.3}],"kmedoids":[{"k":1,"h1":40.5,"h3":40.5,"h5":40.5},{"k":2,"h1":42.4,"h3":53.37,"h5":53.37},{"k":3,"h1":50.6,"h3":66.77,"h5":66.77},{"k":4,"h1":50.67,"h3":64.63,"h5":67.93},{"k":5,"h1":50.47,"h3":63.6,"h5":70.77},{"k":6,"h1":54.5,"h3":67.57,"h5":75.07},{"k":7,"h1":57.57,"h3":70.67,"h5":77.77},{"k":8,"h1":57.83,"h3":71.5,"h5":77.77},{"k":10,"h1":57.8,"h3":70.73,"h5":76.13},{"k":15,"h1":63.77,"h3":76.0,"h5":80.2},{"k":20,"h1":65.83,"h3":77.83,"h5":82.03},{"k":25,"h1":65.77,"h3":77.97,"h5":82.6}],"random":[{"k":1,"h1":41.53,"h3":41.53,"h5":41.53,"sd":9.82},{"k":2,"h1":45.52,"h3":55.83,"h5":55.83,"sd":6.58},{"k":3,"h1":47.62,"h3":63.6,"h5":63.6,"sd":5.84},{"k":4,"h1":50.84,"h3":65.19,"h5":69.34,"sd":5.39},{"k":5,"h1":51.6,"h3":66.43,"h5":73.37,"sd":5.05},{"k":6,"h1":52.09,"h3":66.95,"h5":73.57,"sd":6.52},{"k":7,"h1":54.31,"h3":68.6,"h5":74.9,"sd":4.53},{"k":8,"h1":53.1,"h3":67.36,"h5":73.88,"sd":5.45},{"k":10,"h1":54.65,"h3":68.78,"h5":75.2,"sd":4.43},{"k":15,"h1":55.07,"h3":69.23,"h5":75.32,"sd":3.93},{"k":20,"h1":57.86,"h3":70.88,"h5":76.77,"sd":3.73},{"k":25,"h1":58.58,"h3":71.82,"h5":77.58,"sd":4.1}],"picks":{"1":[16],"2":[16,90],"3":[16,90,100],"4":[16,90,100,57],"5":[16,90,100,57,50],"6":[16,90,100,57,50,69],"7":[16,90,100,57,50,69,111],"8":[16,90,100,57,50,69,111,61],"10":[16,90,100,57,50,69,111,61,29,22],"15":[16,90,100,57,50,69,111,61,29,22,37,49,51,56,76],"20":[16,90,100,57,50,69,111,61,29,22,37,49,51,56,76,86,32,77,89,24],"25":[16,90,100,57,50,69,111,61,29,22,37,49,51,56,76,86,32,77,89,24,105,59,79,103,53]},"picks_med":{"1":[16],"2":[11,105],"3":[101,105,97],"4":[101,33,97,81],"5":[58,33,106,81,97],"6":[58,18,100,81,97,106],"7":[58,18,100,81,83,106,84],"8":[14,18,100,81,83,106,84,10],"10":[14,18,100,23,83,59,78,0,82,110],"15":[34,18,100,85,50,59,78,10,41,110,23,26,7,47,31],"20":[14,18,100,81,50,69,78,10,41,110,37,49,51,75,31,34,32,80,108,85],"25":[14,18,100,57,50,69,71,61,25,107,37,49,51,47,31,34,32,80,108,85,105,59,79,40,66]}},"full":{"h1":65.73,"h3":77.83,"h5":81.7,"models":112,"params":1930}}</script>
+
+<script>
+(function () {
+  var root = document.getElementById('at-map');
+  if (!root) return;
+  var D = JSON.parse(document.getElementById('at-data').textContent);
+  var MS = D.models, SVG = 'http://www.w3.org/2000/svg';
+
+  var mode = 0;              // 0 neighbours, 1 portfolio
+  var sel = 0;               // selected model index
+  var kNb = 5;               // neighbours shown
+  var colBy = 'spec';
+  var pkIdx = 9;             // index into D.portfolio.k
+  var rule = 'kcenter';
+  var showCover = true;
+  var hot = -1;              // model emphasised by hovering its row in the list
+
+  var SPEC = {
+    'math':        '#d98032',
+    'code':        '#4f9d69',
+    'biomed':      '#a05fb4',
+    'safety':      '#c25d5d',
+    'science':     '#3b7dbf',
+    'roleplay':    '#b08a3e',
+    'moe':         '#5f8fb4',
+    'rag':         '#7b9a5c',
+    'long-context':'#8c7bb4'
+  };
+  var DSN = { asdiv:'ASDiv', gpqa:'GPQA', gsm8k:'GSM8K', logiqa:'LogiQA', mathqa:'MathQA',
+              medmcqa:'MedMCQA', mmlu:'MMLU', piqa:'PIQA', social_iqa:'SocialIQA',
+              truthfulqa_mc1:'TruthfulQA' };
+
+  function el(n, a) { var e = document.createElementNS(SVG, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+  function shortName(n) { var p = n.split('/'); return p.length > 1 ? p[1] : n; }
+  function orgOf(n) { var p = n.split('/'); return p.length > 1 ? p[0] : ''; }
+  // Distances in this space span four orders of magnitude; a fixed 3 decimals
+  // would round most neighbours to the same number.
+  function fmtD(d) {
+    if (d >= 0.01) return d.toFixed(3);
+    if (d >= 0.001) return d.toFixed(4);
+    if (d <= 0) return '0';
+    return d.toExponential(1).replace('e-0', '×10⁻').replace('e-', '×10⁻');
+  }
+
+  // map coords -> viewBox
+  var VB = 380, PAD = 16;
+  function mx(m) { return PAD + (m.x + 1) / 2 * (VB - 2 * PAD); }
+  function my(m) { return PAD + (1 - (m.y + 1) / 2) * (VB - 2 * PAD); }
+
+  var accRange = (function () {
+    var a = MS.map(function (m) { return m.a; });
+    return [Math.min.apply(null, a), Math.max.apply(null, a)];
+  })();
+
+  function mix(c1, c2, t) {
+    function h(c) { return [parseInt(c.substr(1,2),16), parseInt(c.substr(3,2),16), parseInt(c.substr(5,2),16)]; }
+    var a = h(c1), b = h(c2);
+    return 'rgb(' + a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }).join(',') + ')';
+  }
+  function colorOf(m, inPortfolio) {
+    // In portfolio mode the only distinction that matters is in / out, and the
+    // legend says so — so the picks take the accent rather than a family colour.
+    if (mode === 1) return inPortfolio ? (css('--accent') || '#1c5d99') : (css('--muted') || '#74787f');
+    if (colBy === 'spec') return m.s && SPEC[m.s] ? SPEC[m.s] : (css('--muted') || '#74787f');
+    if (colBy === 'acc') {
+      var t = (m.a - accRange[0]) / (accRange[1] - accRange[0]);
+      return mix('#c9ccd1', css('--accent') || '#1c5d99', Math.pow(t, 0.85));
+    }
+    var t2 = Math.min(1, Math.log2(m.b) / Math.log2(70));
+    return mix('#cfd3d8', '#3b5f7d', t2);
+  }
+  function radiusOf(m) {
+    if (colBy === 'size') return 2.6 + 3.6 * Math.min(1, Math.log2(m.b) / Math.log2(70));
+    return 4.0;
+  }
+
+  // ── portfolio helpers ──────────────────────────────────────────────────
+  function picksNow() {
+    var k = D.portfolio.k[pkIdx];
+    var src = rule === 'kcenter' ? D.portfolio.picks : D.portfolio.picks_med;
+    return (src[String(k)] || []).slice();
+  }
+  function curveAt(name) {
+    var k = D.portfolio.k[pkIdx];
+    var rows = D.portfolio[name];
+    for (var i = 0; i < rows.length; i++) if (rows[i].k === k) return rows[i];
+    return null;
+  }
+  // nearest selected model, in the real embedding geometry where possible
+  function assignTo(picks) {
+    var set = {}, i;
+    for (i = 0; i < picks.length; i++) set[picks[i]] = 1;
+    return MS.map(function (m) {
+      if (set[m.i]) return m.i;
+      for (var r = 0; r < m.nb.length; r++) if (set[m.nb[r]]) return m.nb[r];  // true 128-D ranking
+      var best = picks[0], bd = 1e9;                                            // fallback: 2-D
+      for (var j = 0; j < picks.length; j++) {
+        var o = MS[picks[j]], d = (m.x - o.x) * (m.x - o.x) + (m.y - o.y) * (m.y - o.y);
+        if (d < bd) { bd = d; best = picks[j]; }
+      }
+      return best;
+    });
+  }
+
+  // ── draw the map ───────────────────────────────────────────────────────
+  function drawMap() {
+    root.textContent = '';
+    var gLink = el('g', {}), gPt = el('g', {}), gLab = el('g', {});
+    root.appendChild(gLink); root.appendChild(gPt); root.appendChild(gLab);
+
+    var picks = mode === 1 ? picksNow() : [];
+    var inSet = {}; picks.forEach(function (p) { inSet[p] = 1; });
+    var assign = (mode === 1 && showCover) ? assignTo(picks) : null;
+    var nbs = mode === 0 ? MS[sel].nb.slice(0, kNb) : [];
+    var isNb = {}; nbs.forEach(function (n) { isNb[n] = 1; });
+
+    if (mode === 1 && assign) {
+      MS.forEach(function (m) {
+        if (inSet[m.i]) return;
+        var t = MS[assign[m.i]];
+        gLink.appendChild(el('line', { class: 'cover', x1: mx(m), y1: my(m), x2: mx(t), y2: my(t) }));
+      });
+    }
+    if (mode === 0) {
+      var s = MS[sel];
+      nbs.forEach(function (n, r) {
+        var o = MS[n];
+        gLink.appendChild(el('line', {
+          class: 'link', stroke: css('--accent') || '#1c5d99',
+          'stroke-width': (2.4 - r * 0.16).toFixed(2), opacity: (0.72 - r * 0.045).toFixed(2),
+          x1: mx(s), y1: my(s), x2: mx(o), y2: my(o)
+        }));
+      });
+      gLink.appendChild(el('circle', { class: 'ring', cx: mx(s), cy: my(s), r: 11 }));
+    }
+
+    MS.forEach(function (m) {
+      var dim = (mode === 0 && m.i !== sel && !isNb[m.i]) || (mode === 1 && !inSet[m.i]);
+      var isSel = (mode === 0 && m.i === sel) || (mode === 1 && inSet[m.i]);
+      var r = dim ? radiusOf(m) * 0.78 : radiusOf(m);
+      gPt.appendChild(el('circle', {
+        class: 'pt' + (dim ? ' dim' : '') + (isSel ? ' sel' : '') + (hot === m.i ? ' hot' : ''),
+        cx: mx(m).toFixed(2), cy: my(m).toFixed(2),
+        r: (isSel ? r + 1.4 : (hot === m.i ? r + 1.2 : r)).toFixed(2),
+        fill: colorOf(m, !!inSet[m.i]),
+        'data-i': m.i
+      }));
+    });
+
+    // One label only. Names of neighbours and picks live in the side panel,
+    // where they can be read; on the map they collide into an unreadable blob.
+    if (mode === 0) {
+      var s2 = MS[sel];
+      var t = el('text', { class: 'lbl', x: (mx(s2) + 13).toFixed(1), y: (my(s2) - 10).toFixed(1) });
+      var nm = shortName(s2.n);
+      t.textContent = nm.length > 24 ? nm.slice(0, 23) + '…' : nm;
+      if (mx(s2) > VB * 0.62) { t.setAttribute('x', (mx(s2) - 13).toFixed(1)); t.setAttribute('text-anchor', 'end'); }
+      gLab.appendChild(t);
+    }
+  }
+
+  function drawLegend() {
+    var L = document.getElementById('at-legend');
+    L.textContent = '';
+    function item(color, text) {
+      var s = document.createElement('span'), i = document.createElement('i');
+      i.style.background = color; s.appendChild(i);
+      s.appendChild(document.createTextNode(text)); L.appendChild(s);
+    }
+    if (mode === 1) {
+      item(css('--accent') || '#1c5d99', 'in the portfolio');
+      item(css('--muted') || '#74787f', 'covered by a selected model');
+      return;
+    }
+    if (colBy === 'spec') {
+      ['math', 'code', 'biomed', 'science', 'safety', 'roleplay'].forEach(function (k) { item(SPEC[k], k); });
+      item(css('--muted') || '#74787f', 'general');
+    } else if (colBy === 'acc') {
+      item('#c9ccd1', accRange[0].toFixed(0) + '% accuracy');
+      item(css('--accent') || '#1c5d99', accRange[1].toFixed(0) + '%');
+    } else {
+      item('#cfd3d8', '≈1B parameters'); item('#3b5f7d', '≈70B');
+    }
+  }
+
+  // ── neighbour panel ────────────────────────────────────────────────────
+  function drawNb() {
+    var m = MS[sel];
+    var nm = document.getElementById('at-name');
+    nm.innerHTML = '<span class="org">' + orgOf(m.n) + '/</span>' + shortName(m.n);
+
+    var bits = [];
+    bits.push('<span class="tag">' + (m.b >= 1 ? m.b + 'B' : m.b) + ' params</span>');
+    if (m.s) bits.push('<span class="tag">' + m.s + '</span>');
+    bits.push(m.a.toFixed(1) + '% accuracy overall');
+    document.getElementById('at-meta').innerHTML = bits.join(' ');
+
+    var P = document.getElementById('at-prof');
+    P.textContent = '';
+    D.datasets.forEach(function (d) {
+      var v = m.p[d];
+      var row = document.createElement('div'); row.className = 'at-prow';
+      var a = document.createElement('span'); a.className = 'nm'; a.textContent = DSN[d] || d;
+      var tr = document.createElement('div'); tr.className = 'tr';
+      var fl = document.createElement('div'); fl.className = 'fl';
+      fl.style.width = Math.max(0, Math.min(100, v)) + '%';
+      fl.style.background = colorOf(m);
+      tr.appendChild(fl);
+      var pc = document.createElement('span'); pc.className = 'pc'; pc.textContent = v.toFixed(0);
+      row.appendChild(a); row.appendChild(tr); row.appendChild(pc);
+      P.appendChild(row);
+    });
+
+    var O = document.getElementById('at-nblist');
+    O.textContent = '';
+    m.nb.slice(0, kNb).forEach(function (j, r) {
+      var o = MS[j], li = document.createElement('li');
+      var w = document.createElement('span'); w.className = 'who';
+      w.textContent = shortName(o.n);
+      var g = document.createElement('span'); g.className = 'ag';
+      g.innerHTML = m.na[r].toFixed(1) + '%<small>d = ' + fmtD(m.nd[r]) + '</small>';
+      li.appendChild(w); li.appendChild(g);
+      li.style.cursor = 'pointer';
+      li.addEventListener('pointerenter', function () { hot = j; drawMap(); });
+      li.addEventListener('pointerleave', function () { hot = -1; drawMap(); });
+      li.addEventListener('click', function () { sel = j; hot = -1; render(); });
+      O.appendChild(li);
+    });
+
+    var top = MS[m.nb[0]];
+    document.getElementById('at-note').innerHTML =
+      'If <b>' + shortName(m.n) + '</b> were unavailable, its closest neighbour <b>' +
+      shortName(top.n) + '</b> gives the same verdict on <b>' + m.na[0].toFixed(1) +
+      '%</b> of test queries. Across all 112 models that closest-neighbour agreement averages ' +
+      '<b>' + (D.kth[0] * 100).toFixed(0) + '%</b>, and it decays gently — the fifth neighbour ' +
+      'still agrees ' + (D.kth[4] * 100).toFixed(0) + '% of the time, which is why falling back ' +
+      'two or three places costs so little.';
+  }
+
+  // ── portfolio panel ────────────────────────────────────────────────────
+  function drawPf() {
+    var k = D.portfolio.k[pkIdx];
+    var full = D.full.h1;
+    var rows = [
+      { key: 'kcenter',  lab: 'k-center',  c: '#4f9d69' },
+      { key: 'kmedoids', lab: 'k-medoids', c: '#d98032' },
+      { key: 'random',   lab: 'random subset', c: css('--muted') || '#74787f' }
+    ];
+    var B = document.getElementById('at-bars');
+    B.textContent = '';
+    var MAXV = 72;
+    rows.forEach(function (r) {
+      var row = curveAt(r.key); if (!row) return;
+      var d = document.createElement('div'); d.className = 'at-brow';
+      var lab = document.createElement('div'); lab.className = 'lab';
+      var a = document.createElement('span');
+      a.textContent = r.lab + (r.key === rule ? ' ●' : '');
+      a.style.fontWeight = r.key === rule ? '650' : '400';
+      var b = document.createElement('span'); b.className = 'v';
+      b.textContent = row.h1.toFixed(1) + '%' + (r.key === 'random' ? ' ± ' + (row.sd || 0).toFixed(1) : '');
+      lab.appendChild(a); lab.appendChild(b);
+      var tr = document.createElement('div'); tr.className = 'at-btrack';
+      var fl = document.createElement('div'); fl.className = 'at-bfill';
+      fl.style.width = (row.h1 / MAXV * 100) + '%';
+      fl.style.background = r.c;
+      fl.style.opacity = r.key === rule ? '1' : '.5';
+      var fu = document.createElement('div'); fu.className = 'at-full';
+      fu.style.left = (full / MAXV * 100) + '%';
+      tr.appendChild(fl); tr.appendChild(fu);
+      d.appendChild(lab); d.appendChild(tr);
+      B.appendChild(d);
+    });
+    var cap = document.createElement('p');
+    cap.style.cssText = 'font-size:.72rem;color:var(--muted);margin:.5rem 0 0';
+    cap.innerHTML = 'Dashed line: all <b>112</b> models, ' + full.toFixed(1) + '%.';
+    B.appendChild(cap);
+
+    var picks = picksNow();
+    document.getElementById('at-pfk').textContent = '(' + rule + ', k = ' + k + ')';
+    var L = document.getElementById('at-picklist');
+    L.textContent = '';
+    picks.forEach(function (i) {
+      var li = document.createElement('li');
+      li.textContent = shortName(MS[i].n);
+      li.style.cursor = 'pointer';
+      li.addEventListener('pointerenter', function () { hot = i; drawMap(); });
+      li.addEventListener('pointerleave', function () { hot = -1; drawMap(); });
+      L.appendChild(li);
+    });
+
+    var row = curveAt(rule), rnd = curveAt('random');
+    var gap = row.h1 - full;
+    document.getElementById('at-note').innerHTML =
+      'A <b>' + k + '-model</b> portfolio chosen by <b>' + rule + '</b> routes at <b>' +
+      row.h1.toFixed(1) + '%</b> — ' +
+      (gap >= -0.4
+        ? 'matching the full 112-model pool with <b>' + (112 - k) + ' fewer models</b>. '
+        : (full - row.h1).toFixed(1) + ' points below the full pool. ') +
+      'A random subset of the same size manages ' + rnd.h1.toFixed(1) + '%. ' +
+      'The selection uses only the embedding geometry: no candidate subset was ever ' +
+      'evaluated on a query.';
+  }
+
+  // ── hit testing: nearest point to the pointer ──────────────────────────
+  function pick(e) {
+    var r = root.getBoundingClientRect();
+    var px = (e.clientX - r.left) / r.width * VB, py = (e.clientY - r.top) / r.height * VB;
+    var best = -1, bd = 1e9;
+    for (var i = 0; i < MS.length; i++) {
+      var dx = mx(MS[i]) - px, dy = my(MS[i]) - py, d = dx * dx + dy * dy;
+      if (d < bd) { bd = d; best = i; }
+    }
+    return bd < 400 ? best : -1;
+  }
+  root.addEventListener('pointerdown', function (e) {
+    if (mode !== 0) return;
+    var i = pick(e);
+    if (i >= 0) { sel = i; render(); }
+  });
+  root.addEventListener('pointermove', function (e) {
+    if (mode !== 0) return;
+    root.style.cursor = pick(e) >= 0 ? 'pointer' : 'crosshair';
+  });
+
+  // ── wiring ─────────────────────────────────────────────────────────────
+  function setMode(m) {
+    mode = m;
+    document.getElementById('at-m0').setAttribute('aria-pressed', m === 0);
+    document.getElementById('at-m1').setAttribute('aria-pressed', m === 1);
+    document.getElementById('at-pane-nb').classList.toggle('at-hide', m !== 0);
+    document.getElementById('at-pane-pf').classList.toggle('at-hide', m !== 1);
+    document.getElementById('at-ctl-nb').classList.toggle('at-hide', m !== 0);
+    document.getElementById('at-ctl-pf').classList.toggle('at-hide', m !== 1);
+    render();
+  }
+  document.getElementById('at-m0').addEventListener('click', function () { setMode(0); });
+  document.getElementById('at-m1').addEventListener('click', function () { setMode(1); });
+
+  document.getElementById('at-k').addEventListener('input', function (e) {
+    kNb = +e.target.value;
+    document.getElementById('at-kval').textContent = kNb;
+    render();
+  });
+  document.getElementById('at-pk').addEventListener('input', function (e) {
+    pkIdx = +e.target.value;
+    document.getElementById('at-pkval').textContent = D.portfolio.k[pkIdx];
+    render();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-col]'), function (b) {
+    b.addEventListener('click', function () {
+      colBy = b.dataset.col;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-col]'), function (o) {
+        o.setAttribute('aria-pressed', o === b);
+      });
+      render();
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-sel]'), function (b) {
+    b.addEventListener('click', function () {
+      rule = b.dataset.sel;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-sel]'), function (o) {
+        o.setAttribute('aria-pressed', o === b);
+      });
+      render();
+    });
+  });
+  document.getElementById('at-cover').addEventListener('click', function () {
+    showCover = !showCover;
+    this.setAttribute('aria-pressed', showCover);
+    render();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.at-jump'), function (b) {
+    b.addEventListener('click', function () {
+      var q = b.dataset.q.toLowerCase();
+      for (var i = 0; i < MS.length; i++) {
+        if (MS[i].n.toLowerCase().indexOf(q) >= 0) { sel = i; break; }
+      }
+      if (mode !== 0) setMode(0); else render();
+    });
+  });
+
+  function render() { drawMap(); drawLegend(); if (mode === 0) drawNb(); else drawPf(); }
+
+  document.getElementById('at-src').innerHTML =
+    'Every number here is measured, not illustrative. Embeddings are recomputed from the ' +
+    'released LOCUS checkpoint over 4,096 evaluations per model; neighbours and distances ' +
+    'are cosine distances in the full <b>128</b> dimensions, and agreement is the fraction of ' +
+    '3,000 held-out test queries on which two models’ correctness labels match. Portfolio ' +
+    'accuracies and selections are the paper’s own, on the same test split. The 2-D layout is ' +
+    't-SNE on the cosine distances and is the only approximation on this figure — it preserves ' +
+    '<b>84%</b> of each model’s true ten nearest neighbours, so read positions as a guide and ' +
+    'the listed distances as the truth.';
+
+  // start somewhere interesting: the math specialist
+  for (var i = 0; i < MS.length; i++) if (MS[i].n.indexOf('deepseek-math') >= 0) { sel = i; break; }
+  document.getElementById('at-pkval').textContent = D.portfolio.k[pkIdx];
+  render();
+  new MutationObserver(function () { render(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+})();
+</script>
