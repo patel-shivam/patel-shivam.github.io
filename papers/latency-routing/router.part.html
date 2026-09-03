@@ -1,0 +1,978 @@
+<style>
+.lr {
+  --m0: #2a78d6;      /* Qwen3-0.6B  */
+  --m1: #eb6834;      /* Qwen3-8B    */
+  --m2: #1baf7a;      /* Qwen3-32B   */
+  --st-good: #0ca30c;
+  --st-warn: #fab219;
+  --st-crit: #d03b3b;
+  --lane: color-mix(in srgb, var(--muted) 16%, transparent);
+
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 1.1rem 1.2rem 1.2rem;
+  margin: 2rem 0;
+}
+:root[data-theme="dark"] .lr {
+  --m0: #3987e5;
+  --m1: #d95926;
+  --m2: #199e70;
+}
+.lr h4 {
+  font-family: var(--sans);
+  font-size: .72rem; font-weight: 650; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 0 0 .9rem;
+}
+
+/* ── controls ─────────────────────────────────────────────────────── */
+.lr-ctl { display: grid; gap: .75rem; margin-bottom: 1rem; }
+.lr-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.lr-row > .lbl {
+  font-size: .68rem; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--muted); font-weight: 650; min-width: 6.1rem;
+}
+.lr-seg { display: flex; gap: .3rem; flex-wrap: wrap; }
+.lr-seg button, .lr-mini button {
+  font: inherit; font-size: .76rem; line-height: 1.25;
+  padding: .28rem .58rem; border-radius: 5px;
+  border: 1px solid var(--rule); background: var(--bg); color: var(--fg-soft);
+  cursor: pointer; transition: border-color .15s, color .15s, background .15s;
+}
+.lr-seg button:hover, .lr-mini button:hover { border-color: var(--accent); color: var(--accent); }
+.lr-seg button[aria-pressed="true"] {
+  background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 650;
+}
+.lr-seg button:focus-visible, .lr-mini button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lr-seg button.ours[aria-pressed="true"] { box-shadow: inset 0 -2px 0 var(--accent); }
+
+.lr-slider { display: flex; align-items: center; gap: .6rem; flex: 1; min-width: 13rem; }
+.lr-slider input { flex: 1; accent-color: var(--accent); min-width: 7rem; }
+.lr-slider .val {
+  font-variant-numeric: tabular-nums; color: var(--fg-soft);
+  min-width: 4.6rem; font-size: .78rem;
+}
+.lr-mini { display: flex; gap: .3rem; margin-left: auto; }
+
+/* ── stage ────────────────────────────────────────────────────────── */
+.lr-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+/* The demo column is ~650px on desktop, so keep the floor below that: only
+   genuinely narrow screens scroll, and the stage never clips at full width. */
+.lr-stage { width: 100%; height: auto; display: block; min-width: 600px; }
+.lr-stage text { font-family: var(--sans); fill: var(--muted); }
+.lr-stage .zone { fill: none; stroke: var(--rule); stroke-width: 1; }
+.lr-stage .zlab { font-size: 8.5px; letter-spacing: .09em; text-transform: uppercase; font-weight: 650; }
+.lr-stage .panel-bg { fill: var(--bg); stroke: var(--rule); stroke-width: 1; }
+.lr-stage .panel-bg.hot { stroke: var(--st-warn); }
+.lr-stage .panel-bg.crit { stroke: var(--st-crit); }
+.lr-stage .panel-wash { fill: var(--st-crit); opacity: 0; }
+.lr-stage .mname { font-size: 10.5px; font-weight: 650; fill: var(--fg); }
+.lr-stage .mtag  { font-size: 9px; fill: var(--muted); }
+.lr-stage .mstat { font-size: 9px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.lr-stage .mstat.hot  { fill: var(--st-warn); font-weight: 650; }
+.lr-stage .mstat.crit { fill: var(--st-crit); font-weight: 650; }
+
+/* query bars */
+.lr-stage .qpend { fill: none; stroke: var(--muted); stroke-width: 1;
+                   stroke-dasharray: 2.5 2.5; opacity: .62; }
+.lr-stage .qfill { stroke: none; }
+.lr-stage .qfill.pre  { fill: var(--accent); }
+.lr-stage .qfill.ok   { fill: color-mix(in srgb, var(--fg-soft) 62%, transparent); }
+.lr-stage .qfill.late { fill: var(--st-crit); }
+.lr-stage .qdiv  { stroke: var(--fg); stroke-width: 1; opacity: .55; }
+.lr-stage .qflash { fill: none; stroke: var(--accent); stroke-width: 1.4; }
+.lr-stage .qq { stroke: none; fill: color-mix(in srgb, var(--muted) 55%, transparent); }
+.lr-stage .qq.late { fill: var(--st-crit); opacity: .85; }
+.lr-stage .qmore { font-size: 8.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* arrivals + router */
+.lr-stage .arr { fill: color-mix(in srgb, var(--fg-soft) 45%, transparent); }
+.lr-stage .arrp { fill: none; stroke: var(--muted); stroke-width: .9; stroke-dasharray: 2 2; opacity: .55; }
+.lr-stage .router-bg { fill: var(--bg); stroke: var(--rule); stroke-width: 1; }
+.lr-stage .rlab { font-size: 9.5px; font-weight: 650; fill: var(--fg); }
+.lr-stage .rsub { font-size: 8.5px; fill: var(--muted); }
+
+.m0 { color: var(--m0); } .m1 { color: var(--m1); } .m2 { color: var(--m2); }
+.lr-stage .dot0 { fill: var(--m0); }
+.lr-stage .dot1 { fill: var(--m1); }
+.lr-stage .dot2 { fill: var(--m2); }
+/* stroke only — these are open paths, and a fill would paint the curve solid */
+.lr-stage .link0 { stroke: var(--m0); }
+.lr-stage .link1 { stroke: var(--m1); }
+.lr-stage .link2 { stroke: var(--m2); }
+.lr-stage .link { stroke-width: 1.4; fill: none; }
+.lr-stage .clock { font-size: 9px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* ── legend ───────────────────────────────────────────────────────── */
+.lr-legend {
+  display: flex; gap: 1rem 1.4rem; flex-wrap: wrap;
+  font-size: .72rem; color: var(--muted);
+  margin: .7rem 0 0; padding-top: .7rem; border-top: 1px solid var(--rule);
+}
+.lr-legend .it { display: flex; align-items: center; gap: .38rem; }
+.lr-legend svg { display: block; flex: none; }
+.lr-legend b { color: var(--fg-soft); font-weight: 600; }
+
+/* ── results ──────────────────────────────────────────────────────── */
+.lr-res { margin-top: 1.1rem; padding-top: .95rem; border-top: 1px solid var(--rule); }
+.lr-res .cap {
+  font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); font-weight: 650; margin: 0 0 .6rem;
+}
+.lr-res .cap .n { text-transform: none; letter-spacing: 0; font-weight: 400; }
+.lr-tab { width: 100%; border-collapse: collapse; font-size: .78rem; min-width: 480px; }
+.lr-tab th {
+  font-size: .64rem; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--muted); font-weight: 650; text-align: right;
+  padding: 0 .35rem .35rem; white-space: nowrap;
+}
+.lr-tab th:first-child { text-align: left; }
+.lr-tab td {
+  padding: .3rem .35rem; text-align: right;
+  font-variant-numeric: tabular-nums; color: var(--fg-soft);
+  border-top: 1px solid var(--rule);
+}
+.lr-tab td:first-child { text-align: left; white-space: nowrap; color: var(--fg); }
+.lr-tab tr.sel td { background: var(--accent-bg); }
+.lr-tab tr.ours td:first-child { font-weight: 650; }
+.lr-tab .bar { display: block; height: 4px; border-radius: 2px; margin-top: 3px; background: var(--accent); opacity: .55; }
+.lr-tab .best { color: var(--fg); font-weight: 650; }
+.lr-tab .warnv { color: var(--st-crit); }
+
+/* histogram */
+.lr-hist { width: 100%; height: auto; display: block; margin-top: .3rem; min-width: 460px; }
+.lr-hist text { font-family: var(--sans); font-size: 8.5px; fill: var(--muted); }
+.lr-hist .grid { stroke: var(--rule); stroke-width: 1; }
+.lr-hist .axis { stroke: color-mix(in srgb, var(--muted) 45%, transparent); stroke-width: 1; }
+.lr-hist .bok { fill: var(--st-good); }
+.lr-hist .bad { fill: var(--st-crit); }
+.lr-hist .taul { stroke: var(--fg); stroke-width: 1; stroke-dasharray: 3 2; opacity: .7; }
+.lr-hist .hit { fill: transparent; cursor: crosshair; }
+
+.lr-tip {
+  position: absolute; pointer-events: none; opacity: 0;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 6px;
+  padding: .35rem .5rem; font-size: .72rem; color: var(--fg-soft);
+  box-shadow: 0 2px 10px rgba(0,0,0,.13); white-space: nowrap; z-index: 5;
+  transition: opacity .1s;
+}
+.lr-tip b { color: var(--fg); font-weight: 650; }
+.lr-wrap { position: relative; }
+
+.lr-note { font-size: .8rem; color: var(--muted); margin: .95rem 0 0; line-height: 1.62; }
+.lr-note b { color: var(--fg-soft); font-weight: 600; }
+.lr-status { font-size: .74rem; color: var(--muted); min-height: 1.2em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lr-stage .link, .lr-stage .panel-wash { transition: none !important; }
+}
+@media (max-width: 640px) {
+  .lr-row > .lbl { min-width: 100%; }
+  .lr-mini { margin-left: 0; }
+}
+</style>
+
+<div class="lr">
+  <h4>Interactive · one arrival trace, four model instances, four routers</h4>
+
+  <div class="lr-ctl">
+    <div class="lr-row">
+      <span class="lbl">Router</span>
+      <div class="lr-seg" id="lr-pol" role="group" aria-label="Routing policy"></div>
+    </div>
+    <div class="lr-row">
+      <span class="lbl">Arrival rate</span>
+      <label class="lr-slider">
+        <input type="range" id="lr-qps" min="4" max="13" step="1" value="10"
+               aria-label="Total query arrival rate in queries per second">
+        <span class="val" id="lr-qpsv">10 q/s</span>
+      </label>
+      <div class="lr-mini">
+        <button type="button" id="lr-play">Pause</button>
+        <button type="button" id="lr-replay">Replay</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lr-wrap lr-scroll">
+    <svg class="lr-stage" id="lr-stage" viewBox="0 0 960 452" role="img"
+         aria-label="Queries arriving at a router and being dispatched to four model instances, whose queues build up over time"></svg>
+  </div>
+
+  <div class="lr-legend">
+    <span class="it">
+      <svg width="46" height="10" aria-hidden="true">
+        <rect x="0.5" y="0.5" width="45" height="9" rx="2" class="qpend"
+              style="fill:none;stroke:currentColor;stroke-dasharray:2.5 2.5;opacity:.6"></rect>
+        <rect x="0" y="0" width="18" height="10" rx="2" style="fill:currentColor;opacity:.6"></rect>
+        <line x1="26" y1="0" x2="26" y2="10" style="stroke:currentColor;opacity:.55"></line>
+      </svg>
+      one query — <b>solid</b> = tokens computed, <b>dashed</b> = still to come, tick = prompt&nbsp;ends
+    </span>
+    <span class="it"><svg width="10" height="10" aria-hidden="true"><rect width="10" height="10" rx="2" fill="var(--accent)"></rect></svg> prefilling</span>
+    <span class="it"><svg width="10" height="10" aria-hidden="true"><rect width="10" height="10" rx="2" fill="var(--st-crit)"></rect></svg> missed its TTFT target</span>
+    <span class="it" id="lr-mleg"></span>
+  </div>
+
+  <div class="lr-res">
+    <p class="cap">Every router on the same arrival trace
+      <span class="n" id="lr-n"></span></p>
+    <div class="lr-scroll">
+    <table class="lr-tab" id="lr-tab">
+      <thead>
+        <tr>
+          <th>Router</th>
+          <th>Mean TTFT</th>
+          <th>p95 TTFT</th>
+          <th title="Fraction of queries whose first token arrived inside their own TTFT target">On&nbsp;time</th>
+          <th title="Mean accuracy − λ·cost of the instance each query was sent to">Utility</th>
+          <th title="Mean utility, counting a late query as zero">OnTimeUtility</th>
+        </tr>
+      </thead>
+      <tbody id="lr-tbody"></tbody>
+    </table>
+    </div>
+
+    <p class="cap" style="margin-top:1.1rem">Time-to-first-token, selected router
+      <span class="n" id="lr-hlab"></span></p>
+    <div class="lr-wrap lr-scroll">
+      <svg class="lr-hist" id="lr-hist" viewBox="0 0 960 132" role="img"
+           aria-label="Histogram of time-to-first-token, split into queries that met and missed their target"></svg>
+      <div class="lr-tip" id="lr-tip"></div>
+    </div>
+    <p class="lr-status" id="lr-status"></p>
+  </div>
+
+  <p class="lr-note">
+    All four instances are given <b>identical service capacity</b> here, so every latency
+    difference on screen comes from routing alone rather than from one model being
+    faster. Prompt and response lengths are representative of the four tasks — short/long
+    in each direction — rather than their measured distributions, and are scaled so the
+    paper's TTFT targets are reachable on an idle instance. Accuracy comes from the paper's LLM-as-a-judge scores and cost from published
+    Qwen3 per-token prices, so the utility each router chases is the real one — which is
+    why <b>Qwen3-0.6B is never the utility-maximising choice</b> for any of the four tasks,
+    and an accuracy–cost router leaves it idle while the instances it prefers saturate.
+    The engine here is a token-batch simulator, and SFS is that same simulator rolled
+    forward from each instance's current workload using <i>predicted</i> decode lengths
+    (±30% error), so it is close to exact by construction. The paper's evidence that this
+    holds against a real vLLM deployment is the 5% TTFT error measured below.
+  </p>
+</div>
+
+<script>
+(function () {
+  var stage = document.getElementById('lr-stage');
+  if (!stage) return;
+
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(n, a) {
+    var e = document.createElementNS(NS, n);
+    for (var k in a) e.setAttribute(k, a[k]);
+    return e;
+  }
+
+  /* ─── model / workload constants (see page text) ────────────────── */
+  var B0 = 1.2, B1 = 0.014, B2 = 1.5e-4, B3 = 1.2e-6;  /* eq. (11), ms */
+  var BUDGET = 512, KMAX = 6, LAM = 5e-4, HORIZON = 40000, EST_CAP = 1200;
+
+  var MODELS = {
+    a: { name: 'Qwen3-0.6B', pin: 0.044, pout: 0.173, ci: 0 },
+    b: { name: 'Qwen3-8B',   pin: 0.072, pout: 0.287, ci: 1 },
+    c: { name: 'Qwen3-32B',  pin: 0.287, pout: 0.640, ci: 2 }
+  };
+  var TASKS = [
+    { id: 'alpaca',    tag: 'A', p: [20, 120],    d: [120, 300], acc: { a: .535, b: .827, c: .889 } },
+    { id: 'hotpot',    tag: 'H', p: [900, 1800],  d: [60, 200],  acc: { a: .410, b: .883, c: .927 } },
+    { id: 'govreport', tag: 'G', p: [5000, 9000], d: [400, 800], acc: { a: .290, b: .866, c: .959 } },
+    { id: 'writing',   tag: 'W', p: [30, 120],    d: [500, 900], acc: { a: .177, b: .575, c: .807 } }
+  ];
+  var INST = [
+    { m: 'a', tag: '' }, { m: 'b', tag: '#1' }, { m: 'b', tag: '#2' }, { m: 'c', tag: '' }
+  ];
+  var POLICIES = [
+    { id: 'la',  name: 'Accuracy–cost only' },
+    { id: 'rr',  name: 'Round robin' },
+    { id: 'sq',  name: 'Shortest queue' },
+    { id: 'sfs', name: 'SFS (ours)', ours: true }
+  ];
+
+  function utility(task, m, p, d) {
+    var M = MODELS[m];
+    return task.acc[m] - LAM * (p * M.pin + d * M.pout);
+  }
+  function batchTime(decCtxSum, nTok, preTerm) {
+    return B0 + B1 * nTok + B2 * decCtxSum + B3 * preTerm;
+  }
+
+  /* ─── deterministic RNG so every policy sees the same trace ─────── */
+  function rng(seed) {
+    var s = seed >>> 0;
+    return function () {
+      s ^= s << 13; s ^= s >>> 17; s ^= s << 5;
+      return (s >>> 0) / 4294967296;
+    };
+  }
+
+  function buildTrace(qps, seed) {
+    var r = rng(seed), out = [], t = 0, i = 0;
+    while (true) {
+      t += -Math.log(1 - r()) / qps * 1000;
+      if (t >= HORIZON) break;
+      var tk = TASKS[Math.floor(r() * TASKS.length)];
+      var p = Math.round(tk.p[0] + r() * (tk.p[1] - tk.p[0]));
+      var d = Math.round(tk.d[0] + r() * (tk.d[1] - tk.d[0]));
+      var u = 1 + r() * 4, v = 0.98 + r() * 0.04;
+      var tau = Math.min(1120, Math.max(150, u + (155 + 3.5e-3 * p) * v));
+      var pd = Math.max(1, Math.round(d * (1 + (r() * 2 - 1) * 0.30)));
+      out.push({ id: i++, task: tk, p: p, d: d, tot: p + d, tau: tau, arr: t, predD: pd });
+    }
+    return out;
+  }
+
+  /* ─── the serving engine: chunked-prefill continuous batching ───── */
+  function Engine(idx, model) {
+    this.idx = idx; this.model = model;
+    this.queue = []; this.active = []; this.t = 0;
+    this.slots = new Array(KMAX).fill(null);
+  }
+  Engine.prototype.load = function () { return this.queue.length + this.active.length; };
+
+  Engine.prototype.step = function (now) {
+    if (this.t < now) this.t = now;
+    while (this.active.length < KMAX && this.queue.length) {
+      var q = this.queue.shift();
+      var s = this.slots.indexOf(null);
+      q.slot = s; this.slots[s] = q;
+      q.tStart = this.t;
+      this.active.push(q);
+    }
+    if (!this.active.length) return false;
+
+    var i, q, decCtx = 0, nDec = 0, pre = [], budget, nTok = 0, preTerm = 0;
+    for (i = 0; i < this.active.length; i++) {
+      q = this.active[i];
+      if (q.preLeft === 0) { decCtx += q.ctx; nDec++; }
+    }
+    budget = BUDGET - nDec;
+    for (i = 0; i < this.active.length; i++) {
+      q = this.active[i];
+      if (q.preLeft > 0 && budget > 0) {
+        var chunk = Math.min(q.preLeft, budget);
+        pre.push([chunk, q.ctx, q]);
+        preTerm += chunk * q.ctx + chunk * (chunk + 1) / 2;
+        budget -= chunk;
+        nTok += chunk;
+      }
+    }
+    nTok += nDec;
+    var T = batchTime(decCtx, nTok, preTerm);
+    var t0 = this.t, t1 = this.t + T;
+
+    for (i = 0; i < pre.length; i++) {
+      q = pre[i][2];
+      q.preLeft -= pre[i][0];
+      q.ctx += pre[i][0];
+      q.chunks.push(t1, q.p - q.preLeft);
+    }
+    for (i = this.active.length - 1; i >= 0; i--) {
+      q = this.active[i];
+      var inPre = false;
+      for (var j = 0; j < pre.length; j++) if (pre[j][2] === q) { inPre = true; break; }
+      if (q.preLeft === 0 && q.decLeft > 0 && !inPre) {
+        if (q.ttftAbs === null) { q.ttftAbs = t1; q.ttft = t1 - q.arr; q.ok = q.ttft <= q.tau; }
+        q.decLeft--; q.ctx++;
+        if (q.decLeft === 0) {
+          q.tDone = t1;
+          this.slots[q.slot] = null;
+          this.active.splice(i, 1);
+        }
+      }
+    }
+    this.t = t1;
+    return true;
+  };
+
+  /* SFS: replay the same batching logic from a snapshot, with predicted
+     decode lengths, stopping at the new query's first decode token. */
+  function sfsEstimate(eng, nq) {
+    var A = [], Q = [], i, s, backlog = 0;
+    for (i = 0; i < eng.active.length; i++) {
+      s = eng.active[i];
+      /* remaining predicted decode; the prediction can undershoot what has
+         already been produced, so floor it at one token rather than letting a
+         sequence sit in the batch forever. */
+      A.push([s.preLeft, Math.max(1, s.predD - (s.d - s.decLeft)), s.ctx, 0]);
+      backlog += s.preLeft;
+    }
+    for (i = 0; i < eng.queue.length; i++) {
+      s = eng.queue[i];
+      Q.push([s.preLeft, s.predD, s.ctx, 0]);
+      backlog += s.preLeft;
+    }
+    Q.push([nq.p, nq.predD, 0, 1]);
+    var t = 0;
+    for (var guard = 0; guard < 300000; guard++) {
+      while (A.length < KMAX && Q.length) A.push(Q.shift());
+      if (!A.length) return t;
+      if (t > EST_CAP) return EST_CAP + 1e-3 * backlog + 1e-6 * Q.length;
+      var decCtx = 0, nDec = 0, nTok = 0, preTerm = 0, pre = [];
+      for (i = 0; i < A.length; i++) if (A[i][0] === 0 && A[i][1] > 0) { decCtx += A[i][2]; nDec++; }
+      var budget = BUDGET - nDec;
+      for (i = 0; i < A.length; i++) {
+        if (A[i][0] > 0 && budget > 0) {
+          var ch = Math.min(A[i][0], budget);
+          pre.push([ch, A[i]]);
+          preTerm += ch * A[i][2] + ch * (ch + 1) / 2;
+          budget -= ch; nTok += ch;
+        }
+      }
+      nTok += nDec;
+      t += batchTime(decCtx, nTok, preTerm);
+      for (i = 0; i < pre.length; i++) { pre[i][1][0] -= pre[i][0]; pre[i][1][2] += pre[i][0]; }
+      for (i = A.length - 1; i >= 0; i--) {
+        var a = A[i], inPre = false;
+        for (var j = 0; j < pre.length; j++) if (pre[j][1] === a) { inPre = true; break; }
+        if (a[0] === 0 && a[1] > 0 && !inPre) {
+          if (a[3]) return t;
+          a[1]--; a[2]++;
+          if (a[1] === 0) A.splice(i, 1);
+        }
+      }
+    }
+    return t;
+  }
+
+  /* ─── run one policy over a trace ───────────────────────────────── */
+  function runPolicy(policy, trace, seed) {
+    var r = rng(seed ^ 0x9e37), engs = [], i, k;
+    for (i = 0; i < INST.length; i++) engs.push(new Engine(i, INST[i].m));
+
+    var qs = new Array(trace.length);
+    for (i = 0; i < trace.length; i++) {
+      var t = trace[i];
+      qs[i] = {
+        id: t.id, task: t.task, p: t.p, d: t.d, tot: t.tot, tau: t.tau, arr: t.arr,
+        predD: t.predD, preLeft: t.p, decLeft: t.d, ctx: 0, chunks: [],
+        inst: -1, slot: -1, tStart: null, ttftAbs: null, ttft: null, tDone: null, ok: false
+      };
+    }
+
+    var ai = 0, rr = 0, now = 0, est = new Array(INST.length);
+    for (var guard = 0; guard < 4000000; guard++) {
+      var tInst = Infinity, busy = -1;
+      for (k = 0; k < engs.length; k++) {
+        if ((engs[k].active.length || engs[k].queue.length) && engs[k].t < tInst) { tInst = engs[k].t; busy = k; }
+      }
+      var tArr = ai < qs.length ? qs[ai].arr : Infinity;
+      if (tArr === Infinity && busy < 0) break;
+
+      if (tArr <= tInst) {
+        var q = qs[ai++]; now = q.arr;
+        var j = 0;
+        if (policy === 'rr') { j = rr % engs.length; rr++; }
+        else if (policy === 'sq') {
+          var bl = Infinity;
+          for (k = 0; k < engs.length; k++) if (engs[k].load() < bl) { bl = engs[k].load(); j = k; }
+        } else if (policy === 'la') {
+          var bu = -Infinity, ties = [];
+          for (k = 0; k < engs.length; k++) {
+            var u = utility(q.task, engs[k].model, q.p, q.predD);
+            if (u > bu + 1e-12) { bu = u; ties = [k]; }
+            else if (u > bu - 1e-12) ties.push(k);
+          }
+          j = ties[Math.floor(r() * ties.length)];
+        } else {
+          for (k = 0; k < engs.length; k++) { if (engs[k].t < now) engs[k].t = now; est[k] = sfsEstimate(engs[k], q); }
+          var bestU = -Infinity, feas = false;
+          for (k = 0; k < engs.length; k++) {
+            if (est[k] <= q.tau) {
+              var uu = utility(q.task, engs[k].model, q.p, q.predD);
+              if (!feas || uu > bestU) { bestU = uu; j = k; feas = true; }
+            }
+          }
+          if (!feas) {
+            var be = Infinity;
+            for (k = 0; k < engs.length; k++) if (est[k] < be) { be = est[k]; j = k; }
+          }
+        }
+        q.inst = j;
+        engs[j].queue.push(q);
+        if (engs[j].t < now) engs[j].t = now;
+      } else {
+        now = tInst;
+        engs[busy].step(now);
+      }
+    }
+
+    /* stats */
+    var got = [], comp = [0, 0, 0, 0];
+    for (i = 0; i < qs.length; i++) {
+      if (qs[i].ttft !== null) {
+        got.push(qs[i]);
+        comp[qs[i].inst]++;
+        qs[i].util = utility(qs[i].task, INST[qs[i].inst].m, qs[i].p, qs[i].d);
+      }
+    }
+    var tt = got.map(function (x) { return x.ttft; }).sort(function (a, b) { return a - b; });
+    var sum = 0, uu2 = 0, ot = 0, nok = 0;
+    for (i = 0; i < got.length; i++) {
+      sum += got[i].ttft; uu2 += got[i].util;
+      if (got[i].ok) { ot += got[i].util; nok++; }
+    }
+    var n = got.length || 1;
+    return {
+      qs: qs, got: got, engs: engs, comp: comp,
+      mean: sum / n, p95: tt.length ? tt[Math.floor(0.95 * (tt.length - 1))] : 0,
+      slo: nok / n, util: uu2 / n, ontime: ot / n, n: got.length
+    };
+  }
+
+  /* ─── stage geometry ────────────────────────────────────────────── */
+  var LX = 4, LW = 136, RX = 148, RW = 90, PX = 268, PW = 688;
+  var TOP = 44, PH = 96, PGAP = 4;
+  var QX = PX + 6, QW = 74, AX = PX + 90, AW = PW - 96;
+  var ROWH = 11, BARH = 8;
+
+  function panelY(i) { return TOP + i * (PH + PGAP); }
+  function barW(tok) { return Math.max(24, Math.min(AW - 4, 6.06 * Math.sqrt(tok) - 14.8)); }
+
+  var slotG = [], queueG = [], panelBg = [], panelWash = [], statTx = [], links = [], dots = [];
+  var arrivalPool = [], clockTx, rPolTx;
+
+  function buildStage() {
+    while (stage.firstChild) stage.removeChild(stage.firstChild);
+    var i, j, y, g;
+
+    stage.appendChild(el('rect', { x: LX, y: TOP, width: LW, height: 4 * (PH + PGAP) - PGAP,
+      rx: 8, 'class': 'zone' }));
+    var zl = el('text', { x: LX + 8, y: TOP - 10, 'class': 'zlab' }); zl.textContent = 'Arrivals';
+    stage.appendChild(zl);
+    var zl2 = el('text', { x: RX + 8, y: TOP - 10, 'class': 'zlab' }); zl2.textContent = 'Router';
+    stage.appendChild(zl2);
+    var zl3 = el('text', { x: PX + 6, y: TOP - 10, 'class': 'zlab' }); zl3.textContent = 'Model instances';
+    stage.appendChild(zl3);
+
+    clockTx = el('text', { x: 956, y: TOP - 10, 'class': 'clock', 'text-anchor': 'end' });
+    stage.appendChild(clockTx);
+
+    /* arrivals pool */
+    arrivalPool = [];
+    for (i = 0; i < 48; i++) {
+      g = el('g', { opacity: 0 });
+      var pr = el('rect', { x: 0, y: 0, width: 10, height: 6, rx: 2, 'class': 'arrp' });
+      var fr = el('rect', { x: 0, y: 0, width: 4, height: 6, rx: 2, 'class': 'arr' });
+      g.appendChild(pr); g.appendChild(fr);
+      stage.appendChild(g);
+      arrivalPool.push({ g: g, pend: pr, fill: fr });
+    }
+
+    /* router */
+    var rh = 4 * (PH + PGAP) - PGAP;
+    stage.appendChild(el('rect', { x: RX, y: TOP, width: RW, height: rh, rx: 8, 'class': 'router-bg' }));
+    var rt = el('text', { x: RX + RW / 2, y: TOP + rh / 2 - 6, 'class': 'rlab', 'text-anchor': 'middle' });
+    rt.textContent = 'ROUTER';
+    stage.appendChild(rt);
+    rPolTx = el('text', { x: RX + RW / 2, y: TOP + rh / 2 + 9, 'class': 'rsub', 'text-anchor': 'middle' });
+    stage.appendChild(rPolTx);
+
+    links = [];
+    for (i = 0; i < 4; i++) {
+      var ln = el('path', { d: '', 'class': 'link link' + MODELS[INST[i].m].ci });
+      stage.appendChild(ln);
+      links.push(ln);
+    }
+
+    slotG = []; queueG = []; panelBg = []; panelWash = []; statTx = []; dots = [];
+    for (i = 0; i < 4; i++) {
+      y = panelY(i);
+      var ci = MODELS[INST[i].m].ci;
+      var bg = el('rect', { x: PX, y: y, width: PW, height: PH, rx: 8, 'class': 'panel-bg' });
+      stage.appendChild(bg); panelBg.push(bg);
+      var wash = el('rect', { x: PX, y: y, width: PW, height: PH, rx: 8, 'class': 'panel-wash' });
+      stage.appendChild(wash); panelWash.push(wash);
+
+      var dt = el('circle', { cx: PX + 12, cy: y + 13, r: 4, 'class': 'dot' + ci });
+      stage.appendChild(dt); dots.push(dt);
+      var nm = el('text', { x: PX + 22, y: y + 16.5, 'class': 'mname' });
+      nm.textContent = MODELS[INST[i].m].name + (INST[i].tag ? '  ' + INST[i].tag : '');
+      stage.appendChild(nm);
+
+      var st = el('text', { x: PX + PW - 8, y: y + 16.5, 'class': 'mstat', 'text-anchor': 'end' });
+      stage.appendChild(st); statTx.push(st);
+
+      var ql = el('text', { x: QX, y: y + 32, 'class': 'zlab', 'font-size': 7.5 });
+      ql.textContent = 'Queue';
+      stage.appendChild(ql);
+
+      /* queue ticks */
+      var qg = [];
+      for (j = 0; j < 8; j++) {
+        var qr = el('rect', { x: QX, y: y + 36 + j * 7, width: 10, height: 5, rx: 1.5, 'class': 'qq', opacity: 0 });
+        stage.appendChild(qr); qg.push(qr);
+      }
+      var more = el('text', { x: QX, y: y + PH - 5, 'class': 'qmore', opacity: 0 });
+      stage.appendChild(more);
+      queueG.push({ ticks: qg, more: more });
+
+      /* active slots */
+      var sg = [];
+      for (j = 0; j < KMAX; j++) {
+        var sy = y + 26 + j * ROWH;
+        var pend = el('rect', { x: AX, y: sy, width: 10, height: BARH, rx: 2, 'class': 'qpend', opacity: 0 });
+        var fill = el('rect', { x: AX, y: sy, width: 0, height: BARH, rx: 2, 'class': 'qfill pre', opacity: 0 });
+        var dv = el('line', { x1: AX, y1: sy, x2: AX, y2: sy + BARH, 'class': 'qdiv', opacity: 0 });
+        var tg = el('text', { x: AX - 6, y: sy + BARH - 1, 'class': 'qmore', 'text-anchor': 'end', opacity: 0 });
+        var fl = el('rect', { x: AX, y: sy - 1.5, width: 10, height: BARH + 3, rx: 3, 'class': 'qflash', opacity: 0 });
+        stage.appendChild(pend); stage.appendChild(fill); stage.appendChild(dv);
+        stage.appendChild(tg); stage.appendChild(fl);
+        sg.push({ pend: pend, fill: fill, div: dv, tag: tg, flash: fl, y: sy });
+      }
+      slotG.push(sg);
+    }
+  }
+
+  /* ─── state ─────────────────────────────────────────────────────── */
+  var qps = 10, seed = 7, policy = 'sfs', runs = {}, trace = null;
+  var simT = 0, playing = true, lastFrame = 0, speed = 2.4;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function recompute() {
+    trace = buildTrace(qps, seed);
+    runs = {};
+    for (var i = 0; i < POLICIES.length; i++) runs[POLICIES[i].id] = runPolicy(POLICIES[i].id, trace, seed);
+    simT = 0;
+    renderTable();
+    renderHist();
+  }
+
+  /* ─── frame render ──────────────────────────────────────────────── */
+  var ARR_TRAVEL = 900;
+
+  function render() {
+    var run = runs[policy];
+    if (!run) return;
+    var qs = run.qs, i, j, q;
+
+    clockTx.textContent = 't = ' + (simT / 1000).toFixed(1) + ' s  ·  ' + qps + ' q/s';
+    rPolTx.textContent = polName(policy);
+
+    /* arrivals in flight */
+    var ap = 0;
+    for (i = 0; i < qs.length && ap < arrivalPool.length; i++) {
+      q = qs[i];
+      if (q.arr > simT + ARR_TRAVEL) break;
+      if (q.arr <= simT) continue;
+      var frac = 1 - (q.arr - simT) / ARR_TRAVEL;
+      var w = Math.max(10, Math.min(120, barW(q.tot) * 0.21));
+      var yy = TOP + 6 + frac * (4 * (PH + PGAP) - PGAP - 18);
+      var a = arrivalPool[ap++];
+      a.g.style.opacity = Math.min(1, frac * 3).toFixed(2);
+      a.pend.setAttribute('x', LX + 10); a.pend.setAttribute('y', yy);
+      a.pend.setAttribute('width', w); a.pend.setAttribute('height', 6);
+      a.fill.setAttribute('x', LX + 10); a.fill.setAttribute('y', yy);
+      a.fill.setAttribute('width', Math.max(1.5, w * (q.p / q.tot))); a.fill.setAttribute('height', 6);
+    }
+    for (; ap < arrivalPool.length; ap++) arrivalPool[ap].g.style.opacity = 0;
+
+    /* dispatch link flashes */
+    var recent = [-1, -1, -1, -1], recentT = [0, 0, 0, 0];
+    for (i = 0; i < qs.length; i++) {
+      q = qs[i];
+      if (q.arr > simT) break;
+      if (simT - q.arr < 260 && q.arr > recentT[q.inst]) { recent[q.inst] = q.id; recentT[q.inst] = q.arr; }
+    }
+    for (i = 0; i < 4; i++) {
+      if (recent[i] >= 0 && !reduce) {
+        var age = (simT - recentT[i]) / 260;
+        var y0 = TOP + (4 * (PH + PGAP) - PGAP) / 2, y1 = panelY(i) + PH / 2;
+        var mx = (RX + RW + PX) / 2;
+        links[i].setAttribute('d', 'M' + (RX + RW) + ',' + y0 + ' C' + mx + ',' + y0 +
+          ' ' + mx + ',' + y1 + ' ' + PX + ',' + y1);
+        links[i].style.opacity = (0.85 * (1 - age)).toFixed(2);
+      } else links[i].style.opacity = 0;
+    }
+
+    /* per instance */
+    for (i = 0; i < 4; i++) {
+      var qd = [], act = [];
+      for (j = 0; j < qs.length; j++) {
+        q = qs[j];
+        if (q.arr > simT) break;
+        if (q.inst !== i) continue;
+        if (q.tDone !== null && q.tDone <= simT) continue;
+        if (q.tStart === null || q.tStart > simT) qd.push(q);
+        else act.push(q);
+      }
+
+      /* queue ticks */
+      var qg = queueG[i];
+      for (j = 0; j < qg.ticks.length; j++) {
+        if (j < qd.length) {
+          var qq = qd[j];
+          var lateQ = (simT - qq.arr) > qq.tau;
+          qg.ticks[j].style.opacity = lateQ ? .85 : .95;
+          qg.ticks[j].setAttribute('width', Math.max(8, Math.min(QW, barW(qq.tot) * 0.13)));
+          qg.ticks[j].setAttribute('class', 'qq' + (lateQ ? ' late' : ''));
+        } else qg.ticks[j].style.opacity = 0;
+      }
+      if (qd.length > qg.ticks.length) {
+        qg.more.style.opacity = 1;
+        qg.more.textContent = '+' + (qd.length - qg.ticks.length) + ' more';
+      } else qg.more.style.opacity = 0;
+
+      /* active slots */
+      var used = {};
+      for (j = 0; j < act.length; j++) {
+        q = act[j];
+        var s = slotG[i][q.slot];
+        if (!s) continue;
+        used[q.slot] = 1;
+        var W = barW(q.tot), done;
+        if (q.ttftAbs === null || simT < q.ttftAbs) {
+          done = 0;
+          for (var c = 0; c < q.chunks.length; c += 2) {
+            if (q.chunks[c] <= simT) done = q.chunks[c + 1]; else break;
+          }
+        } else if (q.tDone !== null && simT >= q.ttftAbs) {
+          var span = q.tDone - q.ttftAbs;
+          var fr = span > 0 ? Math.min(1, (simT - q.ttftAbs) / span) : 1;
+          done = q.p + q.d * fr;
+        } else done = q.p;
+
+        s.pend.style.opacity = .62;
+        s.pend.setAttribute('width', W);
+        s.fill.style.opacity = 1;
+        s.fill.setAttribute('width', Math.max(0, W * (done / q.tot)));
+        var started = q.ttftAbs !== null && simT >= q.ttftAbs;
+        s.fill.setAttribute('class', 'qfill ' + (!started ? 'pre' : (q.ok ? 'ok' : 'late')));
+        s.div.style.opacity = .7;
+        s.div.setAttribute('x1', AX + W * (q.p / q.tot));
+        s.div.setAttribute('x2', AX + W * (q.p / q.tot));
+        s.tag.style.opacity = 1;
+        s.tag.textContent = q.task.tag;
+        var fa = started ? 1 - Math.min(1, (simT - q.ttftAbs) / 320) : 0;
+        s.flash.style.opacity = reduce ? 0 : (fa * 0.9).toFixed(2);
+        s.flash.setAttribute('width', W);
+      }
+      for (j = 0; j < KMAX; j++) {
+        if (!used[j]) {
+          var sl = slotG[i][j];
+          sl.pend.style.opacity = 0; sl.fill.style.opacity = 0;
+          sl.div.style.opacity = 0; sl.tag.style.opacity = 0;
+          sl.flash.style.opacity = 0;
+        }
+      }
+
+      /* status */
+      var depth = qd.length;
+      var cls = depth >= 8 ? 'crit' : (depth >= 3 ? 'hot' : '');
+      statTx[i].setAttribute('class', 'mstat ' + cls);
+      statTx[i].textContent = 'queued ' + depth + '  ·  serving ' + act.length + '/' + KMAX;
+      panelBg[i].setAttribute('class', 'panel-bg ' + cls);
+      var wo = depth >= 8 ? 0.06 + 0.05 * Math.abs(Math.sin(simT / 260)) : (depth >= 3 ? 0.03 : 0);
+      panelWash[i].style.opacity = reduce ? (depth >= 8 ? 0.07 : 0) : wo.toFixed(3);
+    }
+  }
+
+  function polName(id) {
+    for (var i = 0; i < POLICIES.length; i++) if (POLICIES[i].id === id) return POLICIES[i].name;
+    return id;
+  }
+
+  /* ─── results table ─────────────────────────────────────────────── */
+  function renderTable() {
+    var tb = document.getElementById('lr-tbody');
+    var i, best = { ontime: -Infinity, util: -Infinity, slo: -Infinity, mean: Infinity };
+    for (i = 0; i < POLICIES.length; i++) {
+      var r = runs[POLICIES[i].id];
+      if (r.ontime > best.ontime) best.ontime = r.ontime;
+      if (r.util > best.util) best.util = r.util;
+      if (r.slo > best.slo) best.slo = r.slo;
+      if (r.mean < best.mean) best.mean = r.mean;
+    }
+    var html = '';
+    for (i = 0; i < POLICIES.length; i++) {
+      var P = POLICIES[i], R = runs[P.id];
+      var w = best.ontime > 0 ? (100 * R.ontime / best.ontime).toFixed(1) : 0;
+      html += '<tr class="' + (P.id === policy ? 'sel ' : '') + (P.ours ? 'ours' : '') + '">' +
+        '<td>' + P.name + '</td>' +
+        '<td class="' + (R.mean > 1000 ? 'warnv' : (R.mean === best.mean ? 'best' : '')) + '">' + fmtMs(R.mean) + '</td>' +
+        '<td class="' + (R.p95 > 2000 ? 'warnv' : '') + '">' + fmtMs(R.p95) + '</td>' +
+        '<td class="' + (R.slo === best.slo ? 'best' : '') + '">' + (100 * R.slo).toFixed(0) + '%</td>' +
+        '<td class="' + (R.util === best.util ? 'best' : '') + '">' + R.util.toFixed(3) + '</td>' +
+        '<td class="' + (R.ontime === best.ontime ? 'best' : '') + '">' + R.ontime.toFixed(3) +
+          '<span class="bar" style="width:' + w + '%"></span></td>' +
+        '</tr>';
+    }
+    tb.innerHTML = html;
+    document.getElementById('lr-n').textContent =
+      '— ' + runs[policy].n + ' queries over ' + (HORIZON / 1000) + ' s at ' + qps + ' q/s';
+
+    var R2 = runs[policy], sq = runs.sq, la = runs.la;
+    var msg = '';
+    if (policy === 'sfs') {
+      var gain = sq.ontime > 0 ? (100 * (R2.ontime / sq.ontime - 1)) : 0;
+      msg = 'SFS holds mean TTFT within ' + fmtMs(Math.abs(R2.mean - sq.mean)) +
+        ' of shortest-queue while lifting OnTimeUtility ' + gain.toFixed(0) +
+        '% above it, and ' + (100 * (R2.ontime / Math.max(la.ontime, 1e-6) - 1)).toFixed(0) +
+        '% above the accuracy–cost router.';
+    } else if (policy === 'la') {
+      msg = 'Highest raw utility of any router here (' + R2.util.toFixed(3) +
+        ') — and the worst OnTimeUtility, because ' + (100 * (1 - R2.slo)).toFixed(0) +
+        '% of queries miss their target. It sends ' +
+        (100 * R2.comp[0] / R2.n).toFixed(0) + '% of traffic to the 0.6B instance.';
+    } else {
+      msg = 'Latency is controlled, but the router cannot see which model suits a query: ' +
+        'utility ' + R2.util.toFixed(3) + ' against ' + runs.sfs.util.toFixed(3) + ' for SFS.';
+    }
+    document.getElementById('lr-status').textContent = msg;
+  }
+
+  function fmtMs(v) {
+    if (v >= 10000) return (v / 1000).toFixed(1) + ' s';
+    if (v >= 1000) return (v / 1000).toFixed(2) + ' s';
+    return Math.round(v) + ' ms';
+  }
+
+  /* ─── TTFT histogram ────────────────────────────────────────────── */
+  var hist = document.getElementById('lr-hist'), tip = document.getElementById('lr-tip');
+
+  function renderHist() {
+    while (hist.firstChild) hist.removeChild(hist.firstChild);
+    var R = runs[policy], got = R.got;
+    var W = 960, H = 132, L = 36, Rm = 10, T = 10, B = 26;
+    var lo = Math.log10(5), hi = Math.log10(60000), NB = 44;
+    var okB = new Array(NB).fill(0), badB = new Array(NB).fill(0), i;
+    for (i = 0; i < got.length; i++) {
+      var b = Math.floor((Math.log10(Math.max(5, got[i].ttft)) - lo) / (hi - lo) * NB);
+      b = Math.max(0, Math.min(NB - 1, b));
+      if (got[i].ok) okB[b]++; else badB[b]++;
+    }
+    var mx = 1;
+    for (i = 0; i < NB; i++) mx = Math.max(mx, okB[i] + badB[i]);
+
+    function xOf(ms) { return L + (Math.log10(Math.max(5, ms)) - lo) / (hi - lo) * (W - L - Rm); }
+    function yOf(v) { return H - B - v / mx * (H - T - B); }
+
+    var ticks = [10, 100, 1000, 10000, 60000];
+    for (i = 0; i < ticks.length; i++) {
+      var x = xOf(ticks[i]);
+      hist.appendChild(el('line', { x1: x, y1: T, x2: x, y2: H - B, 'class': 'grid' }));
+      var tx = el('text', { x: x, y: H - B + 12, 'text-anchor': 'middle' });
+      tx.textContent = ticks[i] >= 1000 ? (ticks[i] / 1000) + ' s' : ticks[i] + ' ms';
+      hist.appendChild(tx);
+    }
+    hist.appendChild(el('line', { x1: L, y1: H - B, x2: W - Rm, y2: H - B, 'class': 'axis' }));
+
+    /* target band: tau ranges 150-1120 ms */
+    var bx0 = xOf(150), bx1 = xOf(1120);
+    hist.appendChild(el('rect', { x: bx0, y: T, width: bx1 - bx0, height: H - T - B,
+      fill: 'currentColor', opacity: .045 }));
+    hist.appendChild(el('line', { x1: bx0, y1: T, x2: bx0, y2: H - B, 'class': 'taul' }));
+    var lbl = el('text', { x: bx1 + 5, y: T + 9 });
+    lbl.textContent = 'TTFT targets fall in this band (150–1120 ms)';
+    hist.appendChild(lbl);
+
+    var bw = (W - L - Rm) / NB;
+    for (i = 0; i < NB; i++) {
+      var tot = okB[i] + badB[i];
+      if (!tot) continue;
+      var x0 = L + i * bw;
+      var hOk = okB[i] / mx * (H - T - B), hBad = badB[i] / mx * (H - T - B);
+      if (okB[i]) hist.appendChild(el('rect', { x: x0 + 1, y: H - B - hOk, width: Math.max(1, bw - 2),
+        height: hOk, rx: 2, 'class': 'bok' }));
+      if (badB[i]) hist.appendChild(el('rect', { x: x0 + 1, y: H - B - hOk - hBad - (okB[i] ? 2 : 0),
+        width: Math.max(1, bw - 2), height: Math.max(1, hBad), rx: 2, 'class': 'bad' }));
+
+      (function (idx, xx) {
+        var hz = el('rect', { x: xx, y: T, width: bw, height: H - T - B, 'class': 'hit' });
+        hz.addEventListener('mouseenter', function (e) {
+          var l0 = Math.pow(10, lo + (hi - lo) * idx / NB), l1 = Math.pow(10, lo + (hi - lo) * (idx + 1) / NB);
+          tip.innerHTML = '<b>' + fmtMs(l0) + ' – ' + fmtMs(l1) + '</b><br>' +
+            okB[idx] + ' on time · ' + badB[idx] + ' late';
+          tip.style.opacity = 1;
+        });
+        hz.addEventListener('mousemove', function (e) {
+          var r = hist.getBoundingClientRect();
+          tip.style.left = (e.clientX - r.left + 12) + 'px';
+          tip.style.top = (e.clientY - r.top - 34) + 'px';
+        });
+        hz.addEventListener('mouseleave', function () { tip.style.opacity = 0; });
+        hist.appendChild(hz);
+      })(i, L + i * bw);
+    }
+
+    var ylab = el('text', { x: 4, y: T + 8 }); ylab.textContent = 'queries';
+    hist.appendChild(ylab);
+    document.getElementById('lr-hlab').textContent =
+      '— ' + polName(policy) + ', ' + (100 * R.slo).toFixed(0) + '% on time';
+  }
+
+  /* ─── controls ──────────────────────────────────────────────────── */
+  var polWrap = document.getElementById('lr-pol');
+  POLICIES.forEach(function (P) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = P.name;
+    b.setAttribute('aria-pressed', P.id === policy ? 'true' : 'false');
+    if (P.ours) b.className = 'ours';
+    b.addEventListener('click', function () {
+      policy = P.id;
+      Array.prototype.forEach.call(polWrap.children, function (c) {
+        c.setAttribute('aria-pressed', c === b ? 'true' : 'false');
+      });
+      simT = 0;
+      renderTable(); renderHist(); render();
+    });
+    polWrap.appendChild(b);
+  });
+
+  var mleg = document.getElementById('lr-mleg');
+  mleg.innerHTML = ['a', 'b', 'c'].map(function (m) {
+    return '<span style="display:inline-flex;align-items:center;gap:.3rem;margin-right:.8rem">' +
+      '<svg width="9" height="9" aria-hidden="true"><circle cx="4.5" cy="4.5" r="4.5" fill="var(--m' +
+      MODELS[m].ci + ')"></circle></svg>' + MODELS[m].name + '</span>';
+  }).join('');
+
+  var qpsEl = document.getElementById('lr-qps'), qpsV = document.getElementById('lr-qpsv');
+  qpsEl.addEventListener('input', function () { qpsV.textContent = qpsEl.value + ' q/s'; });
+  qpsEl.addEventListener('change', function () {
+    qps = +qpsEl.value; qpsV.textContent = qps + ' q/s';
+    recompute(); render();
+  });
+
+  var playBtn = document.getElementById('lr-play');
+  playBtn.addEventListener('click', function () {
+    playing = !playing; playBtn.textContent = playing ? 'Pause' : 'Play';
+    lastFrame = 0;
+  });
+  document.getElementById('lr-replay').addEventListener('click', function () {
+    simT = 0; playing = true; playBtn.textContent = 'Pause'; lastFrame = 0; render();
+  });
+
+  /* ─── loop ──────────────────────────────────────────────────────── */
+  var visible = true;
+  if (window.IntersectionObserver) {
+    new IntersectionObserver(function (es) { visible = es[0].isIntersecting; },
+      { threshold: 0.05 }).observe(stage);
+  }
+
+  function frame(ts) {
+    if (playing && visible) {
+      if (lastFrame) {
+        simT += Math.min(120, ts - lastFrame) * speed;
+        if (simT > HORIZON) simT = 0;
+      }
+      lastFrame = ts;
+      render();
+    } else lastFrame = 0;
+    requestAnimationFrame(frame);
+  }
+
+  buildStage();
+  recompute();
+  if (reduce) { playing = false; playBtn.textContent = 'Play'; simT = HORIZON * 0.72; }
+  render();
+  requestAnimationFrame(frame);
+})();
+</script>

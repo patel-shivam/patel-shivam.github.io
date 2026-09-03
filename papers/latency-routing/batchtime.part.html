@@ -1,0 +1,279 @@
+<style>
+.bt {
+  /* ordinal ramp, one hue, light -> dark; validated for both surfaces */
+  --c0: #6da7ec; --c1: #2a78d6; --c2: #184f95; --c3: #0d366b;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 1.1rem 1.2rem 1.2rem;
+  margin: 2rem 0;
+}
+:root[data-theme="dark"] .bt {
+  --c0: #cde2fb; --c1: #9ec5f4; --c2: #5598e7; --c3: #1c5cab;
+}
+.bt h4 {
+  font-family: var(--sans);
+  font-size: .72rem; font-weight: 650; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 0 0 .9rem;
+}
+.bt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; align-items: start; }
+@media (max-width: 720px) { .bt-grid { grid-template-columns: 1fr; } }
+
+.bt-sub {
+  font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 .55rem; font-weight: 650;
+}
+.bt-sub .n { text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+.bt-presets { display: flex; gap: .3rem; flex-wrap: wrap; margin-bottom: .9rem; }
+.bt-presets button {
+  font: inherit; font-size: .76rem;
+  padding: .28rem .58rem; border-radius: 5px;
+  border: 1px solid var(--rule); background: var(--bg); color: var(--fg-soft);
+  cursor: pointer; transition: border-color .15s, color .15s, background .15s;
+}
+.bt-presets button:hover { border-color: var(--accent); color: var(--accent); }
+.bt-presets button[aria-pressed="true"] {
+  background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 650;
+}
+.bt-presets button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.bt-sliders { display: grid; gap: .5rem; margin-top: .2rem; }
+.bt-sl { display: flex; align-items: center; gap: .6rem; font-size: .78rem; color: var(--fg-soft); }
+.bt-sl .nm { flex: 1; min-width: 0; }
+.bt-sl input { flex: 1.1; accent-color: var(--accent); min-width: 5rem; }
+.bt-sl .v { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 3.6rem; text-align: right; font-size: .76rem; }
+
+.bt-svg { width: 100%; height: auto; display: block; }
+.bt-svg text { font-family: var(--sans); fill: var(--muted); font-size: 9px; }
+.bt-svg .slot { stroke: none; }
+.bt-svg .idle { fill: color-mix(in srgb, var(--muted) 18%, transparent); }
+.bt-svg .dec { fill: var(--c2); }
+.bt-svg .pre { fill: var(--c3); }
+.bt-svg .frame { fill: none; stroke: var(--rule); stroke-width: 1; }
+
+.bt-bars { margin-top: .2rem; }
+.bt-bar { width: 100%; height: auto; display: block; }
+.bt-bar text { font-family: var(--sans); fill: var(--muted); font-size: 9px; }
+.bt-bar .s0 { fill: var(--c0); } .bt-bar .s1 { fill: var(--c1); }
+.bt-bar .s2 { fill: var(--c2); } .bt-bar .s3 { fill: var(--c3); }
+.bt-bar .axis { stroke: color-mix(in srgb, var(--muted) 45%, transparent); stroke-width: 1; }
+
+.bt-terms { margin-top: .7rem; font-size: .76rem; }
+.bt-terms dl { display: grid; grid-template-columns: auto 1fr auto; gap: .28rem .6rem; margin: 0; align-items: baseline; }
+.bt-terms .sw { width: 10px; height: 10px; border-radius: 2px; align-self: center; }
+.bt-terms dt { color: var(--fg-soft); }
+.bt-terms dt .k { color: var(--muted); }
+.bt-terms dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; color: var(--fg-soft); white-space: nowrap; }
+.bt-terms dd b { color: var(--fg); font-weight: 650; }
+
+.bt-total { margin-top: .85rem; padding-top: .7rem; border-top: 1px solid var(--rule); font-size: .82rem; }
+.bt-total dl { display: grid; grid-template-columns: 1fr auto; gap: .28rem .7rem; margin: 0; }
+.bt-total dt { color: var(--muted); }
+.bt-total dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; color: var(--fg-soft); }
+.bt-total dd b { color: var(--fg); font-weight: 650; }
+
+.bt-note { font-size: .8rem; color: var(--muted); margin: .95rem 0 0; line-height: 1.62; }
+.bt-note b { color: var(--fg-soft); font-weight: 600; }
+</style>
+
+<div class="bt">
+  <h4>Interactive · what makes one token batch slow</h4>
+
+  <div class="bt-presets" id="bt-pre" role="group" aria-label="Example token batches"></div>
+
+  <div class="bt-grid">
+    <div>
+      <p class="bt-sub">The token batch <span class="n" id="bt-cnt"></span></p>
+      <svg class="bt-svg" id="bt-slots" viewBox="0 0 320 56" role="img"
+           aria-label="The 512-token budget of one batch, divided into decode tokens, a prefill chunk, and unused capacity"></svg>
+
+      <div class="bt-sliders" style="margin-top:.9rem">
+        <label class="bt-sl"><span class="nm">Decode sequences</span>
+          <input type="range" id="bt-nd" min="0" max="6" step="1" value="5">
+          <span class="v" id="bt-ndv">5</span></label>
+        <label class="bt-sl"><span class="nm">Their context</span>
+          <input type="range" id="bt-dc" min="0" max="61" step="1" value="41">
+          <span class="v" id="bt-dcv">2048</span></label>
+        <label class="bt-sl"><span class="nm">Prefill chunk</span>
+          <input type="range" id="bt-pc" min="0" max="512" step="16" value="512">
+          <span class="v" id="bt-pcv">512</span></label>
+        <label class="bt-sl"><span class="nm">Its prior context</span>
+          <input type="range" id="bt-pk" min="0" max="61" step="1" value="0">
+          <span class="v" id="bt-pkv">0</span></label>
+      </div>
+    </div>
+
+    <div>
+      <p class="bt-sub">Predicted batch time <span class="n">eq. (11)</span></p>
+      <svg class="bt-bar" id="bt-bar" viewBox="0 0 320 46" role="img"
+           aria-label="Predicted batch time split into its four terms"></svg>
+
+      <div class="bt-terms">
+        <dl id="bt-dl"></dl>
+      </div>
+
+      <div class="bt-total">
+        <dl>
+          <dt>Predicted batch time</dt><dd><b id="bt-tot">—</b></dd>
+          <dt>Per decode token generated</dt><dd id="bt-per">—</dd>
+          <dt>Prefill throughput this batch</dt><dd id="bt-thr">—</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <p class="bt-note">
+    Two batches carrying the <b>same number of tokens</b> can take very different times.
+    Push <i>their context</i> up and the decode-attention term grows even though the token
+    count never changes — that is the KV-cache read. Push <i>prior context</i> up and the
+    prefill term grows the same way, plus the chunk's own quadratic self-attention. This is
+    why a throughput-based estimate — tokens divided by a single tokens-per-second number —
+    cannot work: there is no single rate.
+  </p>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('bt-slots');
+  if (!root) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+
+  var B0 = 1.2, B1 = 0.014, B2 = 1.5e-4, B3 = 1.2e-6, BUDGET = 512;
+
+  var TERMS = [
+    { k: 'β₀', cls: 's0', nm: 'Fixed per-batch overhead' },
+    { k: 'β₁', cls: 's1', nm: 'Dense layers · every token' },
+    { k: 'β₂', cls: 's2', nm: 'Decode attention · context × decode tokens' },
+    { k: 'β₃', cls: 's3', nm: 'Prefill attention · chunk × context + chunk²⁄2' }
+  ];
+
+  var PRESETS = [
+    { nm: 'Pure decode',        nd: 6, dc: 2048, pc: 0,   pk: 0 },
+    { nm: 'Chunked prefill',    nd: 5, dc: 2048, pc: 512, pk: 0 },
+    { nm: 'Long-context decode',nd: 6, dc: 8192, pc: 0,   pk: 0 },
+    { nm: 'Prefill deep in a long prompt', nd: 4, dc: 1024, pc: 512, pk: 8192 }
+  ];
+
+  /* log slider: 0..60 -> 128..8192 (index 0 means 0) */
+  function ctxOf(v) { return v === 0 ? 0 : Math.round(128 * Math.pow(2, (v - 1) / 60 * 6)); }
+  function slotOf(ctx) {
+    if (ctx <= 0) return 0;
+    return Math.round(Math.log2(ctx / 128) / 6 * 60 + 1);
+  }
+
+  var nd = document.getElementById('bt-nd'), dc = document.getElementById('bt-dc'),
+      pc = document.getElementById('bt-pc'), pk = document.getElementById('bt-pk');
+  var ndv = document.getElementById('bt-ndv'), dcv = document.getElementById('bt-dcv'),
+      pcv = document.getElementById('bt-pcv'), pkv = document.getElementById('bt-pkv');
+  var barSvg = document.getElementById('bt-bar'), dl = document.getElementById('bt-dl');
+
+  function compute() {
+    var N = +nd.value, C = ctxOf(+dc.value), PK = ctxOf(+pk.value);
+    /* Chunked prefill gives each active decode sequence one slot first; the
+       prefill chunk can only take what is left of the token budget. */
+    var CH = Math.min(+pc.value, BUDGET - N);
+    var nTok = N + CH;
+    var t0 = B0;
+    var t1 = B1 * nTok;
+    var t2 = B2 * (N * C);
+    var t3 = B3 * (CH * PK + CH * (CH + 1) / 2);
+    return { N: N, C: C, CH: CH, PK: PK, nTok: nTok, t: [t0, t1, t2, t3], tot: t0 + t1 + t2 + t3 };
+  }
+
+  function draw() {
+    var s = compute();
+    ndv.textContent = s.N;
+    dcv.textContent = s.C ? s.C.toLocaleString() : '—';
+    pcv.textContent = s.CH || '—';
+    pkv.textContent = s.PK ? s.PK.toLocaleString() : '0';
+    document.getElementById('bt-cnt').textContent =
+      s.nTok + ' of ' + BUDGET + ' token slots used';
+
+    /* slot strip */
+    while (root.firstChild) root.removeChild(root.firstChild);
+    var W = 320, X = 0, Y = 6, H = 16, sc = W / BUDGET;
+    root.appendChild(el('rect', { x: 0.5, y: Y - 0.5, width: W - 1, height: H + 1, rx: 3, 'class': 'frame' }));
+    var x = X;
+    if (s.N) {
+      root.appendChild(el('rect', { x: x, y: Y, width: Math.max(2, s.N * sc), height: H, 'class': 'slot dec' }));
+      x += Math.max(2, s.N * sc) + 1;
+    }
+    if (s.CH) {
+      root.appendChild(el('rect', { x: x, y: Y, width: Math.max(2, s.CH * sc - 1), height: H, 'class': 'slot pre' }));
+      x += Math.max(2, s.CH * sc - 1);
+    }
+    if (x < W - 1) root.appendChild(el('rect', { x: x + 1, y: Y, width: W - x - 2, height: H, 'class': 'slot idle' }));
+
+    var lab = el('text', { x: 0, y: Y + H + 13 });
+    lab.textContent = s.N + ' decode token' + (s.N === 1 ? '' : 's') +
+      (s.CH ? '  ·  ' + s.CH + '-token prefill chunk' : '') +
+      (s.nTok < BUDGET ? '  ·  ' + (BUDGET - s.nTok) + ' unused' : '');
+    root.appendChild(lab);
+    var lab2 = el('text', { x: 0, y: Y + H + 25, opacity: .85 });
+    lab2.textContent = s.N ? ('each decode sequence carries ' + s.C.toLocaleString() + ' tokens of context') : 'no decode work in this batch';
+    root.appendChild(lab2);
+
+    /* stacked time bar */
+    while (barSvg.firstChild) barSvg.removeChild(barSvg.firstChild);
+    var BW = 320, BY = 8, BH = 18;
+    var scale = Math.max(s.tot, 4);
+    var px = 0;
+    for (var i = 0; i < 4; i++) {
+      var w = s.t[i] / scale * BW;
+      if (w > 0.4) {
+        barSvg.appendChild(el('rect', {
+          x: px, y: BY, width: Math.max(1, w - (i < 3 ? 2 : 0)), height: BH, rx: 2, 'class': TERMS[i].cls
+        }));
+      }
+      px += w;
+    }
+    barSvg.appendChild(el('line', { x1: 0, y1: BY + BH + 3, x2: BW, y2: BY + BH + 3, 'class': 'axis' }));
+    var a0 = el('text', { x: 0, y: BY + BH + 15 }); a0.textContent = '0';
+    barSvg.appendChild(a0);
+    var a1 = el('text', { x: BW, y: BY + BH + 15, 'text-anchor': 'end' });
+    a1.textContent = scale.toFixed(1) + ' ms';
+    barSvg.appendChild(a1);
+
+    /* term list */
+    var html = '';
+    for (var j = 0; j < 4; j++) {
+      var pct = s.tot > 0 ? (100 * s.t[j] / s.tot) : 0;
+      html += '<dt class="sw" style="background:var(--c' + j + ')" aria-hidden="true"></dt>' +
+        '<dt><span class="k">' + TERMS[j].k + '</span> · ' + TERMS[j].nm + '</dt>' +
+        '<dd>' + s.t[j].toFixed(2) + ' ms <b>' + pct.toFixed(0) + '%</b></dd>';
+    }
+    dl.innerHTML = html;
+
+    document.getElementById('bt-tot').textContent = s.tot.toFixed(2) + ' ms';
+    document.getElementById('bt-per').textContent =
+      s.N ? (s.tot / s.N).toFixed(2) + ' ms' : '— (no decode)';
+    document.getElementById('bt-thr').textContent =
+      s.CH ? Math.round(s.CH / s.tot * 1000).toLocaleString() + ' tok/s' : '— (no prefill)';
+
+    /* a preset stops matching once a slider moves */
+    Array.prototype.forEach.call(document.getElementById('bt-pre').children, function (b, k) {
+      var P = PRESETS[k];
+      var on = P.nd === +nd.value && slotOf(P.dc) === +dc.value &&
+               P.pc === +pc.value && slotOf(P.pk) === +pk.value;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  var pre = document.getElementById('bt-pre');
+  PRESETS.forEach(function (P) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = P.nm; b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', function () {
+      nd.value = P.nd; dc.value = slotOf(P.dc); pc.value = P.pc; pk.value = slotOf(P.pk);
+      draw();
+    });
+    pre.appendChild(b);
+  });
+
+  [nd, dc, pc, pk].forEach(function (s) { s.addEventListener('input', draw); });
+  draw();
+})();
+</script>

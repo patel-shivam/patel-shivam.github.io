@@ -636,6 +636,15 @@ body:has(.paper) .site-footer { max-width: 46rem; }
 .fig-pair figcaption,
 .fig-trio figcaption { grid-column: 1 / -1; }
 
+/* A display equation wider than the column scrolls inside its own box instead
+   of widening the whole page (KaTeX does not do this on its own). */
+.paper .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-top: .2rem;
+  padding-bottom: .2rem;
+}
+
 /* Captions run at 80% of the text measure and are centred under the figure,
    which keeps them well inside the bleed and gives them a tighter, more
    readable line length than the body text.
