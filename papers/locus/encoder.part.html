@@ -374,122 +374,133 @@
     });
   }
 
-  function drawModels() {
-    var host = document.getElementById('lc-models');
-    host.textContent = '';
-    D.models.forEach(function (m, k) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.setAttribute('aria-pressed', k === mi);
-      b.innerHTML = shortName(m.n) + '<span class="t">' + m.tag + ' · ' + m.acc + '%</span>';
-      b.addEventListener('click', function () {
-        if (mi === k) return;
-        mi = k; rep = 0;
-        render('Same encoder, same slider, different model. <b>' + shortName(M().n) +
-               '</b> answers ' + M().acc + '% of the 4,096 evaluations correctly, and its ' +
-               'right-hand column is the capability profile the embedding has to capture. ' +
-               'Nothing was retrained to embed it — the encoder is the one trained across ' +
-               'the whole pool, and this is a forward pass.');
-      });
-      host.appendChild(b);
+function drawModels() {
+  var host = document.getElementById('lc-models');
+  host.textContent = '';
+  D.models.forEach(function (m, k) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-pressed', k === mi);
+    b.innerHTML = shortName(m.n) + '<span class="t">' + m.tag + ' · ' + m.acc + '%</span>';
+    b.addEventListener('click', function () {
+      if (mi === k) return;
+      mi = k; rep = 0;
+      render('The encoder and evaluation budget remain fixed; only the model changes. <b>' +
+             shortName(M().n) + '</b> answers ' + M().acc +
+             '% of the 4,096 evaluation queries correctly, while the right-hand column ' +
+             'shows the capability profile that its embedding must represent. No ' +
+             'model-specific optimization is performed: the same encoder trained across ' +
+             'the model pool produces this embedding in a single forward pass.');
     });
-  }
+    host.appendChild(b);
+  });
+}
 
-  function render(msg) {
-    var n = NS[ni], c = cur(), m = M();
-    document.getElementById('lc-n').textContent = 'n = ' + n.toLocaleString();
-    document.getElementById('lc-nval').textContent = n.toLocaleString();
+function render(msg) {
+  var n = NS[ni], c = cur(), m = M();
+  document.getElementById('lc-n').textContent = 'n = ' + n.toLocaleString();
+  document.getElementById('lc-nval').textContent = n.toLocaleString();
 
-    Array.prototype.forEach.call(document.querySelectorAll('#lc-models button'), function (b, k) {
-      b.setAttribute('aria-pressed', k === mi);
-    });
-
-    var dref = document.getElementById('lc-dref');
-    dref.innerHTML = (n === 4096 && rep % 3 === 0)
-      ? '<b>0</b> &nbsp;<span style="opacity:.7">(this is the reference)</span>'
-      : '<b>' + fmt(c.d) + '</b>';
-    dref.className = c.d < 0.01 ? 'good' : '';
-    document.getElementById('lc-ctx').textContent = m.ctx.median.toFixed(3);
-
-    var cB = n * R, cP = n * n;
-    document.getElementById('lc-cost').innerHTML =
-      (cB <= cP ? '<b>' + cB.toLocaleString() + '</b>' : cB.toLocaleString()) +
-      ' <span style="opacity:.7">vs</span> ' +
-      (cP <  cB ? '<b>' + cP.toLocaleString() + '</b>' : cP.toLocaleString());
-
-    drawRamp(); drawProf(); drawVec(); drawConv();
-
-    document.getElementById('lc-src').innerHTML =
-      'Real values, not a simulation. Embeddings are recomputed from the released LOCUS ' +
-      'checkpoint (<code>models_4096</code>) for <b>' + m.n + '</b>, using evaluations drawn ' +
-      'from the checkpoint’s own 4,096 anchor queries. The reference is that model’s ' +
-      'embedding from all 4,096, and every model here is embedded by the same encoder with ' +
-      'no per-model training.';
-
-    if (msg) note.innerHTML = msg;
-  }
-
-  var baseNote = 'The left panel is what the encoder is given; the right is what it ' +
-    'returns. <b>Shuffle</b> reorders the same evaluations: nothing on either side moves, ' +
-    'because the encoder reads a set and has no notion of position. <b>Resample</b> swaps ' +
-    'in a different draw of the same size, and the embedding moves — by as much as the ' +
-    'capability estimate moves with it.';
-
-  document.getElementById('lc-slider').addEventListener('input', function (e) {
-    ni = +e.target.value;
-    var n = NS[ni], empty = nEmpty(), err = profErr();
-    render(n <= 16
-      ? 'With <b>' + n + '</b> evaluations the sample says almost nothing: ' +
-        (empty ? '<b>' + empty + ' of 10</b> benchmarks have no evidence at all, and ' : '') +
-        'the others stand on a handful of questions each. The two columns barely resemble ' +
-        'each other, and the embedding sits further from the reference than a typical ' +
-        '<i>different</i> model does.'
-      : n <= 64
-        ? 'At <b>' + n + '</b> the columns are recognisably related — the sample is off by ' +
-          '<b>' + err.toFixed(0) + ' points</b> per benchmark on average — and the embedding ' +
-          'has crossed below the typical between-model distance: it now identifies this ' +
-          'model rather than some other one.'
-        : n <= 256
-          ? 'Around <b>' + n + '</b> the two columns match to <b>' + err.toFixed(0) +
-            ' points</b> per benchmark and the convergence curve flattens with them. This is ' +
-            'the regime the paper reports as sufficient for onboarding a new model.'
-          : 'The two columns are now near-identical (<b>' + err.toFixed(1) + ' points</b> ' +
-            'apart on average) and the remaining embedding distance is <b>' + fmt(cur().d) +
-            '</b> — refinement, not identification.');
+  Array.prototype.forEach.call(document.querySelectorAll('#lc-models button'), function (b, k) {
+    b.setAttribute('aria-pressed', k === mi);
   });
 
-  document.getElementById('lc-shuffle').addEventListener('click', function () {
-    var b = this, old = b.textContent;
-    b.textContent = 'Nothing moved ✓';
-    setTimeout(function () { b.textContent = old; }, 1600);
-    render('Shuffled — and deliberately nothing changed. The set is the same, so the ' +
-           'profile on the left is identical, and on the released checkpoint reordering all ' +
-           '4,096 evaluations moves <b>' + shortName(M().n) + '</b>’s embedding by a cosine ' +
-           'distance of <b>' + M().perm.toExponential(1).replace('e-', ' × 10⁻') + '</b> — ' +
-           'floating-point noise, not a real change. Permutation invariance here is exact, ' +
-           'not learned: no positional encodings, and aggregation by attention rather than ' +
-           'by index.');
-  });
+  var dref = document.getElementById('lc-dref');
+  dref.innerHTML = (n === 4096 && rep % 3 === 0)
+    ? '<b>0</b> &nbsp;<span style="opacity:.7">(reference embedding)</span>'
+    : '<b>' + fmt(c.d) + '</b>';
+  dref.className = c.d < 0.01 ? 'good' : '';
+  document.getElementById('lc-ctx').textContent = m.ctx.median.toFixed(3);
 
-  document.getElementById('lc-resample').addEventListener('click', function () {
-    var prev = cur().d;
-    rep += 1;
-    var now = cur().d, n = NS[ni];
-    render('A different draw of <b>' + n.toLocaleString() + '</b> evaluations moves the ' +
-           'embedding from ' + fmt(prev) + ' to <b>' + fmt(now) + '</b> from the reference, ' +
-           'and the left-hand column shows why. ' +
-           (n >= 512
-             ? 'At this many evaluations the capability estimate barely shifts, so neither does the embedding.'
-             : 'At this few, the estimate lurches — and the embedding lurches with it.'));
-  });
+  var cB = n * R, cP = n * n;
+  document.getElementById('lc-cost').innerHTML =
+    (cB <= cP ? '<b>' + cB.toLocaleString() + '</b>' : cB.toLocaleString()) +
+    ' <span style="opacity:.7">vs</span> ' +
+    (cP <  cB ? '<b>' + cP.toLocaleString() + '</b>' : cP.toLocaleString());
 
-  drawModels();
-  render(baseNote);
-  if (window.matchMedia) {
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    if (mq.addEventListener) mq.addEventListener('change', function () { render(); });
-  }
-  new MutationObserver(function () { render(); })
-    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  drawRamp(); drawProf(); drawVec(); drawConv();
+
+  document.getElementById('lc-src').innerHTML =
+    'All values shown here are computed from the released LOCUS checkpoint rather than ' +
+    'simulated examples. Embeddings are recomputed from <code>models_4096</code> for <b>' +
+    m.n + '</b>, using subsets of the checkpoint’s 4,096 anchor evaluations. The reference ' +
+    'is the embedding obtained from all 4,096 evaluations for the same model. Every model ' +
+    'is processed by the same trained encoder, with no model-specific optimization or retraining.';
+
+  if (msg) note.innerHTML = msg;
+}
+
+var baseNote = 'The left panel shows the evaluation evidence provided to the encoder; ' +
+  'the right panel shows the resulting model representation. <b>Shuffle</b> changes only ' +
+  'the ordering of the evaluations: neither panel changes because LOCUS operates on an ' +
+  'unordered set and contains no positional information. <b>Resample</b> instead replaces ' +
+  'the evaluations with an independently drawn subset of the same size. The resulting ' +
+  'embedding changes only to the extent that the estimated capability profile changes.';
+
+document.getElementById('lc-slider').addEventListener('input', function (e) {
+  ni = +e.target.value;
+  var n = NS[ni], empty = nEmpty(), err = profErr();
+  render(n <= 16
+    ? 'With only <b>' + n + '</b> evaluations, the observed capability profile is highly ' +
+      'underspecified: ' +
+      (empty ? '<b>' + empty + ' of 10</b> benchmarks contain no observations, while ' : '') +
+      'the remaining benchmarks are estimated from only a few queries each. The sampled ' +
+      'and reference profiles therefore differ substantially, and the resulting embedding ' +
+      'lies farther from the reference than the typical distance between distinct models.'
+    : n <= 64
+      ? 'At <b>' + n + '</b> evaluations, the sampled capability profile begins to recover ' +
+        'the reference structure, with a mean per-benchmark deviation of <b>' +
+        err.toFixed(0) + ' points</b>. The embedding distance has also fallen below the ' +
+        'typical between-model distance, indicating that the representation now identifies ' +
+        'the correct model more reliably than a distinct model in the pool.'
+      : n <= 256
+        ? 'At approximately <b>' + n + '</b> evaluations, the sampled and reference ' +
+          'profiles agree to within <b>' + err.toFixed(0) +
+          ' points</b> per benchmark on average, and the embedding convergence curve begins ' +
+          'to plateau. This is the evaluation regime in which the paper finds that previously ' +
+          'unseen models can be onboarded reliably.'
+        : 'The sampled and reference capability profiles are now nearly identical, differing ' +
+          'by <b>' + err.toFixed(1) + ' points</b> per benchmark on average. The remaining ' +
+          'cosine distance to the reference embedding is <b>' + fmt(cur().d) +
+          '</b>, so additional evaluations primarily refine an already stable representation.');
+});
+
+document.getElementById('lc-shuffle').addEventListener('click', function () {
+  var b = this, old = b.textContent;
+  b.textContent = 'Unchanged ✓';
+  setTimeout(function () { b.textContent = old; }, 1600);
+  render('The evaluations have been reordered, but the representation is unchanged. Because ' +
+         'the underlying set is identical, the capability profile remains fixed; on the ' +
+         'released checkpoint, permuting all 4,096 evaluations changes <b>' +
+         shortName(M().n) + '</b>’s embedding by a cosine distance of only <b>' +
+         M().perm.toExponential(1).replace('e-', ' × 10⁻') +
+         '</b>, consistent with numerical precision. Permutation invariance follows from ' +
+         'the architecture itself: LOCUS uses no positional encodings and aggregates the ' +
+         'evaluation set through attention rather than position-dependent indexing.');
+});
+
+document.getElementById('lc-resample').addEventListener('click', function () {
+  var prev = cur().d;
+  rep += 1;
+  var now = cur().d, n = NS[ni];
+  render('Replacing the evaluation subset with an independent sample of <b>' +
+         n.toLocaleString() + '</b> queries changes the cosine distance to the reference ' +
+         'embedding from ' + fmt(prev) + ' to <b>' + fmt(now) +
+         '</b>. The capability profile on the left changes correspondingly. ' +
+         (n >= 512
+           ? 'At this evaluation budget, the estimated capability profile is already stable, ' +
+             'and the resulting embedding therefore changes only slightly.'
+           : 'At this evaluation budget, sampling variability remains substantial, producing ' +
+             'larger changes in both the estimated capability profile and the resulting embedding.'));
+});
+
+drawModels();
+render(baseNote);
+if (window.matchMedia) {
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  if (mq.addEventListener) mq.addEventListener('change', function () { render(); });
+}
+new MutationObserver(function () { render(); })
+  .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();
 </script>

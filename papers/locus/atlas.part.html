@@ -686,15 +686,17 @@
     });
   });
 
-  document.getElementById('at-src').innerHTML =
-    'Every number here is measured, not illustrative. Embeddings are recomputed from the ' +
-    'released LOCUS checkpoint over 4,096 evaluations per model; neighbours and distances ' +
-    'are cosine distances in the full <b>128</b> dimensions, and agreement is the fraction of ' +
-    '3,000 held-out test queries on which two models’ correctness labels match. Portfolio ' +
-    'accuracies and selections are the paper’s own, on the same test split. The cloud is a ' +
-    '3-D t-SNE of those cosine distances and is the only approximation here — it preserves ' +
-    '<b>84%</b> of each model’s true ten nearest neighbours, so read positions as a guide ' +
-    'and the listed distances as the truth.';
+document.getElementById('at-src').innerHTML =
+  'All quantities shown here are computed from the released LOCUS checkpoint rather than ' +
+  'illustrative examples. Model embeddings are recomputed using 4,096 evaluations per model; ' +
+  'nearest neighbours and pairwise distances are measured using cosine distance in the full ' +
+  '<b>128-dimensional</b> embedding space. Agreement denotes the fraction of 3,000 held-out ' +
+  'test queries on which two models have identical correctness labels. Portfolio selections ' +
+  'and routing accuracies are taken directly from the paper and evaluated on the same test split. ' +
+  'The only dimensionality reduction is the 3-D t-SNE visualization of the embedding distances: ' +
+  'it preserves <b>84%</b> of each model’s true ten nearest neighbours. The displayed 3-D positions ' +
+  'should therefore be interpreted qualitatively, while the reported neighbours and distances are ' +
+  'computed in the original 128-dimensional space.';
 
   for (var i = 0; i < MS.length; i++) if (MS[i].n.indexOf('deepseek-math') >= 0) { sel = i; break; }
   document.getElementById('at-pkval').textContent = D.portfolio.k[pkIdx];
