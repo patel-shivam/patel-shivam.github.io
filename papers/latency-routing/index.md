@@ -89,33 +89,34 @@ gap: **a single routing decision that optimises accuracy, cost and latency joint
 
 <h3>The failure is not subtle</h3>
 
-The demonstration below is a small deployment: four model instances, a stream of queries
-drawn from four tasks with genuinely different prompt and response lengths, and the same
-arrival trace fed to four different routers. Accuracy scores and per-token prices are the
+The demonstration below is a small deployment: one instance of each of the three Qwen3
+models, a stream of queries drawn from four tasks with genuinely different prompt and
+response lengths, and the same arrival trace fed to four different routers. Accuracy scores and per-token prices are the
 paper's, so the accuracy–cost utility each router is chasing is the real one.
 
-The instances are given **identical service capacity**, which is not physically true of a
-0.6B and a 32B model, but it isolates the effect we care about: every difference in latency
-you see is produced by the routing decision and nothing else. Under those prices and scores
+The three instances are given **identical service capacity**, which is not physically true
+of a 0.6B and a 32B model, but it isolates the effect we care about: every difference in
+latency you see is produced by the routing decision and nothing else. Under those prices and scores
 Qwen3-0.6B is never the utility-maximising choice for any of the four tasks — so watch what
 the accuracy–cost router does with it.
 
 {% include_relative router.part.html %}
 
 The accuracy–cost router wins the utility column and loses everything else. It leaves the
-0.6B instance idle for the entire run and concentrates the heavy, long-prompt summarisation
-traffic onto the instances it prefers, whose queues then grow monotonically; by the end of
-the trace its tail latency is measured in seconds against targets measured in hundreds of
-milliseconds. Shortest-queue inverts the failure — latency stays flat, and the router
+0.6B instance idle for the entire run — not almost idle, but at zero — and pushes the heavy,
+long-prompt summarisation traffic onto the 8B instance, whose queue then grows
+monotonically; by the end of the trace its tail latency is measured in seconds against
+targets measured in hundreds of milliseconds. A third of the pool is doing nothing while
+another third drowns. Shortest-queue inverts the failure — latency stays flat, and the router
 spreads queries across models with no idea which one suits them, so realised utility falls
 by a fifth. SFS is the only policy in the table that is near the top of both columns, and
 the metric that captures this is **OnTimeUtility**: the accuracy–cost utility actually
 realised, counting a query that misses its latency target as worth nothing.
 
 Turn the arrival rate up far enough and every policy collapses together. That is honest and
-worth seeing: routing allocates capacity, it does not create it. Somewhere above 13 q/s
-this pool is simply too small for the offered load, and the answer there is more hardware,
-not a better router.
+worth seeing: routing allocates capacity, it does not create it. Somewhere above 9 q/s
+this three-instance pool is simply too small for the offered load, and the answer there is
+more hardware, not a better router.
 
 <h2 class="section">What time-to-first-token is made of</h2>
 

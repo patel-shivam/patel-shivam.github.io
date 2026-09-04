@@ -174,7 +174,7 @@
 </style>
 
 <div class="lr">
-  <h4>Interactive · one arrival trace, four model instances, four routers</h4>
+  <h4>Interactive · one arrival trace, three model instances, four routers</h4>
 
   <div class="lr-ctl">
     <div class="lr-row">
@@ -184,9 +184,9 @@
     <div class="lr-row">
       <span class="lbl">Arrival rate</span>
       <label class="lr-slider">
-        <input type="range" id="lr-qps" min="4" max="13" step="1" value="10"
+        <input type="range" id="lr-qps" min="3" max="9" step="1" value="6"
                aria-label="Total query arrival rate in queries per second">
-        <span class="val" id="lr-qpsv">10 q/s</span>
+        <span class="val" id="lr-qpsv">6 q/s</span>
       </label>
       <div class="lr-mini">
         <button type="button" id="lr-play">Pause</button>
@@ -196,8 +196,8 @@
   </div>
 
   <div class="lr-wrap lr-scroll">
-    <svg class="lr-stage" id="lr-stage" viewBox="0 0 960 452" role="img"
-         aria-label="Queries arriving at a router and being dispatched to four model instances, whose queues build up over time"></svg>
+    <svg class="lr-stage" id="lr-stage" viewBox="0 0 960 368" role="img"
+         aria-label="Queries arriving at a router and being dispatched to three model instances, whose queues build up over time"></svg>
   </div>
 
   <div class="lr-legend">
@@ -247,9 +247,10 @@
   <p class="lr-note">
     All four instances are given <b>identical service capacity</b> here, so every latency
     difference on screen comes from routing alone rather than from one model being
-    faster. Prompt and response lengths are representative of the four tasks — short/long
-    in each direction — rather than their measured distributions, and are scaled so the
-    paper's TTFT targets are reachable on an idle instance. Accuracy comes from the paper's LLM-as-a-judge scores and cost from published
+    faster, and each model is deployed once. Prompt and response lengths are
+    representative of the four tasks — short/long in each direction — rather than their
+    measured distributions, and are scaled so the paper's TTFT targets are reachable on an
+    idle instance. Accuracy comes from the paper's LLM-as-a-judge scores and cost from published
     Qwen3 per-token prices, so the utility each router chases is the real one — which is
     why <b>Qwen3-0.6B is never the utility-maximising choice</b> for any of the four tasks,
     and an accuracy–cost router leaves it idle while the instances it prefers saturate.
@@ -288,7 +289,7 @@
     { id: 'writing',   tag: 'W', p: [30, 120],    d: [500, 900], acc: { a: .177, b: .575, c: .807 } }
   ];
   var INST = [
-    { m: 'a', tag: '' }, { m: 'b', tag: '#1' }, { m: 'b', tag: '#2' }, { m: 'c', tag: '' }
+    { m: 'a', tag: '' }, { m: 'b', tag: '' }, { m: 'c', tag: '' }
   ];
   var POLICIES = [
     { id: 'la',  name: 'Accuracy–cost only' },
@@ -506,7 +507,8 @@
     }
 
     /* stats */
-    var got = [], comp = [0, 0, 0, 0];
+    var got = [], comp = [];
+    for (i = 0; i < INST.length; i++) comp.push(0);
     for (i = 0; i < qs.length; i++) {
       if (qs[i].ttft !== null) {
         got.push(qs[i]);
@@ -530,9 +532,11 @@
 
   /* ─── stage geometry ────────────────────────────────────────────── */
   var LX = 4, LW = 136, RX = 148, RW = 90, PX = 268, PW = 688;
-  var TOP = 44, PH = 96, PGAP = 4;
+  var NI = INST.length;
+  var TOP = 44, PH = 104, PGAP = 4;
+  var COLH = NI * (PH + PGAP) - PGAP;   /* arrivals lane / router height */
   var QX = PX + 6, QW = 74, AX = PX + 90, AW = PW - 96;
-  var ROWH = 11, BARH = 8;
+  var ROWH = 12, BARH = 8;
 
   function panelY(i) { return TOP + i * (PH + PGAP); }
   function barW(tok) { return Math.max(24, Math.min(AW - 4, 6.06 * Math.sqrt(tok) - 14.8)); }
@@ -544,7 +548,7 @@
     while (stage.firstChild) stage.removeChild(stage.firstChild);
     var i, j, y, g;
 
-    stage.appendChild(el('rect', { x: LX, y: TOP, width: LW, height: 4 * (PH + PGAP) - PGAP,
+    stage.appendChild(el('rect', { x: LX, y: TOP, width: LW, height: COLH,
       rx: 8, 'class': 'zone' }));
     var zl = el('text', { x: LX + 8, y: TOP - 10, 'class': 'zlab' }); zl.textContent = 'Arrivals';
     stage.appendChild(zl);
@@ -568,7 +572,7 @@
     }
 
     /* router */
-    var rh = 4 * (PH + PGAP) - PGAP;
+    var rh = COLH;
     stage.appendChild(el('rect', { x: RX, y: TOP, width: RW, height: rh, rx: 8, 'class': 'router-bg' }));
     var rt = el('text', { x: RX + RW / 2, y: TOP + rh / 2 - 6, 'class': 'rlab', 'text-anchor': 'middle' });
     rt.textContent = 'ROUTER';
@@ -577,14 +581,14 @@
     stage.appendChild(rPolTx);
 
     links = [];
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < NI; i++) {
       var ln = el('path', { d: '', 'class': 'link link' + MODELS[INST[i].m].ci });
       stage.appendChild(ln);
       links.push(ln);
     }
 
     slotG = []; queueG = []; panelBg = []; panelWash = []; statTx = []; dots = [];
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < NI; i++) {
       y = panelY(i);
       var ci = MODELS[INST[i].m].ci;
       var bg = el('rect', { x: PX, y: y, width: PW, height: PH, rx: 8, 'class': 'panel-bg' });
@@ -633,7 +637,7 @@
   }
 
   /* ─── state ─────────────────────────────────────────────────────── */
-  var qps = 10, seed = 7, policy = 'sfs', runs = {}, trace = null;
+  var qps = 6, seed = 7, policy = 'sfs', runs = {}, trace = null;
   var simT = 0, playing = true, lastFrame = 0, speed = 2.4;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -665,7 +669,7 @@
       if (q.arr <= simT) continue;
       var frac = 1 - (q.arr - simT) / ARR_TRAVEL;
       var w = Math.max(10, Math.min(120, barW(q.tot) * 0.21));
-      var yy = TOP + 6 + frac * (4 * (PH + PGAP) - PGAP - 18);
+      var yy = TOP + 6 + frac * (COLH - 18);
       var a = arrivalPool[ap++];
       a.g.style.opacity = Math.min(1, frac * 3).toFixed(2);
       a.pend.setAttribute('x', LX + 10); a.pend.setAttribute('y', yy);
@@ -676,16 +680,17 @@
     for (; ap < arrivalPool.length; ap++) arrivalPool[ap].g.style.opacity = 0;
 
     /* dispatch link flashes */
-    var recent = [-1, -1, -1, -1], recentT = [0, 0, 0, 0];
+    var recent = [], recentT = [];
+    for (i = 0; i < NI; i++) { recent.push(-1); recentT.push(0); }
     for (i = 0; i < qs.length; i++) {
       q = qs[i];
       if (q.arr > simT) break;
       if (simT - q.arr < 260 && q.arr > recentT[q.inst]) { recent[q.inst] = q.id; recentT[q.inst] = q.arr; }
     }
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < NI; i++) {
       if (recent[i] >= 0 && !reduce) {
         var age = (simT - recentT[i]) / 260;
-        var y0 = TOP + (4 * (PH + PGAP) - PGAP) / 2, y1 = panelY(i) + PH / 2;
+        var y0 = TOP + COLH / 2, y1 = panelY(i) + PH / 2;
         var mx = (RX + RW + PX) / 2;
         links[i].setAttribute('d', 'M' + (RX + RW) + ',' + y0 + ' C' + mx + ',' + y0 +
           ' ' + mx + ',' + y1 + ' ' + PX + ',' + y1);
@@ -694,7 +699,7 @@
     }
 
     /* per instance */
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < NI; i++) {
       var qd = [], act = [];
       for (j = 0; j < qs.length; j++) {
         q = qs[j];
