@@ -20,6 +20,7 @@ authors:
     affil: 1
     corresponding: true
   - name: Ankur Mallick
+    url: https://scholar.google.com/citations?user=6SYGK8cAAAAJ&hl=en
     affil: 2
   - name: Gauri Joshi
     url: https://www.andrew.cmu.edu/user/gaurij/
