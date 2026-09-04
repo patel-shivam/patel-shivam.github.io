@@ -7,6 +7,8 @@
   --st-warn: #fab219;
   --st-crit: #d03b3b;
   --lane: color-mix(in srgb, var(--muted) 16%, transparent);
+  /* a query that met its target: present but recessive, so the reds carry */
+  --okink: color-mix(in srgb, var(--fg-soft) 62%, transparent);
 
   border: 1px solid var(--rule);
   border-radius: 10px;
@@ -78,7 +80,7 @@
                    stroke-dasharray: 2.5 2.5; opacity: .62; }
 .lr-stage .qfill { stroke: none; }
 .lr-stage .qfill.pre  { fill: var(--accent); }
-.lr-stage .qfill.ok   { fill: color-mix(in srgb, var(--fg-soft) 62%, transparent); }
+.lr-stage .qfill.ok   { fill: var(--okink); }
 .lr-stage .qfill.late { fill: var(--st-crit); }
 .lr-stage .qdiv  { stroke: var(--fg); stroke-width: 1; opacity: .55; }
 .lr-stage .qflash { fill: none; stroke: var(--accent); stroke-width: 1.4; }
@@ -113,6 +115,8 @@
 .lr-legend .it { display: flex; align-items: center; gap: .38rem; }
 .lr-legend svg { display: block; flex: none; }
 .lr-legend b { color: var(--fg-soft); font-weight: 600; }
+.lr-legend .lead { color: var(--muted); }
+.lr-legend .break { flex-basis: 100%; }
 
 /* ── results ──────────────────────────────────────────────────────── */
 .lr-res { margin-top: 1.1rem; padding-top: .95rem; border-top: 1px solid var(--rule); }
@@ -210,9 +214,11 @@
       </svg>
       one query — <b>solid</b> = tokens computed, <b>dashed</b> = still to come, tick = prompt&nbsp;ends
     </span>
-    <span class="it"><svg width="10" height="10" aria-hidden="true"><rect width="10" height="10" rx="2" fill="var(--accent)"></rect></svg> prefilling</span>
-    <span class="it"><svg width="10" height="10" aria-hidden="true"><rect width="10" height="10" rx="2" fill="var(--st-crit)"></rect></svg> missed its TTFT target</span>
-    <span class="it" id="lr-mleg"></span>
+    <span class="it lead">the solid part is coloured by <b>where the query stands against its TTFT target</b>:</span>
+    <span class="it"><svg width="10" height="10" aria-hidden="true"><rect width="10" height="10" rx="2" fill="var(--accent)"></rect></svg> still waiting for its first token</span>
+    <span class="it"><svg width="10" height="10" aria-hidden="true"><rect width="10" height="10" rx="2" fill="var(--okink)"></rect></svg> first token arrived on time</span>
+    <span class="it"><svg width="10" height="10" aria-hidden="true"><rect width="10" height="10" rx="2" fill="var(--st-crit)"></rect></svg> first token arrived too late</span>
+    <span class="it break" id="lr-mleg"></span>
   </div>
 
   <div class="lr-res">
