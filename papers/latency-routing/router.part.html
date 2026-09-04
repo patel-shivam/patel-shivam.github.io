@@ -251,21 +251,26 @@
   </div>
 
   <p class="lr-note">
-    All four instances are given <b>identical service capacity</b> here, so every latency
-    difference on screen comes from routing alone rather than from one model being
-    faster, and each model is deployed once. Prompt and response lengths are
-    representative of the four tasks — short/long in each direction — rather than their
-    measured distributions, and are scaled so the paper's TTFT targets are reachable on an
-    idle instance. Accuracy comes from the paper's LLM-as-a-judge scores and cost from published
-    Qwen3 per-token prices, so the utility each router chases is the real one — which is
-    why <b>Qwen3-0.6B is never the utility-maximising choice</b> for any of the four tasks,
-    and an accuracy–cost router leaves it idle while the instances it prefers saturate.
-    The engine here is a token-batch simulator, and SFS is that same simulator rolled
-    forward from each instance's current workload using <i>predicted</i> decode lengths
-    (±30% error), so it is close to exact by construction. The paper's evidence that this
-    holds against a real vLLM deployment is the 5% TTFT error measured below.
+    All three instances are assigned <b>identical service capacity</b> in this demonstration,
+    so any latency differences arise solely from the routing policy rather than from
+    differences in model serving speed; each model is deployed on a single instance.
+    Prompt and response lengths are chosen to represent the four task regimes — short/long
+    prompts crossed with short/long responses — rather than sampled directly from the
+    measured distributions, and are scaled so that the paper's TTFT targets remain feasible
+    on an idle instance. Accuracy values are taken from the paper's LLM-as-a-judge
+    evaluations, while costs use published Qwen3 per-token prices, so the accuracy–cost
+    utility optimized by each router is unchanged. Under these utilities,
+    <b>Qwen3-0.6B is never the utility-maximising choice</b> for any of the four tasks;
+    consequently, an accuracy–cost-only router leaves it idle even as the preferred
+    instances become saturated. The engine shown here is a token-batch simulator, and SFS
+    evaluates each routing decision by rolling that simulator forward from the current
+    workload of each instance using <i>predicted</i> decode lengths (with ±30% error).
+    The simulation is therefore intentionally close to the estimator's internal model; the
+    paper separately validates this approximation against a real vLLM deployment, where
+    SFS achieves approximately 5% TTFT prediction error.
   </p>
 </div>
+
 
 <script>
 (function () {

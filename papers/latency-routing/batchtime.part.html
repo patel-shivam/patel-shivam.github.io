@@ -125,14 +125,17 @@
   </div>
 
   <p class="bt-note">
-    Two batches carrying the <b>same number of tokens</b> can take very different times.
-    Push <i>their context</i> up and the decode-attention term grows even though the token
-    count never changes — that is the KV-cache read. Push <i>prior context</i> up and the
-    prefill term grows the same way, plus the chunk's own quadratic self-attention. This is
-    why a throughput-based estimate — tokens divided by a single tokens-per-second number —
-    cannot work: there is no single rate.
+    Two batches containing the <b>same number of tokens</b> can nevertheless have substantially
+    different processing times. Increasing the <i>decode context</i> raises the decode-attention
+    cost even when the number of newly processed tokens is unchanged, because each decode step
+    must read a larger KV cache. Increasing the <i>prior context</i> similarly raises the cost of
+    prefill attention, in addition to the quadratic self-attention within the prefill chunk
+    itself. Consequently, batch processing time cannot be characterized by a single
+    tokens-per-second rate: throughput depends on the composition of the batch and the context
+    associated with its tokens.
   </p>
 </div>
+
 
 <script>
 (function () {
