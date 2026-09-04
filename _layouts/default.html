@@ -45,6 +45,43 @@
     </p>
   </footer>
 
+  {% include qr-dialog.html %}
+
+  <script>
+    (function () {
+      var dlg = document.getElementById('qr-dialog');
+      var btns = document.querySelectorAll('.qr-btn');
+      if (!dlg || !btns.length) return;
+      var opener = null;
+      var modal = typeof dlg.showModal === 'function';
+
+      function open(e) {
+        opener = e.currentTarget;
+        if (modal) dlg.showModal();
+        else { dlg.setAttribute('open', ''); dlg.classList.add('no-dialog'); }
+      }
+      function close() {
+        if (!dlg.open) return;
+        modal ? dlg.close() : dlg.removeAttribute('open');
+        // A native dialog restores focus to whatever had it before opening, and
+        // that runs after the close event, so hand focus back on the next tick.
+        if (opener) setTimeout(function () { opener.focus(); }, 0);
+      }
+
+      Array.prototype.forEach.call(btns, function (b) { b.addEventListener('click', open); });
+      dlg.querySelector('.qr-cancel').addEventListener('click', close);
+      // A click on the backdrop is reported against the dialog element itself.
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+      // Escape closes the dialog natively, without going through close() above.
+      dlg.addEventListener('close', function () {
+        if (opener) setTimeout(function () { opener.focus(); }, 0);
+      });
+      if (!modal) {
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+      }
+    })();
+  </script>
+
   <script>
     (function () {
       var btn = document.getElementById('theme-toggle');

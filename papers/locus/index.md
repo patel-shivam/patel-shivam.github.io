@@ -150,7 +150,7 @@ already embedded model, the regenerated embedding would ideally reproduce the or
 representation. In practice, it does not.
 
 <figure>
-  <img src="{{ '/papers/locus/figures/embedllm-drift.png' | relative_url }}" alt="Heatmap of cosine distance between original and regenerated EmbedLLM embeddings across decoder depths and embedding dimensions, showing large distances throughout">
+  <img loading="lazy" decoding="async" width="1118" height="738" src="{{ '/papers/locus/figures/embedllm-drift.png' | relative_url }}" alt="Heatmap of cosine distance between original and regenerated EmbedLLM embeddings across decoder depths and embedding dimensions, showing large distances throughout">
 
   <figcaption>Average cosine distance between EmbedLLM embeddings and embeddings
   <i>regenerated from the same evaluation data</i> with the predictor held fixed, across
@@ -175,7 +175,7 @@ lightweight correctness predictor $G_\psi$ that maps a model embedding and query
 to a correctness probability.
 
 <figure>
-  <img src="{{ '/papers/locus/figures/encoder-diagram.png' | relative_url }}" alt="Encoder pipeline: evaluations tokenized, passed through multi-head attention transformer layers, then a learned-query aggregation layer, producing a model embedding">
+  <img loading="lazy" decoding="async" width="1370" height="414" src="{{ '/papers/locus/figures/encoder-diagram.png' | relative_url }}" alt="Encoder pipeline: evaluations tokenized, passed through multi-head attention transformer layers, then a learned-query aggregation layer, producing a model embedding">
 
   <figcaption>The embedding generator $F_\theta$. Each (query encoding, score) pair is
   mapped to a token; bidirectional attention layers without positional encodings exchange
@@ -233,7 +233,7 @@ as input and returns a correctness probability:
 $$\widehat{p}_\psi\big(y^{(m)}(x)\!=\!1 \,\big|\, z_m, \phi(x)\big) \;=\; \sigma\big(G_\psi(z_m, \phi(x))\big)$$
 
 <figure style="max-width: 21rem; margin-left: auto; margin-right: auto;">
-  <img src="{{ '/papers/locus/figures/decoder-diagram.png' | relative_url }}" alt="The correctness predictor: a model embedding and a query embedding feed a small MLP that outputs correct or incorrect">
+  <img loading="lazy" decoding="async" width="438" height="414" src="{{ '/papers/locus/figures/decoder-diagram.png' | relative_url }}" alt="The correctness predictor: a model embedding and a query embedding feed a small MLP that outputs correct or incorrect">
 
   <figcaption>The correctness predictor $G_\psi$. The predictor is intentionally
   lightweight: the model representation is supplied by the encoder, and the small decoder
@@ -336,7 +336,7 @@ The advantage becomes larger in the low-evaluation regime, which is operationall
 because each additional evaluation incurs an inference call to a model in the pool.
 
 <figure>
-  <img src="{{ '/papers/locus/figures/train-sample-eff.png' | relative_url }}" alt="Routing accuracy versus number of training samples: LOCUS above IRTNet above EmbedLLM, with 2.3x and 4.8x horizontal arrows">
+  <img loading="lazy" decoding="async" width="740" height="550" src="{{ '/papers/locus/figures/train-sample-eff.png' | relative_url }}" alt="Routing accuracy versus number of training samples: LOCUS above IRTNet above EmbedLLM, with 2.3x and 4.8x horizontal arrows">
 
   <figcaption>Routing accuracy as a function of the number of evaluations per model used
   to train $(F_\theta, G_\psi)$. To reach the accuracy LOCUS achieves with roughly 450
@@ -349,7 +349,7 @@ A similar trend appears during test-time onboarding, where the relevant quantity
 number of evaluations required to obtain an informative embedding for a *new* model.
 
 <figure>
-  <img src="{{ '/papers/locus/figures/onboarding.png' | relative_url }}" alt="Grid of correctness prediction accuracy for held-out models by number of evaluation queries and number of training models">
+  <img loading="lazy" decoding="async" width="860" height="593" src="{{ '/papers/locus/figures/onboarding.png' | relative_url }}" alt="Grid of correctness prediction accuracy for held-out models by number of evaluation queries and number of training models">
 
   <figcaption>Onboarding 16 held-out models that are never observed during training. Rows
   vary the number of models used to train the encoder, while columns vary the number of
@@ -368,7 +368,7 @@ the overlap fraction $\alpha$ with a reference set, and changing *how many* eval
 are available.
 
 <figure>
-  <img src="{{ '/papers/locus/figures/robustness-perf.png' | relative_url }}" alt="Correctness prediction and routing accuracy against evaluation set size and overlap fraction, both flat after a small size">
+  <img loading="lazy" decoding="async" width="1303" height="739" src="{{ '/papers/locus/figures/robustness-perf.png' | relative_url }}" alt="Correctness prediction and routing accuracy against evaluation set size and overlap fraction, both flat after a small size">
 
   <figcaption>Correctness prediction (top) and routing accuracy (bottom) as functions of
   evaluation-set size (left) and overlap with a reference set (right). Performance
@@ -378,8 +378,8 @@ are available.
 </figure>
 
 <figure class="fig-pair">
-  <img src="{{ '/papers/locus/figures/robust-tsne-overlap.png' | relative_url }}" alt="t-SNE overlay of embeddings recomputed at varying overlap fractions, clustered near their reference points">
-  <img src="{{ '/papers/locus/figures/robust-tsne-size.png' | relative_url }}" alt="t-SNE overlay of embeddings recomputed from subsampled evaluation sets, clustered near their reference points">
+  <img loading="lazy" decoding="async" width="1002" height="557" src="{{ '/papers/locus/figures/robust-tsne-overlap.png' | relative_url }}" alt="t-SNE overlay of embeddings recomputed at varying overlap fractions, clustered near their reference points">
+  <img loading="lazy" decoding="async" width="1002" height="557" src="{{ '/papers/locus/figures/robust-tsne-size.png' | relative_url }}" alt="t-SNE overlay of embeddings recomputed from subsampled evaluation sets, clustered near their reference points">
 
   <figcaption>Geometric stability under evaluation-set perturbations. Embeddings for
   selected models are recomputed under varying overlap (<b>left</b>) and subsampling
@@ -413,7 +413,7 @@ fraction of test queries on which their binary correctness labels differ.
 </div>
 
 <figure>
-  <img src="{{ '/papers/locus/figures/distance-vs-disagreement.png' | relative_url }}" alt="Two scatter plots of embedding distance against correctness disagreement, both showing tight positive relationships">
+  <img loading="lazy" decoding="async" width="1353" height="593" src="{{ '/papers/locus/figures/distance-vs-disagreement.png' | relative_url }}" alt="Two scatter plots of embedding distance against correctness disagreement, both showing tight positive relationships">
 
   <figcaption>Embedding distance versus correctness disagreement for every model pair,
   using cosine distance (left) and Euclidean distance (right). Distances in the
@@ -426,8 +426,8 @@ clustering based on pairwise embedding distances separates math-finetuned and co
 model families without access to these family labels.
 
 <figure class="fig-pair">
-  <img src="{{ '/papers/locus/figures/dendrogram.png' | relative_url }}" alt="Dendrogram of models clustered by embedding distance with math and code families highlighted">
-  <img src="{{ '/papers/locus/figures/family-heatmap.png' | relative_url }}" alt="Pairwise distance heatmap of models showing block structure aligned with families">
+  <img loading="lazy" decoding="async" width="551" height="930" src="{{ '/papers/locus/figures/dendrogram.png' | relative_url }}" alt="Dendrogram of models clustered by embedding distance with math and code families highlighted">
+  <img loading="lazy" decoding="async" width="1059" height="930" src="{{ '/papers/locus/figures/family-heatmap.png' | relative_url }}" alt="Pairwise distance heatmap of models showing block structure aligned with families">
 
   <figcaption>Hierarchical clustering of model embeddings. Math models (orange) and code
   models (green) form coherent groups, with corresponding block structure in the pairwise
@@ -464,8 +464,8 @@ behaviour.
 </div>
 
 <figure class="fig-pair">
-  <img src="{{ '/papers/locus/figures/knn-agreement.png' | relative_url }}" alt="Correctness agreement decaying gradually with neighbour rank k">
-  <img src="{{ '/papers/locus/figures/fallback-routing.png' | relative_url }}" alt="Routing accuracy under fallback to the kth nearest model, decaying gradually">
+  <img loading="lazy" decoding="async" width="1121" height="545" src="{{ '/papers/locus/figures/knn-agreement.png' | relative_url }}" alt="Correctness agreement decaying gradually with neighbour rank k">
+  <img loading="lazy" decoding="async" width="1094" height="545" src="{{ '/papers/locus/figures/fallback-routing.png' | relative_url }}" alt="Routing accuracy under fallback to the kth nearest model, decaying gradually">
 
   <figcaption><b>Left:</b> average correctness agreement between a model and its $k$-th
   nearest neighbour in embedding space. <b>Right:</b> routing accuracy when the selected
@@ -496,7 +496,7 @@ distance. Under a total parameter budget rather than a model-count constraint, a
 </div>
 
 <figure>
-  <img src="{{ '/papers/locus/figures/portfolio.png' | relative_url }}" alt="Left: routing accuracy versus number of selected models for k-center, k-medoids and random. Right: routing accuracy versus parameter budget for coverage-greedy and random">
+  <img loading="lazy" decoding="async" width="1121" height="543" src="{{ '/papers/locus/figures/portfolio.png' | relative_url }}" alt="Left: routing accuracy versus number of selected models for k-center, k-medoids and random. Right: routing accuracy versus parameter budget for coverage-greedy and random">
 
   <figcaption><b>Left:</b> routing accuracy as a function of portfolio size. Both coverage
   objectives outperform the random-selection baseline, and <code>k-center</code> saturates
@@ -515,7 +515,7 @@ retrieve the nearest embeddings from the library of real models. This enables mo
 by a target capability profile rather than by model name or aggregate benchmark rank.
 
 <figure>
-  <img src="{{ '/papers/locus/figures/hypothetical-recall.png' | relative_url }}" alt="Recall at k for retrieving the intended model from a hypothetical embedding, rising with evaluation set size">
+  <img loading="lazy" decoding="async" width="1081" height="821" src="{{ '/papers/locus/figures/hypothetical-recall.png' | relative_url }}" alt="Recall at k for retrieving the intended model from a hypothetical embedding, rising with evaluation set size">
 
   <figcaption>Recall@$k$ for recovering the intended model from a synthetic capability
   profile. With 8,192 synthetic queries, <b>recall@10 reaches ≈97%</b>. Correctness labels
@@ -560,8 +560,8 @@ takes approximately **20 ms**. This overhead is two to three orders of magnitude
 the seconds-scale latency of the corresponding language-model generations.
 
 <figure class="fig-pair">
-  <img src="{{ '/papers/locus/figures/timing-encoder.png' | relative_url }}" alt="Encoder wall clock time growing linearly with number of evaluation queries">
-  <img src="{{ '/papers/locus/figures/timing-decoder.png' | relative_url }}" alt="Decoder wall clock time for correctness prediction across query batch sizes">
+  <img loading="lazy" decoding="async" width="1216" height="912" src="{{ '/papers/locus/figures/timing-encoder.png' | relative_url }}" alt="Encoder wall clock time growing linearly with number of evaluation queries">
+  <img loading="lazy" decoding="async" width="1216" height="912" src="{{ '/papers/locus/figures/timing-decoder.png' | relative_url }}" alt="Decoder wall clock time for correctness prediction across query batch sizes">
 
   <figcaption><b>Left:</b> embedding generation time as a function of evaluation-set size
   for several model-pool sizes, exhibiting the linear scaling expected from the latent

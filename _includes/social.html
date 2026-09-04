@@ -1,6 +1,7 @@
 {%- comment -%}
   Row of icon links, shared by the homepage intro and the site footer.
   include.labels="true" shows text beside each icon.
+  The QR entry is a button, not a link: it opens the single dialog in default.html.
 {%- endcomment -%}
 <div class="social{% if include.labels != 'true' %} icons-only{% endif %}">
   {%- for l in site.links -%}
@@ -11,4 +12,9 @@
     {%- if include.labels == 'true' %}<span class="lbl">{{ l.name }}</span>{% endif -%}
   </a>
   {%- endfor -%}
+  <button type="button" class="qr-btn" aria-haspopup="dialog"
+          aria-label="Show QR code for this site" title="Show QR code">
+    {%- include icon.html name="qr" -%}
+    {%- if include.labels == 'true' %}<span class="lbl">QR</span>{% endif -%}
+  </button>
 </div>
