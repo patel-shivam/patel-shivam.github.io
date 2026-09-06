@@ -321,12 +321,10 @@ the MPNet-base sentence encoder, and proximity is measured using cosine distance
 We consider two forms of under-representation in the router training set:
 
 - **Leave-Task-Out**, where the training set contains no queries from the outlier
-
   tasks. This creates a natural stress test for clustering routers, since no cluster
   is formed from the outlier distribution. We use this setting to evaluate $K$M-Prox.
 
 - **Few-Shot-Outlier**, where only a small number of queries from the outlier tasks
-
   are available in training (about 25). For nearest-neighbor routers, uniform averaging
   can dilute the contribution of these few relevant examples among a larger set of
   neighbors. We use this setting to evaluate $k$NN-Prox.

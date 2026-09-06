@@ -79,7 +79,7 @@
 </style>
 
 <div class="bt">
-  <h4>Interactive · what makes one token batch slow</h4>
+  <h4>Interactive · token batch processing time</h4>
 
   <div class="bt-presets" id="bt-pre" role="group" aria-label="Example token batches"></div>
 
@@ -93,13 +93,13 @@
         <label class="bt-sl"><span class="nm">Decode sequences</span>
           <input type="range" id="bt-nd" min="0" max="6" step="1" value="5">
           <span class="v" id="bt-ndv">5</span></label>
-        <label class="bt-sl"><span class="nm">Their context</span>
+        <label class="bt-sl"><span class="nm">Decode context</span>
           <input type="range" id="bt-dc" min="0" max="61" step="1" value="41">
           <span class="v" id="bt-dcv">2048</span></label>
         <label class="bt-sl"><span class="nm">Prefill chunk</span>
           <input type="range" id="bt-pc" min="0" max="512" step="16" value="512">
           <span class="v" id="bt-pcv">512</span></label>
-        <label class="bt-sl"><span class="nm">Its prior context</span>
+        <label class="bt-sl"><span class="nm">Prior context</span>
           <input type="range" id="bt-pk" min="0" max="61" step="1" value="0">
           <span class="v" id="bt-pkv">0</span></label>
       </div>
@@ -157,7 +157,7 @@
     { nm: 'Pure decode',        nd: 6, dc: 2048, pc: 0,   pk: 0 },
     { nm: 'Chunked prefill',    nd: 5, dc: 2048, pc: 512, pk: 0 },
     { nm: 'Long-context decode',nd: 6, dc: 8192, pc: 0,   pk: 0 },
-    { nm: 'Prefill deep in a long prompt', nd: 4, dc: 1024, pc: 512, pk: 8192 }
+    { nm: 'Long-context prefill',          nd: 4, dc: 1024, pc: 512, pk: 8192 }
   ];
 
   /* log slider: 0..60 -> 128..8192 (index 0 means 0) */
