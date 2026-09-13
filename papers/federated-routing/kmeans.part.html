@@ -1,0 +1,424 @@
+<style>
+.fk {
+  --w1: #1c5d99; --w2: #b4541a;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 1.1rem 1.2rem 1.2rem;
+  margin: 2rem 0;
+}
+:root[data-theme="dark"] .fk { --w1: #3f86d0; --w2: #c47a3a; }
+
+.fk h4 {
+  font-family: var(--sans);
+  font-size: .72rem; font-weight: 650; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 0 0 .9rem;
+}
+
+.fk-steps { display: flex; flex-wrap: wrap; gap: .32rem; margin-bottom: 1rem; }
+.fk-steps button {
+  font-family: var(--sans); font-size: .74rem; line-height: 1.25;
+  padding: .38rem .6rem; cursor: pointer; text-align: left;
+  color: var(--fg-soft); background: var(--bg);
+  border: 1px solid var(--rule); border-radius: 6px;
+}
+.fk-steps button:hover { border-color: var(--w1); color: var(--fg); }
+.fk-steps button[aria-pressed="true"] {
+  background: var(--w1); border-color: var(--w1); color: #fff; font-weight: 600;
+}
+:root[data-theme="dark"] .fk-steps button[aria-pressed="true"] { color: #10131a; }
+.fk-steps b { font-variant-numeric: tabular-nums; font-weight: 700; opacity: .65; margin-right: .3rem; }
+
+.fk-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 1.4rem; align-items: start; }
+@media (max-width: 700px) { .fk-grid { grid-template-columns: 1fr; } }
+
+.fk-canvas { width: 100%; aspect-ratio: 5 / 4; display: block; border-radius: 6px; }
+
+.fk-legend { display: flex; flex-wrap: wrap; gap: .9rem; margin: .55rem 0 0;
+             font-family: var(--sans); font-size: .71rem; color: var(--muted); }
+.fk-legend span { display: inline-flex; align-items: center; gap: .32rem; }
+.fk-legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.fk-legend .k1 { background: var(--w1); }
+.fk-legend .k2 { background: var(--w2); }
+.fk-legend .k0 { background: color-mix(in srgb, var(--muted) 45%, transparent); }
+
+.fk-say { font-size: .84rem; line-height: 1.6; color: var(--fg-soft); margin: 0 0 .9rem; }
+.fk-say b { color: var(--fg); font-weight: 600; }
+
+.fk-sl { display: flex; align-items: center; gap: .6rem; font-size: .78rem;
+         color: var(--fg-soft); margin-bottom: .5rem; }
+.fk-sl .nm { flex: 1; min-width: 0; }
+.fk-sl input { flex: 1.1; accent-color: var(--w1); min-width: 4.5rem; }
+.fk-sl .v { font-variant-numeric: tabular-nums; color: var(--muted);
+            min-width: 2rem; text-align: right; font-size: .76rem; }
+
+.fk-stats { margin-top: .9rem; padding-top: .8rem; border-top: 1px solid var(--rule); }
+.fk-stats dl { display: grid; grid-template-columns: 1fr auto; gap: .3rem .8rem; margin: 0; }
+.fk-stats dt { font-size: .76rem; color: var(--muted); }
+.fk-stats dd { margin: 0; font-size: .8rem; color: var(--fg);
+               font-variant-numeric: tabular-nums; text-align: right; }
+
+.fk-note { font-size: .8rem; color: var(--muted); margin: .95rem 0 0; line-height: 1.62; }
+.fk-note b { color: var(--fg-soft); font-weight: 600; }
+</style>
+
+<div class="fk">
+  <h4>Interactive &middot; how the federated K-Means router is built</h4>
+
+  <div class="fk-steps" id="fk-steps" role="group" aria-label="Algorithm step"></div>
+
+  <div class="fk-grid">
+    <div>
+      <canvas class="fk-canvas" id="fk-canvas" role="img"
+              aria-label="The federated clustering procedure drawn on the client query embeddings"></canvas>
+      <p class="fk-legend">
+        <span><i class="k0"></i> client queries</span>
+        <span><i class="k1"></i> local centroids</span>
+        <span><i class="k2"></i> global centroids</span>
+      </p>
+    </div>
+    <div>
+      <p class="fk-say" id="fk-say">Loading the client partition&hellip;</p>
+
+      <label class="fk-sl"><span class="nm">Clusters per client</span>
+        <input type="range" id="fk-kl" min="4" max="24" step="1" value="15">
+        <span class="v" id="fk-klv">15</span></label>
+      <label class="fk-sl"><span class="nm">Clusters at the server</span>
+        <input type="range" id="fk-kg" min="4" max="30" step="1" value="20">
+        <span class="v" id="fk-kgv">20</span></label>
+
+      <div class="fk-stats">
+        <dl id="fk-dl"></dl>
+      </div>
+    </div>
+  </div>
+
+  <p class="fk-note">
+    The clustering runs live on a <b>proportional subsample of the real client
+    partition</b>, projected to two dimensions with t-SNE so it can be drawn. The deployed
+    router clusters in the sentence encoder's full embedding space, where distances differ,
+    so read this as the shape of the procedure rather than the exact partition it produces.
+    Paper settings are 15 clusters per client and 20 at the server.
+  </p>
+</div>
+
+<script>
+(function () {
+  var cv = document.getElementById('fk-canvas');
+  if (!cv) return;
+
+  var DATA_URL = '{{ "/papers/federated-routing/clients.json" | relative_url }}';
+  window.__fedData = window.__fedData || function () {
+    if (!window.__fedDataP) {
+      window.__fedDataP = fetch(DATA_URL).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      });
+    }
+    return window.__fedDataP;
+  };
+
+  var ctx = cv.getContext('2d');
+  var d = null, step = 0, KL = 15, KG = 20;
+  var loc = null, glob = null, frame = 0, hover = -1;
+
+  var STEPS = [
+    ['Queries', 'Ten clients hold their own queries. Nothing has been shared, and no client sees the whole space.'],
+    ['Local k-means', 'Each client clusters <b>its own</b> embeddings into ' +
+      'K<sub>local</sub> groups. Marker area is the number of queries behind a centroid.'],
+    ['What is sent', 'Only the centroids and their counts go to the server. ' +
+      'The queries themselves stay put — this is the whole privacy story.'],
+    ['Server clustering', 'The server runs a <b>size-weighted</b> k-means over the pooled ' +
+      'centroids, so a centroid standing for more queries pulls harder. The result is ' +
+      'K<sub>global</sub> shared regions, broadcast back.'],
+    ['Assign &amp; aggregate', 'Clients assign their own samples to the global regions and ' +
+      'report per-region accuracy and cost averages with sample counts. Hover a region to ' +
+      'see how many clients stand behind it.']
+  ];
+
+  function css(n) {
+    return getComputedStyle(document.querySelector('.fk')).getPropertyValue(n).trim();
+  }
+
+  /* deterministic PRNG so the picture does not change between redraws */
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  /* Lloyd's algorithm with k-means++ seeding; w[] are optional weights. */
+  function kmeans(xs, ys, w, K, seed) {
+    var n = xs.length;
+    K = Math.min(K, n);
+    var rand = rng(seed), cx = [], cy = [], i, k;
+    var first = Math.floor(rand() * n);
+    cx.push(xs[first]); cy.push(ys[first]);
+    // k-means++ : pick each next centre with probability proportional to D^2
+    var dist = new Float64Array(n);
+    for (i = 0; i < n; i++) dist[i] = Infinity;
+    while (cx.length < K) {
+      var last = cx.length - 1, tot = 0;
+      for (i = 0; i < n; i++) {
+        var dx = xs[i] - cx[last], dy = ys[i] - cy[last];
+        var dd = dx * dx + dy * dy;
+        if (dd < dist[i]) dist[i] = dd;
+        tot += dist[i] * (w ? w[i] : 1);
+      }
+      var pick = rand() * tot, acc = 0, chosen = n - 1;
+      for (i = 0; i < n; i++) {
+        acc += dist[i] * (w ? w[i] : 1);
+        if (acc >= pick) { chosen = i; break; }
+      }
+      cx.push(xs[chosen]); cy.push(ys[chosen]);
+    }
+    var asg = new Int32Array(n);
+    for (var it = 0; it < 30; it++) {
+      var moved = false;
+      for (i = 0; i < n; i++) {
+        var best = 0, bd = Infinity;
+        for (k = 0; k < cx.length; k++) {
+          var ex = xs[i] - cx[k], ey = ys[i] - cy[k], e = ex * ex + ey * ey;
+          if (e < bd) { bd = e; best = k; }
+        }
+        if (asg[i] !== best) { asg[i] = best; moved = true; }
+      }
+      var sx = new Float64Array(cx.length), sy = new Float64Array(cx.length),
+          sw = new Float64Array(cx.length);
+      for (i = 0; i < n; i++) {
+        var ww = w ? w[i] : 1;
+        sx[asg[i]] += xs[i] * ww; sy[asg[i]] += ys[i] * ww; sw[asg[i]] += ww;
+      }
+      for (k = 0; k < cx.length; k++) {
+        if (sw[k] > 0) { cx[k] = sx[k] / sw[k]; cy[k] = sy[k] / sw[k]; }
+      }
+      if (!moved && it) break;
+    }
+    var wt = new Float64Array(cx.length);
+    for (i = 0; i < n; i++) wt[asg[i]] += w ? w[i] : 1;
+    return { cx: cx, cy: cy, asg: asg, w: wt };
+  }
+
+  function compute() {
+    var p = d.pts, n = p.x.length, i, c;
+    // pass one: every client clusters its own points
+    var lx = [], ly = [], lw = [], lc = [];
+    loc = { cx: lx, cy: ly, w: lw, client: lc, memberOf: new Int32Array(n) };
+    for (c = 0; c < 10; c++) {
+      var xs = [], ys = [], idx = [];
+      for (i = 0; i < n; i++) if (p.c[i] === c) { xs.push(p.x[i]); ys.push(p.y[i]); idx.push(i); }
+      var r = kmeans(xs, ys, null, KL, 1000 + c);
+      for (var k = 0; k < r.cx.length; k++) {
+        lx.push(r.cx[k]); ly.push(r.cy[k]); lw.push(r.w[k]); lc.push(c);
+      }
+      for (i = 0; i < idx.length; i++) loc.memberOf[idx[i]] = lx.length - r.cx.length + r.asg[i];
+    }
+    // pass two: the server clusters those centroids, weighted by their counts
+    var g = kmeans(lx, ly, lw, KG, 77);
+    // each query follows its own local centroid into a global region
+    var pointGlobal = new Int32Array(n);
+    for (i = 0; i < n; i++) pointGlobal[i] = g.asg[loc.memberOf[i]];
+    // who contributes to each global region
+    var perRegion = [];
+    for (k = 0; k < g.cx.length; k++) perRegion.push({ n: 0, clients: {} });
+    for (i = 0; i < n; i++) {
+      var reg = perRegion[pointGlobal[i]];
+      reg.n++; reg.clients[p.c[i]] = (reg.clients[p.c[i]] || 0) + 1;
+    }
+    glob = { cx: g.cx, cy: g.cy, asgLocal: g.asg, pointGlobal: pointGlobal, region: perRegion };
+  }
+
+  function xy(w, h) {
+    var pad = 10;
+    return { pad: pad, sx: (w - 2 * pad) / 1000, sy: (h - 2 * pad) / 1000 };
+  }
+
+  function draw() {
+    if (frame) return;
+    frame = requestAnimationFrame(function () { frame = 0; paint(); });
+  }
+
+  function paint() {
+    if (!d || !glob) return;
+    var dpr = window.devicePixelRatio || 1;
+    var w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return;
+    if (cv.width !== Math.round(w * dpr)) {
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    var t = xy(w, h), p = d.pts, n = p.x.length, i, k;
+    var c1 = css('--w1'), c2 = css('--w2'), dim = css('--muted'), surf = css('--surface');
+    var X = function (v) { return t.pad + v * t.sx; };
+    var Y = function (v) { return t.pad + v * t.sy; };
+
+    // queries: present except while the data is "in flight" to the server
+    if (step !== 2 && step !== 3) {
+      ctx.fillStyle = dim;
+      ctx.globalAlpha = step === 0 ? 0.5 : 0.2;
+      for (i = 0; i < n; i++) {
+        if (step === 4 && hover >= 0 && glob.pointGlobal[i] !== hover) continue;
+        ctx.beginPath(); ctx.arc(X(p.x[i]), Y(p.y[i]), 1.6, 0, 6.2832); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    // links from local centroids to the global centre that absorbed them; only
+    // while the local centroids are on screen to be linked from
+    if (step === 3) {
+      ctx.strokeStyle = dim; ctx.globalAlpha = 0.3; ctx.lineWidth = 0.7;
+      for (k = 0; k < loc.cx.length; k++) {
+        var g = glob.asgLocal[k];
+        ctx.beginPath();
+        ctx.moveTo(X(loc.cx[k]), Y(loc.cy[k]));
+        ctx.lineTo(X(glob.cx[g]), Y(glob.cy[g]));
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    // local centroids, area proportional to the queries behind them
+    if (step >= 1 && step <= 3) {
+      var maxw = Math.max.apply(null, Array.prototype.slice.call(loc.w));
+      ctx.fillStyle = c1; ctx.strokeStyle = surf; ctx.lineWidth = 1.5;
+      for (k = 0; k < loc.cx.length; k++) {
+        var r = 2.5 + 7 * Math.sqrt(loc.w[k] / maxw);
+        ctx.globalAlpha = step === 3 ? 0.45 : 0.85;
+        ctx.beginPath(); ctx.arc(X(loc.cx[k]), Y(loc.cy[k]), r, 0, 6.2832);
+        ctx.fill(); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    // global centroids
+    if (step >= 3) {
+      for (k = 0; k < glob.cx.length; k++) {
+        var on = (hover < 0 || hover === k);
+        ctx.globalAlpha = on ? 1 : 0.25;
+        ctx.beginPath(); ctx.arc(X(glob.cx[k]), Y(glob.cy[k]), hover === k ? 9 : 6.5, 0, 6.2832);
+        ctx.fillStyle = c2; ctx.fill();
+        ctx.strokeStyle = surf; ctx.lineWidth = 2; ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function stats() {
+    var dl = document.getElementById('fk-dl');
+    var rows = [];
+    var nPts = d.pts.x.length;
+    if (step === 0) {
+      rows.push(['Clients', '10']);
+      rows.push(['Queries drawn', nPts.toLocaleString()]);
+      rows.push(['Queries in the real split', d.sizes.reduce(function (a, b) { return a + b; }, 0).toLocaleString()]);
+    } else if (step === 1) {
+      rows.push(['Clusters per client', KL]);
+      rows.push(['Local centroids in total', loc.cx.length]);
+      rows.push(['Largest local cluster', Math.round(Math.max.apply(null, Array.prototype.slice.call(loc.w)))]);
+    } else if (step === 2) {
+      rows.push(['Values leaving each client', KL + ' centroids + ' + KL + ' counts']);
+      rows.push(['Queries leaving each client', '0']);
+      rows.push(['Total centroids at the server', loc.cx.length]);
+    } else if (step === 3) {
+      rows.push(['Centroids clustered', loc.cx.length]);
+      rows.push(['Global regions formed', glob.cx.length]);
+      var multi = glob.region.filter(function (r) { return Object.keys(r.clients).length > 1; }).length;
+      rows.push(['Regions spanning >1 client', multi + ' of ' + glob.cx.length]);
+    } else {
+      var sizes = glob.region.map(function (r) { return r.n; });
+      var cl = glob.region.map(function (r) { return Object.keys(r.clients).length; });
+      var mean = cl.reduce(function (a, b) { return a + b; }, 0) / cl.length;
+      if (hover >= 0) {
+        var r0 = glob.region[hover];
+        rows.push(['Region', '#' + (hover + 1)]);
+        rows.push(['Queries in it', r0.n.toLocaleString()]);
+        rows.push(['Clients contributing', Object.keys(r0.clients).length + ' of 10']);
+        rows.push(['Largest single share',
+          Math.round(100 * Math.max.apply(null, Object.keys(r0.clients).map(
+            function (c) { return r0.clients[c]; })) / r0.n) + '%']);
+      } else {
+        rows.push(['Global regions', glob.cx.length]);
+        rows.push(['Smallest region', Math.min.apply(null, sizes).toLocaleString() + ' queries']);
+        rows.push(['Clients per region, average', mean.toFixed(1) + ' of 10']);
+        rows.push(['Regions fed by a single client',
+          cl.filter(function (v) { return v === 1; }).length + ' of ' + cl.length]);
+      }
+    }
+    dl.innerHTML = rows.map(function (r) {
+      return '<dt>' + r[0] + '</dt><dd>' + r[1] + '</dd>';
+    }).join('');
+  }
+
+  function render() {
+    document.getElementById('fk-say').innerHTML = STEPS[step][1];
+    Array.prototype.forEach.call(document.getElementById('fk-steps').children, function (b, k) {
+      b.setAttribute('aria-pressed', k === step ? 'true' : 'false');
+    });
+    if (step !== 4) hover = -1;
+    stats();
+    draw();
+  }
+
+  function build() {
+    document.getElementById('fk-steps').innerHTML = STEPS.map(function (s, i) {
+      return '<button type="button" aria-pressed="false"><b>' + i + '</b>' + s[0] + '</button>';
+    }).join('');
+    Array.prototype.forEach.call(document.getElementById('fk-steps').children, function (b, k) {
+      b.addEventListener('click', function () { step = k; render(); });
+    });
+    var kl = document.getElementById('fk-kl'), kg = document.getElementById('fk-kg');
+    kl.addEventListener('input', function () {
+      KL = +kl.value; document.getElementById('fk-klv').textContent = KL;
+      compute(); if (step === 0) step = 1; render();
+    });
+    kg.addEventListener('input', function () {
+      KG = +kg.value; document.getElementById('fk-kgv').textContent = KG;
+      compute(); if (step < 3) step = 3; render();
+    });
+    cv.addEventListener('mousemove', function (e) {
+      if (step !== 4 || !glob) return;
+      var r = cv.getBoundingClientRect(), t = xy(r.width, r.height);
+      var mx = e.clientX - r.left, my = e.clientY - r.top;
+      var best = -1, bd = 16 * 16;
+      for (var k = 0; k < glob.cx.length; k++) {
+        var dx = mx - (t.pad + glob.cx[k] * t.sx), dy = my - (t.pad + glob.cy[k] * t.sy);
+        var dd = dx * dx + dy * dy;
+        if (dd < bd) { bd = dd; best = k; }
+      }
+      if (best !== hover) { hover = best; stats(); draw(); }
+    });
+    cv.addEventListener('mouseleave', function () {
+      if (hover !== -1) { hover = -1; stats(); draw(); }
+    });
+  }
+
+  function start() {
+    window.__fedData().then(function (json) {
+      d = json;
+      compute();
+      build();
+      render();
+    }).catch(function (e) {
+      document.getElementById('fk-say').textContent =
+        'The client partition could not be loaded (' + e.message + ').';
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); start(); }
+    }, { rootMargin: '400px 0px' });
+    io.observe(document.querySelector('.fk'));
+  } else { start(); }
+
+  window.addEventListener('resize', draw);
+  new MutationObserver(draw).observe(document.documentElement,
+    { attributes: true, attributeFilter: ['data-theme'] });
+})();
+</script>

@@ -1,0 +1,351 @@
+<style>
+.fc {
+  /* two hues, validated against both surfaces for categorical separation */
+  --w1: #1c5d99; --w2: #b4541a;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 1.1rem 1.2rem 1.2rem;
+  margin: 2rem 0;
+}
+:root[data-theme="dark"] .fc { --w1: #3f86d0; --w2: #c47a3a; }
+
+.fc h4 {
+  font-family: var(--sans);
+  font-size: .72rem; font-weight: 650; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 0 0 .9rem;
+}
+
+.fc-pick { display: flex; flex-wrap: wrap; gap: .32rem; margin-bottom: 1rem; }
+.fc-pick button {
+  font-family: var(--sans); font-size: .74rem; line-height: 1;
+  padding: .38rem .55rem; cursor: pointer;
+  color: var(--fg-soft); background: var(--bg);
+  border: 1px solid var(--rule); border-radius: 6px;
+}
+.fc-pick button:hover { border-color: var(--w1); color: var(--fg); }
+.fc-pick button[aria-pressed="true"] {
+  background: var(--w1); border-color: var(--w1); color: #fff; font-weight: 600;
+}
+:root[data-theme="dark"] .fc-pick button[aria-pressed="true"] { color: #10131a; }
+.fc-pick .all { margin-left: .35rem; }
+
+.fc-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 1.4rem; align-items: start; }
+@media (max-width: 700px) { .fc-grid { grid-template-columns: 1fr; } }
+
+.fc-sub {
+  font-family: var(--sans); font-size: .72rem; color: var(--muted);
+  margin: 0 0 .45rem; letter-spacing: .02em;
+}
+.fc-sub .n { color: var(--fg-soft); font-variant-numeric: tabular-nums; }
+
+.fc-canvas { width: 100%; aspect-ratio: 4 / 3; display: block; border-radius: 6px; }
+
+.fc-mix { margin-top: .9rem; }
+.fc-mrow { display: grid; grid-template-columns: 6.6rem 1fr 2.7rem; align-items: center;
+           gap: .5rem; padding: .14rem 0; }
+.fc-mrow .nm { color: var(--fg-soft); font-family: var(--sans); font-size: .72rem;
+               overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fc-mrow .track { position: relative; height: 9px; border-radius: 4px;
+                  background: color-mix(in srgb, var(--muted) 15%, transparent); }
+.fc-mrow .fill { height: 100%; background: var(--w1); border-radius: 4px;
+                 transition: width .18s ease; }
+.fc-mrow .ref { position: absolute; top: -3px; bottom: -3px; width: 2px;
+                background: var(--fg-soft); opacity: .7; border-radius: 1px; }
+.fc-mrow .v { font-variant-numeric: tabular-nums; text-align: right; color: var(--muted);
+              font-size: .72rem; }
+.fc-key { font-family: var(--sans); font-size: .69rem; color: var(--muted);
+          margin: .45rem 0 0; }
+
+.fc-rows { font-size: .76rem; }
+.fc-row { display: grid; grid-template-columns: 6.6rem 1fr 2.6rem; align-items: center;
+          gap: .5rem; padding: .14rem 0; }
+.fc-row .nm { color: var(--fg-soft); font-family: var(--sans); font-size: .72rem;
+              overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fc-row .track { height: 9px; background: color-mix(in srgb, var(--muted) 15%, transparent);
+                 border-radius: 4px; overflow: hidden; }
+.fc-row .fill { height: 100%; background: var(--w1); border-radius: 4px;
+                transition: width .18s ease; }
+.fc-row .v { font-variant-numeric: tabular-nums; text-align: right; color: var(--muted);
+             font-size: .72rem; }
+.fc-row.zero .v { color: var(--w2); font-weight: 600; }
+.fc-row.zero .nm { color: var(--muted); }
+
+.fc-read { display: grid; grid-template-columns: repeat(4, 1fr); gap: .7rem;
+           margin-top: 1rem; padding-top: .85rem; border-top: 1px solid var(--rule); }
+@media (max-width: 560px) { .fc-read { grid-template-columns: repeat(2, 1fr); } }
+.fc-read dt { font-family: var(--sans); font-size: .67rem; letter-spacing: .05em;
+              text-transform: uppercase; color: var(--muted); margin: 0 0 .2rem; }
+.fc-read dd { margin: 0; font-size: .92rem; color: var(--fg);
+              font-variant-numeric: tabular-nums; }
+.fc-read dd small { font-size: .74rem; color: var(--muted); }
+
+.fc-note { font-size: .8rem; color: var(--muted); margin: .95rem 0 0; line-height: 1.62; }
+.fc-note b { color: var(--fg-soft); font-weight: 600; }
+
+.fc-fallback { font-size: .82rem; color: var(--muted); padding: 1.5rem 0; text-align: center; }
+</style>
+
+<div class="fc">
+  <h4>Interactive &middot; what one client can see</h4>
+
+  <div class="fc-pick" id="fc-pick" role="group" aria-label="Choose a client"></div>
+
+  <div class="fc-grid">
+    <div>
+      <p class="fc-sub">Query space <span class="n" id="fc-qsub"></span></p>
+      <canvas class="fc-canvas" id="fc-canvas" role="img"
+              aria-label="t-SNE projection of the client training queries, highlighting the selected client"></canvas>
+      <div class="fc-mix" id="fc-mix"></div>
+      <p class="fc-key">Bar: this selection. Tick: the pooled share of the same task.</p>
+    </div>
+    <div>
+      <p class="fc-sub">Evaluations available per model <span class="n" id="fc-msub"></span></p>
+      <div class="fc-rows" id="fc-rows"></div>
+    </div>
+  </div>
+
+  <dl class="fc-read">
+    <div><dt>Training queries</dt><dd id="fc-r1">&mdash;</dd></div>
+    <div><dt>Query-space footprint</dt><dd id="fc-r2">&mdash;</dd></div>
+    <div><dt>Models with evaluations</dt><dd id="fc-r3">&mdash;</dd></div>
+    <div><dt>Thinnest model cell</dt><dd id="fc-r4">&mdash;</dd></div>
+  </dl>
+
+  <p class="fc-note" id="fc-note">
+    Loading the client partition&hellip;
+  </p>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('fc-canvas');
+  if (!root) return;
+
+  var DATA_URL = '{{ "/papers/federated-routing/clients.json" | relative_url }}';
+  var d = null, sel = 0;          // sel 0..9 = a client, -1 = all pooled
+
+  /* One fetch shared with the K-Means walkthrough further down the page. */
+  window.__fedData = window.__fedData || function () {
+    if (!window.__fedDataP) {
+      window.__fedDataP = fetch(DATA_URL).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      });
+    }
+    return window.__fedDataP;
+  };
+
+  var pick = document.getElementById('fc-pick');
+  var rows = document.getElementById('fc-rows');
+  var cv = root, ctx = cv.getContext('2d');
+  var frame = 0;
+
+  function css(name) {
+    return getComputedStyle(document.querySelector('.fc')).getPropertyValue(name).trim();
+  }
+  function fmt(n) { return n.toLocaleString(); }
+
+  function draw() {
+    if (frame) return;
+    frame = requestAnimationFrame(function () { frame = 0; paint(); });
+  }
+
+  function paint() {
+    if (!d) return;
+    var dpr = window.devicePixelRatio || 1;
+    var w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return;
+    if (cv.width !== Math.round(w * dpr)) {
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    var pad = 8;
+    var sx = (w - 2 * pad) / 1000, sy = (h - 2 * pad) / 1000;
+    var p = d.pts, n = p.x.length;
+    var hue = css('--w1');
+    var dim = css('--muted');
+
+    // context first, then the highlighted client on top
+    ctx.globalAlpha = sel < 0 ? 0.55 : 0.16;
+    ctx.fillStyle = dim;
+    for (var i = 0; i < n; i++) {
+      if (sel >= 0 && p.c[i] === sel) continue;
+      ctx.beginPath();
+      ctx.arc(pad + p.x[i] * sx, pad + p.y[i] * sy, 1.6, 0, 6.2832);
+      ctx.fill();
+    }
+    ctx.globalAlpha = sel < 0 ? 0.62 : 0.8;
+    ctx.fillStyle = hue;
+    for (i = 0; i < n; i++) {
+      if (sel >= 0 && p.c[i] !== sel) continue;
+      ctx.beginPath();
+      ctx.arc(pad + p.x[i] * sx, pad + p.y[i] * sy, sel < 0 ? 1.6 : 2.1, 0, 6.2832);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function counts() {
+    if (sel >= 0) return d.counts[sel].slice();
+    var out = d.models.map(function (_, m) {
+      return d.counts.reduce(function (a, r) { return a + r[m]; }, 0);
+    });
+    return out;
+  }
+  function taskmix() {
+    if (sel >= 0) return d.taskmix[sel].slice();
+    return d.tasks.map(function (_, t) {
+      return d.taskmix.reduce(function (a, r) { return a + r[t]; }, 0);
+    });
+  }
+
+  /* How much of the occupied embedding space a selection touches, measured by
+     grid occupancy on the same subsample that is drawn. */
+  var GRID = 16, allCells = 0, pooledShare = null, topTasks = null;
+  function cellsOf(who) {
+    var p = d.pts, s = {}, n = 0;
+    for (var i = 0; i < p.x.length; i++) {
+      if (who >= 0 && p.c[i] !== who) continue;
+      var k = ((p.x[i] * GRID / 1001) | 0) + ',' + ((p.y[i] * GRID / 1001) | 0);
+      if (!s[k]) { s[k] = 1; n++; }
+    }
+    return n;
+  }
+
+  function renderMix() {
+    var mix = taskmix();
+    var tot = mix.reduce(function (a, b) { return a + b; }, 0);
+    var html = '', hi = 0, k, t;
+    for (k = 0; k < topTasks.length; k++) {
+      t = topTasks[k];
+      hi = Math.max(hi, mix[t] / tot, pooledShare[t]);
+    }
+    for (k = 0; k < topTasks.length; k++) {
+      t = topTasks[k];
+      var share = mix[t] / tot;
+      html += '<div class="fc-mrow">' +
+                '<span class="nm" title="' + d.tasks[t] + '">' + d.tasks[t] + '</span>' +
+                '<span class="track">' +
+                  '<span class="fill" style="width:' + (100 * share / hi).toFixed(1) + '%"></span>' +
+                  '<span class="ref" style="left:' + (100 * pooledShare[t] / hi).toFixed(1) +
+                    '%" title="pooled share ' + (100 * pooledShare[t]).toFixed(1) + '%"></span>' +
+                '</span>' +
+                '<span class="v">' + (100 * share).toFixed(0) + '%</span>' +
+              '</div>';
+    }
+    document.getElementById('fc-mix').innerHTML = html;
+  }
+
+  function render() {
+    var c = counts(), mix = taskmix();
+    var total = c.reduce(function (a, b) { return a + b; }, 0);
+    var max = Math.max.apply(null, c);
+    var seen = c.filter(function (v) { return v > 0; });
+
+    // bars, in the fixed model order - never re-sorted by the current selection
+    var html = '';
+    for (var m = 0; m < d.models.length; m++) {
+      var v = c[m], pct = max ? (100 * v / max) : 0;
+      html += '<div class="fc-row' + (v ? '' : ' zero') + '">' +
+                '<span class="nm" title="' + d.models[m] + '">' + d.models[m] + '</span>' +
+                '<span class="track"><span class="fill" style="width:' +
+                  (v ? Math.max(pct, 1.5) : 0) + '%"></span></span>' +
+                '<span class="v">' + (v ? fmt(v) : 'none') + '</span>' +
+              '</div>';
+    }
+    rows.innerHTML = html;
+
+    document.getElementById('fc-qsub').textContent =
+      sel < 0 ? '· all ten clients' : '· client ' + (sel + 1) + ' highlighted';
+    document.getElementById('fc-msub').textContent =
+      sel < 0 ? '· pooled' : '· client ' + (sel + 1);
+
+    document.getElementById('fc-r1').innerHTML = fmt(total);
+    document.getElementById('fc-r2').innerHTML =
+      Math.round(100 * cellsOf(sel) / allCells) +
+      '<small>% of the occupied space</small>';
+    document.getElementById('fc-r3').innerHTML =
+      seen.length + ' <small>of ' + d.models.length + '</small>';
+    document.getElementById('fc-r4').innerHTML = seen.length
+      ? fmt(Math.min.apply(null, seen)) + ' <small>evaluations</small>'
+      : '&mdash;';
+
+    var note = document.getElementById('fc-note');
+    if (sel < 0) {
+      note.innerHTML = 'Pooled across the ten clients, <b>every model has at least ' +
+        fmt(Math.min.apply(null, seen)) + ' evaluations</b> and all ' + d.tasks.length +
+        ' task groups are represented. Federated training reaches exactly this evidence ' +
+        'without any client sending a query anywhere.';
+    } else {
+      var missing = d.models.filter(function (_, m) { return c[m] === 0; });
+      var thin = Math.min.apply(null, seen);
+      var reach = Math.round(100 * cellsOf(sel) / allCells);
+      note.innerHTML = 'Client ' + (sel + 1) + ' holds <b>' + fmt(total) + ' queries</b> ' +
+        'reaching <b>' + reach + '%</b> of the occupied query space, so it is not short of ' +
+        'territory — its task proportions are skewed, not its coverage. The model side is ' +
+        'where it runs out' +
+        (missing.length
+          ? ': it has <b>no evaluations at all</b> for ' + missing.join(', ') + ', and its'
+          : ': its') +
+        ' thinnest non-empty cell carries <b>' + fmt(thin) + '</b> ' +
+        (thin === 1 ? 'evaluation' : 'evaluations') +
+        '. A router trained here alone has to price that model from those alone.';
+    }
+
+    renderMix();
+    Array.prototype.forEach.call(pick.children, function (b, k) {
+      b.setAttribute('aria-pressed', (k === 10 ? sel < 0 : sel === k) ? 'true' : 'false');
+    });
+    draw();
+  }
+
+  function build() {
+    var html = '';
+    for (var i = 0; i < 10; i++) {
+      html += '<button type="button" aria-pressed="false">' + (i + 1) + '</button>';
+    }
+    html += '<button type="button" class="all" aria-pressed="false">All ten pooled</button>';
+    pick.innerHTML = html;
+    Array.prototype.forEach.call(pick.children, function (b, k) {
+      b.addEventListener('click', function () { sel = (k === 10) ? -1 : k; render(); });
+    });
+  }
+
+  function start() {
+    window.__fedData().then(function (json) {
+      d = json;
+      allCells = cellsOf(-1);
+      // pooled task shares, and the five largest tasks overall; the row order is
+      // fixed by the pooled volume so it never re-sorts under the selection
+      var tot = d.taskmix.reduce(function (a, r) {
+        return a + r.reduce(function (x, y) { return x + y; }, 0); }, 0);
+      pooledShare = d.tasks.map(function (_, t) {
+        return d.taskmix.reduce(function (a, r) { return a + r[t]; }, 0) / tot; });
+      topTasks = d.tasks.map(function (_, t) { return t; })
+        .sort(function (a, b) { return pooledShare[b] - pooledShare[a]; }).slice(0, 5);
+      build();
+      render();
+    }).catch(function (e) {
+      document.getElementById('fc-note').textContent =
+        'The client partition could not be loaded (' + e.message + '). ' +
+        'The figures above cover the same ground.';
+    });
+  }
+
+  /* Only fetch once the widget is near the viewport. */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); start(); }
+    }, { rootMargin: '400px 0px' });
+    io.observe(document.querySelector('.fc'));
+  } else { start(); }
+
+  window.addEventListener('resize', draw);
+  new MutationObserver(draw).observe(document.documentElement,
+    { attributes: true, attributeFilter: ['data-theme'] });
+})();
+</script>
