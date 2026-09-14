@@ -62,7 +62,11 @@
 }
 .fc-sub .n { color: var(--fg-soft); font-variant-numeric: tabular-nums; }
 
-.fc-canvas { width: 100%; aspect-ratio: 4 / 3; display: block; border-radius: 6px; }
+.fc-canvas { width: 100%; aspect-ratio: 4 / 3; display: block; border-radius: 6px;
+             cursor: grab; touch-action: pan-y; }
+.fc-canvas.grabbing { cursor: grabbing; }
+.fc-hint { font-family: var(--sans); font-size: .69rem; color: var(--muted);
+           margin: .4rem 0 0; }
 
 .fc-mix { margin-top: .9rem; }
 .fc-mrow { display: grid; grid-template-columns: 6.6rem 1fr 2.7rem; align-items: center;
@@ -131,7 +135,8 @@
     <div>
       <p class="fc-sub">Query space <span class="n" id="fc-qsub"></span></p>
       <canvas class="fc-canvas" id="fc-canvas" role="img"
-              aria-label="t-SNE projection of the client training queries, highlighting the selected client"></canvas>
+              aria-label="Three-dimensional t-SNE projection of the client training queries, highlighting the selected client"></canvas>
+      <p class="fc-hint">Drag to rotate &middot; click, then scroll to zoom &middot; double-click to reset</p>
       <div class="fc-mix" id="fc-mix"></div>
       <p class="fc-key">Bar: this selection. Tick: the pooled share of the same task.</p>
     </div>
@@ -274,42 +279,118 @@
   }
   function fmt(n) { return n.toLocaleString(); }
 
+  /* Shared 3-D viewer: drag to rotate, wheel to zoom once the reader has taken
+     hold of the plot. Defined once and reused by the other widget below. */
+  window.__fed3d = window.__fed3d || function (cv, redraw) {
+    var st = { yaw: 0.55, pitch: 0.30, zoom: 1, engaged: false, w: 0, h: 0 };
+    var drag = null, DIST = 2.7;
+
+    function resize() {
+      var dpr = window.devicePixelRatio || 1;
+      var w = cv.clientWidth, h = cv.clientHeight;
+      if (!w || !h) return false;
+      if (cv.width !== Math.round(w * dpr)) {
+        cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      }
+      st.w = w; st.h = h;
+      cv.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+      return true;
+    }
+    /* data coords are 0..1000 on each axis */
+    function project(x, y, z) {
+      var X = x / 500 - 1, Y = y / 500 - 1, Z = z / 500 - 1;
+      var cy = Math.cos(st.yaw), sy = Math.sin(st.yaw);
+      var x1 = X * cy + Z * sy, z1 = Z * cy - X * sy;
+      var cp = Math.cos(st.pitch), sp = Math.sin(st.pitch);
+      var y1 = Y * cp - z1 * sp, z2 = Y * sp + z1 * cp;
+      var f = DIST / (DIST + z2);
+      var s = Math.min(st.w, st.h) * 0.40 * st.zoom;
+      return { x: st.w / 2 + x1 * f * s, y: st.h / 2 + y1 * f * s, d: z2, f: f };
+    }
+
+    cv.addEventListener('pointerdown', function (e) {
+      drag = { x: e.clientX, y: e.clientY, yaw: st.yaw, pitch: st.pitch };
+      st.engaged = true;
+      try { cv.setPointerCapture(e.pointerId); } catch (x) {}
+      cv.classList.add('grabbing');
+    });
+    cv.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      st.yaw = drag.yaw + (e.clientX - drag.x) * 0.008;
+      st.pitch = Math.max(-1.45, Math.min(1.45, drag.pitch + (e.clientY - drag.y) * 0.008));
+      redraw();
+    });
+    function end(e) {
+      if (!drag) return;
+      drag = null; cv.classList.remove('grabbing');
+      try { cv.releasePointerCapture(e.pointerId); } catch (x) {}
+    }
+    cv.addEventListener('pointerup', end);
+    cv.addEventListener('pointercancel', end);
+    cv.addEventListener('pointerleave', function () { st.engaged = false; });
+    /* Only swallow the wheel once engaged, so a page scroll that merely passes
+       over the plot is not trapped by it. */
+    cv.addEventListener('wheel', function (e) {
+      if (!st.engaged) return;
+      e.preventDefault();
+      st.zoom = Math.max(0.45, Math.min(4.5, st.zoom * (e.deltaY < 0 ? 1.1 : 1 / 1.1)));
+      redraw();
+    }, { passive: false });
+    cv.addEventListener('dblclick', function () {
+      st.yaw = 0.55; st.pitch = 0.30; st.zoom = 1; redraw();
+    });
+
+    return { st: st, resize: resize, project: project };
+  };
+  var view = window.__fed3d(cv, draw);
+
   function draw() {
     if (frame) return;
     frame = requestAnimationFrame(function () { frame = 0; paint(); });
   }
 
+  var BUCKETS = 6;
   function paint() {
-    if (!d || !P) return;
-    var dpr = window.devicePixelRatio || 1;
-    var w = cv.clientWidth, h = cv.clientHeight;
-    if (!w || !h) return;
-    if (cv.width !== Math.round(w * dpr)) {
-      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
-    }
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (!d || !P || !view.resize()) return;
+    var w = view.st.w, h = view.st.h;
     ctx.clearRect(0, 0, w, h);
 
-    var pad = 8;
-    var sx = (w - 2 * pad) / 1000, sy = (h - 2 * pad) / 1000;
     var p = d.pts, n = p.x.length, pc = P.pc;
     var hue = css('--w1'), dim = css('--muted');
 
-    ctx.globalAlpha = sel < 0 ? 0.55 : 0.16;
-    ctx.fillStyle = dim;
-    for (var i = 0; i < n; i++) {
-      if (sel >= 0 && pc[i] === sel) continue;
-      ctx.beginPath();
-      ctx.arc(pad + p.x[i] * sx, pad + p.y[i] * sy, 1.6, 0, 6.2832);
-      ctx.fill();
-    }
-    ctx.globalAlpha = sel < 0 ? 0.62 : 0.8;
-    ctx.fillStyle = hue;
+    /* project once, then draw far-to-near in a few depth buckets so the whole
+       cloud costs a dozen fills instead of one per point */
+    var px = new Float32Array(n), py = new Float32Array(n), pf = new Float32Array(n);
+    var lo = Infinity, hi = -Infinity, i;
     for (i = 0; i < n; i++) {
-      if (sel >= 0 && pc[i] !== sel) continue;
-      ctx.beginPath();
-      ctx.arc(pad + p.x[i] * sx, pad + p.y[i] * sy, sel < 0 ? 1.6 : 2.1, 0, 6.2832);
-      ctx.fill();
+      var q = view.project(p.x[i], p.y[i], p.z[i]);
+      px[i] = q.x; py[i] = q.y; pf[i] = q.f;
+      if (q.f < lo) lo = q.f;
+      if (q.f > hi) hi = q.f;
+    }
+    var span = (hi - lo) || 1;
+
+    for (var b = 0; b < BUCKETS; b++) {
+      var near = (b + 0.5) / BUCKETS;                 // 0 = farthest bucket
+      for (var pass = 0; pass < 2; pass++) {          // context first, then focus
+        var path = new Path2D(), any = false;
+        for (i = 0; i < n; i++) {
+          var mine = (sel < 0) || (pc[i] === sel);
+          if ((pass === 1) !== mine) continue;
+          var bi = Math.min(BUCKETS - 1, ((pf[i] - lo) / span * BUCKETS) | 0);
+          if (bi !== b) continue;
+          var r = (pass === 1 && sel >= 0 ? 2.0 : 1.5) * (0.6 + 0.7 * near);
+          path.moveTo(px[i] + r, py[i]);
+          path.arc(px[i], py[i], r, 0, 6.2832);
+          any = true;
+        }
+        if (!any) continue;
+        var focus = (pass === 1);
+        ctx.fillStyle = focus ? hue : dim;
+        var base = focus ? (sel < 0 ? 0.62 : 0.85) : (sel < 0 ? 0.62 : 0.14);
+        ctx.globalAlpha = base * (0.45 + 0.75 * near);
+        ctx.fill(path);
+      }
     }
     ctx.globalAlpha = 1;
   }
@@ -327,12 +408,14 @@
     });
   }
 
-  var GRID = 16, allCells = 0, pooledShare = null, topTasks = null;
+  var GRID = 10, allCells = 0, pooledShare = null, topTasks = null;
   function cellsOf(who) {
     var p = d.pts, s = {}, n = 0, pc = P.pc;
     for (var i = 0; i < p.x.length; i++) {
       if (who >= 0 && pc[i] !== who) continue;
-      var k = ((p.x[i] * GRID / 1001) | 0) + ',' + ((p.y[i] * GRID / 1001) | 0);
+      var k = (((p.x[i] * GRID / 1001) | 0) * GRID * GRID) +
+              (((p.y[i] * GRID / 1001) | 0) * GRID) +
+              ((p.z[i] * GRID / 1001) | 0);
       if (!s[k]) { s[k] = 1; n++; }
     }
     return n;

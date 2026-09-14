@@ -106,7 +106,7 @@ Three properties of client-held data make local router training hard, and they c
 The first is a **skewed query mix**. Clients are partitioned by task, so each sees the
 prompt space in very different proportions. At the moderate skew used in the main
 experiments this is a difference of emphasis rather than of support: a typical client's
-queries still land across 44 to 74 per cent of the occupied embedding space. The
+queries still land across 35 to 63 per cent of the occupied embedding space. The
 composition is what differs, and it differs sharply. HellaSwag accounts for 68% of one
 client's queries and 3% of another's; MMLU ranges from 18% to 63%. Pushed to the extreme
 setting studied later, the mixes become close to disjoint and the difference becomes one
@@ -149,7 +149,7 @@ disjoint client distributions, and at that point some clients draw almost nothin
 In the configuration used throughout the paper, ten clients hold 27,368 training queries
 between them, and the largest holds 4.6 times as many as the smallest. The contrast
 between the two panels is the point. On the query side the clients overlap: each covers
-well over half the occupied space on average. On the model side they do not. Nine of the
+roughly half of it on average. On the model side they do not. Nine of the
 110 client-model pairs contain no evaluations whatsoever, and another fourteen contain
 fifteen or fewer, which is nothing to estimate an accuracy and a price from. Claude v1
 illustrates the imbalance: it is the most-evaluated model overall, with 4,727 records,
@@ -215,8 +215,6 @@ actually evaluated on, so a client's missing models leave their heads untouched.
 the trunk carries almost all of the parameters, most of what each client learns is
 shared, and the heads it could not train are repaired at the averaging step by the
 clients that could.
-
-{% include_relative mlp.part.html %}
 
 <h2 class="section">Federated K-Means-Router</h2>
 
