@@ -130,19 +130,19 @@
   var loc = null, glob = null, frame = 0, hover = -1;
 
   var STEPS = [
-    ['Queries', 'Ten clients hold their own queries, here in a three-dimensional ' +
-      'projection of the encoder space. Nothing has been shared, and no client sees ' +
-      'the whole cloud.'],
-    ['Local k-means', 'Each client clusters <b>its own</b> embeddings into ' +
-      'K<sub>local</sub> groups. Marker size is the number of queries behind a centroid.'],
-    ['What is sent', 'Only the centroids and their counts go to the server. ' +
-      'The queries themselves stay put — this is the whole privacy story.'],
-    ['Server clustering', 'The server runs a <b>size-weighted</b> k-means over the pooled ' +
-      'centroids, so a centroid standing for more queries pulls harder. The result is ' +
-      'K<sub>global</sub> shared regions, broadcast back.'],
-    ['Assign &amp; aggregate', 'Clients assign their own samples to the global regions and ' +
-      'report per-region accuracy and cost averages with sample counts. Hover a region to ' +
-      'see how many clients stand behind it.']
+    ['Queries', 'Ten clients retain their local queries, visualized here through a three-dimensional ' +
+      'projection of the encoder space. Raw queries remain decentralized, and no individual client ' +
+      'observes the complete query distribution.'],
+    ['Local k-means', 'Each client independently clusters <b>its own</b> query embeddings into ' +
+      'K<sub>local</sub> groups. Marker size represents the number of queries assigned to each centroid.'],
+    ['What is sent', 'Clients transmit only the local cluster centroids and their corresponding counts ' +
+      'to the server. Raw queries and individual query embeddings remain on the clients.'],
+    ['Server clustering', 'The server applies <b>size-weighted</b> k-means to the pooled ' +
+      'centroids, weighting each centroid by its local cluster size. This produces ' +
+      'K<sub>global</sub> shared regions, which are broadcast back to the clients.'],
+    ['Assign &amp; aggregate', 'Clients assign their local samples to the global regions and ' +
+      'report per-region, per-model accuracy and cost averages together with sample counts. Hover over a region to ' +
+      'inspect how many clients contribute to its aggregated statistics.']
   ];
 
   function css(n) {
