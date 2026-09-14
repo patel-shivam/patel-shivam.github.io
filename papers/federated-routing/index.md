@@ -137,6 +137,13 @@ shows what federated training gets instead. It is worth stepping through a few c
 see which of the three obstacles actually binds: the query footprints overlap heavily,
 while the model coverage does not.
 
+The two sliders re-run the partition itself. Both Dirichlet draws that generate the
+setting are exposed — the concentration over task labels, which controls how unevenly
+queries are dealt out, and the concentration over the model pool, which controls how
+narrowly each client logs. Taking the first down to the $\alpha = 0.03$ used in the
+extreme-heterogeneity study turns the mild difference of emphasis above into genuinely
+disjoint client distributions, and at that point some clients draw almost nothing at all.
+
 {% include_relative clients.part.html %}
 
 In the configuration used throughout the paper, ten clients hold 27,368 training queries
@@ -201,6 +208,15 @@ runs several local steps on its private data; the server averages the returned
 parameters weighted by client dataset size. Raw queries never leave the client, and
 because the cost of a round is set by the size of the router rather than by the size of
 the evaluation logs, it stays small.
+
+The split between trunk and heads is what makes the sparsity survivable. Every record a
+client holds updates the trunk, but a record only reaches the head of the model it was
+actually evaluated on, so a client's missing models leave their heads untouched. Since
+the trunk carries almost all of the parameters, most of what each client learns is
+shared, and the heads it could not train are repaired at the averaging step by the
+clients that could.
+
+{% include_relative mlp.part.html %}
 
 <h2 class="section">Federated K-Means-Router</h2>
 
