@@ -128,7 +128,7 @@ queries into semantically meaningful regions, making local information in the
 embedding space informative of model performance:
 
 <figure>
-  <img src="{{ '/papers/proxrouter/figures/tsne-task.png' | relative_url }}" alt="t-SNE projection of query encodings coloured by source task, showing compact task-specific regions">
+  <img loading="lazy" decoding="async" width="988" height="777" src="{{ '/papers/proxrouter/figures/tsne-task.png' | relative_url }}" alt="t-SNE projection of query encodings coloured by source task, showing compact task-specific regions">
 
   <figcaption>High-dimensional query encodings projected with t-SNE, colored by
   source task. Queries from the same task occupy compact, localized neighborhoods
@@ -154,7 +154,7 @@ across the model pool, making frequent retraining expensive.
 
 <figure>
 
-  <img src="{{ '/papers/proxrouter/figures/headline-pareto.png' | relative_url }}" alt="Accuracy versus cost curves: AllSee highest, ProxRouter in between, Base lowest">
+  <img loading="lazy" decoding="async" width="800" height="600" src="{{ '/papers/proxrouter/figures/headline-pareto.png' | relative_url }}" alt="Accuracy versus cost curves: AllSee highest, ProxRouter in between, Base lowest">
 
   <figcaption>The <i>Base</i> router, a nearest-neighbor router trained only on
 
@@ -298,7 +298,7 @@ query's location.
 
 <figure>
 
-  <img src="{{ '/papers/proxrouter/figures/bias-variance.png' | relative_url }}" alt="Normalized AUC peaks at an intermediate value of one over tau">
+  <img loading="lazy" decoding="async" width="776" height="570" src="{{ '/papers/proxrouter/figures/bias-variance.png' | relative_url }}" alt="Normalized AUC peaks at an intermediate value of one over tau">
 
   <figcaption>Bias-variance tradeoff governed by proximity-based prioritization.
 
@@ -388,9 +388,9 @@ tasks does not come at the expense of inlier routing quality.
 
 <figure class="fig-pair">
 
-  <img src="{{ '/papers/proxrouter/figures/km-ood-medqa.png' | relative_url }}" alt="Accuracy versus cost on MedQA and HellaSwag outliers">
+  <img loading="lazy" decoding="async" width="700" height="600" src="{{ '/papers/proxrouter/figures/km-ood-medqa.png' | relative_url }}" alt="Accuracy versus cost on MedQA and HellaSwag outliers">
 
-  <img src="{{ '/papers/proxrouter/figures/km-ood-logiqa.png' | relative_url }}" alt="Accuracy versus cost on LogiQA, CommonsenseQA and BBH outliers">
+  <img loading="lazy" decoding="async" width="700" height="600" src="{{ '/papers/proxrouter/figures/km-ood-logiqa.png' | relative_url }}" alt="Accuracy versus cost on LogiQA, CommonsenseQA and BBH outliers">
 
   <figcaption>Router performance with <b>left:</b> MedQA and HellaSwag as outlier
 
@@ -456,7 +456,7 @@ $k$NN-Base to favor the more expensive general model. Proximity weighting increa
 the contribution of these relevant neighbors, enabling selection of the specialist.
 
 <figure>
-  <img src="{{ '/papers/proxrouter/figures/knn-ood-pareto.png' | relative_url }}" alt="Accuracy versus cost on math outliers">
+  <img loading="lazy" decoding="async" width="800" height="600" src="{{ '/papers/proxrouter/figures/knn-ood-pareto.png' | relative_url }}" alt="Accuracy versus cost on math outliers">
 
   <figcaption>Router performance on GSM8k and SVAMP outliers, shown as the mean
   accuracy-cost curve for outlier queries. $k$NN-Prox attains higher accuracy at
@@ -465,7 +465,7 @@ the contribution of these relevant neighbors, enabling selection of the speciali
 
 <figure>
 
-  <img src="{{ '/papers/proxrouter/figures/knn-match-accuracy.png' | relative_url }}" alt="Bar chart of routing match accuracy against post-hoc top-1, top-3 and top-5 models">
+  <img loading="lazy" decoding="async" width="1000" height="720" src="{{ '/papers/proxrouter/figures/knn-match-accuracy.png' | relative_url }}" alt="Bar chart of routing match accuracy against post-hoc top-1, top-3 and top-5 models">
 
   <figcaption>Routing match accuracy against the post-hoc top-(1,3,5) most suitable
 
@@ -492,7 +492,7 @@ $$J_z(t_\text{out}, t_\text{in}, \lambda) = \frac{|S_z(t_\text{out},\lambda) \ca
 
 <figure>
 
-  <img src="{{ '/papers/proxrouter/figures/jaccard.png' | relative_url }}" alt="Jaccard overlap of top-5 models across outlier task sets">
+  <img loading="lazy" decoding="async" width="880" height="573" src="{{ '/papers/proxrouter/figures/jaccard.png' | relative_url }}" alt="Jaccard overlap of top-5 models across outlier task sets">
 
   <figcaption>Jaccard overlap of the top-5 models for three outlier task sets with
 
