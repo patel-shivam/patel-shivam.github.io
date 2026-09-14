@@ -316,7 +316,9 @@
     });
     cv.addEventListener('pointermove', function (e) {
       if (!drag) return;
-      st.yaw = drag.yaw + (e.clientX - drag.x) * 0.008;
+      /* negated so the near face of the cloud follows the pointer: with the
+         projection below, increasing yaw sweeps the near side left */
+      st.yaw = drag.yaw - (e.clientX - drag.x) * 0.008;
       st.pitch = Math.max(-1.45, Math.min(1.45, drag.pitch + (e.clientY - drag.y) * 0.008));
       redraw();
     });
