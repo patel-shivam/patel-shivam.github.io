@@ -482,36 +482,37 @@
       return a + r.filter(function (v) { return v === 0; }).length; }, 0);
     var note = document.getElementById('fc-note');
     if (sel < 0) {
-      note.innerHTML = 'Pooled across the ten clients, <b>every model has at least ' +
+      note.innerHTML = 'After pooling data across the ten clients, <b>every model has at least ' +
         (seen.length ? fmt(Math.min.apply(null, seen)) : '0') + ' evaluations</b> and all ' +
-        d.tasks.length + ' task groups are represented, against <b>' + empties +
-        ' empty client-model pairs</b> before pooling. Federated training reaches this ' +
-        'evidence without any client sending a query anywhere.';
+        d.tasks.length + ' task groups are represented, even though <b>' + empties +
+        ' client-model pairs are empty</b> before aggregation. Federated training ' +
+        'incorporates this combined evidence without requiring clients to transmit raw queries.';
     } else if (!total) {
-      note.innerHTML = 'At this concentration client ' + (sel + 1) +
-        ' drew <b>no queries at all</b>. Once the mass is this concentrated some clients ' +
-        'are left with nothing to train on, which is the regime the personalization ' +
-        'experiments are built for.';
+      note.innerHTML = 'At this concentration, client ' + (sel + 1) +
+        ' received <b>no queries at all</b>. Highly concentrated partitions can therefore ' +
+        'leave some clients without local training data, illustrating the extreme client ' +
+        'heterogeneity considered in the personalization experiments.';
     } else {
       var missing = d.models.filter(function (_, m) { return c[m] === 0; });
       var thin = Math.min.apply(null, seen);
       var reach = Math.round(100 * cellsOf(sel) / allCells);
       note.innerHTML = 'Client ' + (sel + 1) + ' holds <b>' + fmt(total) + ' queries</b> ' +
-        'reaching <b>' + reach + '%</b> of the occupied query space. The model side is ' +
-        'where it runs out' +
+        'spanning <b>' + reach + '%</b> of the occupied query space. Coverage across models ' +
+        'is substantially more limited' +
         (missing.length
-          ? ': it has <b>no evaluations at all</b> for ' + missing.length + ' of the ' +
+          ? ': the client has <b>no evaluations at all</b> for ' + missing.length + ' of the ' +
             d.models.length + ' models (' + missing.slice(0, 3).join(', ') +
-            (missing.length > 3 ? ', and more' : '') + '), and its'
-          : ': its') +
-        ' thinnest non-empty cell carries <b>' + fmt(thin) + '</b> ' +
+            (missing.length > 3 ? ', and others' : '') + '), and its'
+          : '; its') +
+        ' least-observed non-empty model entry contains <b>' + fmt(thin) + '</b> ' +
         (thin === 1 ? 'evaluation' : 'evaluations') +
-        '. A router trained here alone has to price those models from that alone.';
+        '. A router trained only on this client must estimate per-model accuracy and cost ' +
+        'from this limited local supervision.';
     }
 
     document.getElementById('fc-mode').innerHTML = real
-      ? 'Showing the <b>released run</b> (&alpha; = 0.6 over tasks, 0.45 over models).'
-      : 'Showing a <b>fresh draw</b> at &alpha; = ' + fmtA(A_TASK) + ' over tasks and ' +
+      ? 'Displaying the <b>released experimental partition</b> (&alpha; = 0.6 over tasks, 0.45 over models).'
+      : 'Displaying a <b>newly sampled partition</b> with &alpha; = ' + fmtA(A_TASK) + ' over tasks and ' +
         fmtA(A_MODEL) + ' over models.';
     document.getElementById('fc-reset').hidden = real;
 
