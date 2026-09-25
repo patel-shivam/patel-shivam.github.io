@@ -1,4 +1,7 @@
 # Newest first. Keep the ~6 most recent; the list scrolls on the homepage.
+- date: "Sep 2026"
+  text: '<a href="https://arxiv.org/abs/2601.22318">Federate the Router</a> accepted at <strong>NeurIPS 2026</strong>!'
+
 - date: "Aug 2026"
   text: 'A new work <a href="https://arxiv.org/abs/2607.18253">Beyond Accuracy and Cost</a> tackles latency-aware LLM query routing for dynamic workloads.'
 

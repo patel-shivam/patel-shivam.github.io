@@ -7,9 +7,10 @@ description: >-
   A federated framework for training LLM query routers when query-model evaluation data
   is fragmented across privacy-sensitive clients. The framework supports both a parametric
   MLP router and a nonparametric K-Means router, with convergence and suboptimality
-  guarantees.
+  guarantees. NeurIPS 2026.
 image: /papers/federated-routing/figures/global-test.png
-venue: arXiv
+venue: NeurIPS 2026
+venue_url: https://neurips.cc/Conferences/2026
 authors:
   - name: Baris Askin
     affil: 1
@@ -56,15 +57,15 @@ tldr: >-
   primarily by increasing effective model coverage. Under extreme heterogeneity, an adaptive
   mixture of the federated and local routers mitigates client-specific distribution mismatch.
 bibtex: |
-  @article{askin2026federate,
-    title   = {Federate the Router: Learning Language Model Routers
-               with Sparse and Decentralized Evaluations},
-    author  = {Askin, Baris and Patel, Shivam and Nayak, Anupam and
-               Vigano, Andrea and Woo, Jiin and Joshi, Gauri and
-               Joe-Wong, Carlee},
-    journal = {arXiv preprint arXiv:2601.22318},
-    year    = {2026},
-    url     = {https://arxiv.org/abs/2601.22318}
+  @inproceedings{askin2026federate,
+    title     = {Federate the Router: Learning Language Model Routers
+                 with Sparse and Decentralized Evaluations},
+    author    = {Askin, Baris and Patel, Shivam and Nayak, Anupam and
+                 Vigano, Andrea and Woo, Jiin and Joshi, Gauri and
+                 Joe-Wong, Carlee},
+    booktitle = {Advances in Neural Information Processing Systems},
+    year      = {2026},
+    url       = {https://arxiv.org/abs/2601.22318}
   }
 ---
 
