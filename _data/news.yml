@@ -3,7 +3,7 @@
   text: '<a href="https://arxiv.org/abs/2601.22318">Federate the Router</a> accepted at <strong>NeurIPS 2026</strong>!'
 
 - date: "Aug 2026"
-  text: 'A new work <a href="https://arxiv.org/abs/2607.18253">Beyond Accuracy and Cost</a> tackles latency-aware LLM query routing for dynamic workloads.'
+  text: 'A new work <a href="https://arxiv.org/abs/2607.18253">Mind the Delay</a> tackles latency-aware query routing for heterogeneous LLM pools.'
 
 - date: "Jul 2026"
   text: '<a href="https://arxiv.org/abs/2601.21082">LOCUS</a> presented at <strong>AdaptFM@ICML 2026</strong> in Seoul, South Korea!'

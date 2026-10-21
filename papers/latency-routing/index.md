@@ -1,7 +1,7 @@
 ---
 layout: paper
 permalink: /papers/latency-routing/
-title: "Beyond Accuracy and Cost: Latency-Aware LLM Query Routing for Dynamic Workloads"
+title: "Mind the Delay: Latency-aware Query Routing for Heterogeneous LLM pools"
 short_title: Latency-Aware Routing
 description: >-
   A lightweight latency estimator that simulates the serving framework's batching and
@@ -19,6 +19,8 @@ authors:
   - name: Akaash R. Parthasarathy
     affil: 1
     corresponding: true
+  - name: Akash Dhasade
+    affil: 1
   - name: Ankur Mallick
     url: https://scholar.google.com/citations?user=6SYGK8cAAAAJ&hl=en
     affil: 2
@@ -54,11 +56,11 @@ tldr: >-
   **40% higher accuracy–cost utility at the latency of standard load balancing**, together
   with a 33% gain in area under the OnTimeUtility curve.
 bibtex: |
-  @article{patel2026beyond,
-    title   = {Beyond Accuracy and Cost: Latency-Aware {LLM} Query Routing
-               for Dynamic Workloads},
+  @article{patel2026mind,
+    title   = {Mind the Delay: Latency-aware Query Routing for
+               Heterogeneous {LLM} pools},
     author  = {Patel, Shivam and Parthasarathy, Akaash R. and
-               Mallick, Ankur and Joshi, Gauri},
+               Dhasade, Akash and Mallick, Ankur and Joshi, Gauri},
     journal = {arXiv preprint arXiv:2607.18253},
     year    = {2026},
     url     = {https://arxiv.org/abs/2607.18253}

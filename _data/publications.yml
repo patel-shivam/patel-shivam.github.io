@@ -1,8 +1,8 @@
 # Newest first. `selected: true` surfaces the entry on the homepage.
 # Mark equal contribution with * in `authors` and set `note`.
 
-- title: "Beyond Accuracy and Cost: Latency-Aware LLM Query Routing for Dynamic Workloads"
-  authors: "Shivam Patel*, Akaash Parthasarathy*, Ankur Mallick, Gauri Joshi"
+- title: "Mind the Delay: Latency-aware Query Routing for Heterogeneous LLM pools"
+  authors: "Shivam Patel*, Akaash Parthasarathy*, Akash Dhasade, Ankur Mallick, Gauri Joshi"
   venue: "arXiv"
   year: 2026
   note: "* Equal contribution"
