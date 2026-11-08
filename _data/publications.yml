@@ -1,6 +1,18 @@
 # Newest first. `selected: true` surfaces the entry on the homepage.
 # Mark equal contribution with * in `authors` and set `note`.
 
+- title: "Creating Power Flexibility in Datacenters via Query Routing"
+  authors: "Shivam Patel, Bingqing Chen, Jared Fernandez, Guannan Qu*, Gauri Joshi*"
+  venue: "arXiv"
+  year: 2026
+  note: "* Equal mentoring"
+  selected: true
+  links:
+    - name: arXiv
+      url: https://arxiv.org/abs/2611.05148
+    - name: Code
+      url: https://github.com/patel-shivam/datacenter-power-flexibility-code-release
+
 - title: "Mind the Delay: Latency-aware Query Routing for Heterogeneous LLM pools"
   authors: "Shivam Patel*, Akaash Parthasarathy*, Akash Dhasade, Ankur Mallick, Gauri Joshi"
   venue: "arXiv"
