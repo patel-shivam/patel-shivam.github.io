@@ -1,6 +1,6 @@
 # Newest first. Keep the ~6 most recent; the list scrolls on the homepage.
 - date: "Nov 2026"
-  text: 'New preprint from my internship at Bosch: <a href="https://arxiv.org/abs/2611.05148">Creating Power Flexibility in Datacenters via Query Routing</a>. Routing queries across LLM instances lets a datacenter adjust its power demand for the grid without deferring requests.'
+  text: 'New preprint out: <a href="https://arxiv.org/abs/2611.05148">Creating Power Flexibility in Datacenters via Query Routing</a>. Adaptive inference provides power demand flexibility at datacenter level scales.'
 
 - date: "Sep 2026"
   text: '<a href="https://arxiv.org/abs/2601.22318">Federate the Router</a> accepted at <strong>NeurIPS 2026</strong>!'
