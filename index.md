@@ -20,7 +20,10 @@ description: >-
 I am a third-year PhD student in [ECE](https://www.ece.cmu.edu) at [Carnegie Mellon University](https://www.cmu.edu), fortunate to be advised by [Prof. Gauri Joshi](https://www.andrew.cmu.edu/user/gaurij/).
 
 
-I did my undergrad in Electrical Engineering from IIT Bombay in 2024, advised by [Prof. Vivek Borkar](https://en.wikipedia.org/wiki/Vivek_Borkar). I also spent a great summer at [USC Viterbi](https://viterbischool.usc.edu) with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) in 2023. 
+I am currently research-ing at Sooth Labs, and previously at Bosch Center for AI for summer 2026. I also spent a great summer at [USC Viterbi](https://viterbischool.usc.edu) with [Prof. Meisam Razaviyayn](https://sites.usc.edu/razaviyayn/) in 2023.  
+
+
+I did my undergrad in Electrical Engineering from IIT Bombay in 2024, advised by [Prof. Vivek Borkar](https://en.wikipedia.org/wiki/Vivek_Borkar). 
 
 
 <h2 class="overview-head">Research Overview</h2>
